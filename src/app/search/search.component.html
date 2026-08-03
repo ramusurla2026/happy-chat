@@ -1,0 +1,155 @@
+<ion-header class="search-header">
+
+  <ion-toolbar>
+
+
+    <div class="top-bar">
+
+
+      <button class="back-btn" (click)="goBack()">
+
+
+        <ion-icon name="arrow-back-outline">
+        </ion-icon>
+
+
+      </button>
+
+
+
+
+      <div class="search-box">
+
+
+        <ion-icon name="search-outline">
+        </ion-icon>
+
+
+
+        <input type="text" placeholder="Search people" [(ngModel)]="searchText" (input)="searchUsers($event)">
+
+
+
+      </div>
+
+
+
+    </div>
+
+
+  </ion-toolbar>
+
+
+</ion-header>
+
+
+
+
+
+<ion-content class="search-page">
+
+
+
+  <div class="users-container">
+
+
+
+
+
+    <div class="user-card" *ngFor="let user of users" (click)="openProfile(user)">
+
+
+
+
+
+      <div class="avatar-box">
+
+
+        <img [src]="user.profileImage || 'assets/happy-chat-logo.png'">
+
+
+
+        <span class="online-dot">
+        </span>
+
+
+
+      </div>
+
+
+
+
+
+      <div class="details">
+
+
+        <h3>
+
+          {{user.username}}
+
+        </h3>
+
+
+        <p>
+
+          {{user.fullName}}
+
+        </p>
+
+
+      </div>
+
+
+
+
+
+      <div class="private" *ngIf="user.isPrivate">
+
+
+        <ion-icon name="lock-closed-outline">
+
+        </ion-icon>
+
+
+      </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="empty" *ngIf="users.length===0">
+
+
+      <ion-icon name="search-outline">
+
+      </ion-icon>
+
+
+      <h3>
+        No users found
+      </h3>
+
+
+      <p>
+        Try searching another name
+      </p>
+
+
+    </div>
+
+
+
+
+  </div>
+
+
+
+
+</ion-content>

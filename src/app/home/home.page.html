@@ -1,0 +1,407 @@
+<ion-content #content [fullscreen]="false" class="home-content">
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+      refreshingSpinner="circles">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Background -->
+  <div class="bg-circle bg1"></div>
+  <div class="bg-circle bg2"></div>
+
+  <!-- ================= HEADER ================= -->
+
+  <div class="home-header">
+
+    <div class="header-left">
+
+      <button class="header-btn" (click)="goTo()">
+
+        <ion-icon name="add"></ion-icon>
+
+      </button>
+
+    </div>
+
+    <div class="header-center" (click)="refreshHome()">
+
+      <h1>HappyChat</h1>
+
+    </div>
+
+    <div class="header-right" (click)="openNotifications()">
+
+      <button class="header-btn">
+
+        <ion-icon name="notifications-outline">
+
+        </ion-icon>
+
+        <span class="badge" *ngIf="notificationCount>0">
+
+          {{notificationCount>99?'99+':notificationCount}}
+
+        </span>
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- ================= STORIES ================= -->
+
+  <div class="stories-section">
+
+    <!-- My Story -->
+
+    <div class="story-item">
+
+      <div class="story-ring my-story" (click)="openStoryPicker()">
+
+        <ion-avatar>
+
+          <img [src]="myProfileImage || 'assets/happy-chat-logo.png'">
+
+        </ion-avatar>
+
+        <div class="plus">
+
+          <ion-icon name="add">
+
+          </ion-icon>
+
+        </div>
+
+      </div>
+
+      <span>
+
+        Your Story
+
+      </span>
+
+    </div>
+
+    <input hidden #storyInput type="file" accept="image/*,video/*" (change)="uploadStory($event)">
+
+    <!-- Friends -->
+
+    <div class="story-item" *ngFor="let story of stories" (click)="onStoryClick(story)">
+
+      <div class="story-ring" [class.seen]="!story.hasUnseen">
+
+        <ion-avatar>
+
+          <img [src]="story.user.profileImage || 'assets/happy-chat-logo.png'">
+
+        </ion-avatar>
+
+      </div>
+
+      <span>
+
+        {{story.user.username}}
+
+      </span>
+
+    </div>
+
+  </div>
+
+  <!-- ================= POSTS ================= -->
+
+  <!-- ================= EMPTY FEED ================= -->
+
+  <div class="empty-feed" *ngIf="feed.length === 0">
+
+    <!-- <img src="assets/empty-feed.svg" alt="No Feed"> -->
+
+    <h2>Welcome to HappyChat 👋</h2>
+
+    <p>
+      Start following people to see their posts and reels.
+      You can also create your first post and begin sharing with everyone.
+    </p>
+
+    <div class="tips">
+
+      <div class="tip" (click)="goToSearchPage()">
+        👥 Follow friends
+      </div>
+
+      <div class="tip" (click)="goTocreatePostPage()">
+        📸 Create your first post
+      </div>
+
+      <div class="tip" (click)="goTocreatePostPage()">
+        🎥 Upload your first reel
+      </div>
+
+    </div>
+
+    <ion-button expand="block" (click)="goTocreatePostPage()">
+
+      Create First Post
+
+    </ion-button>
+
+  </div>
+
+  <div class="feed">
+
+    <div class="feed-card" *ngFor="let post of feed">
+
+      <!-- User -->
+
+      <div class="feed-header" (click)="openProfile(post.author)">
+
+        <ion-avatar>
+
+          <img [src]="post.author.profileImage || 'assets/happy-chat-logo.png'">
+
+        </ion-avatar>
+
+        <div class="user">
+
+          <h4>
+
+            {{post.author.username}}
+
+          </h4>
+
+          <small>
+
+            {{post.createdAt | date:'MMM d • h:mm a'}}
+
+          </small>
+
+        </div>
+
+        <button class="more">
+
+          <ion-icon name="ellipsis-horizontal">
+
+          </ion-icon>
+
+        </button>
+
+      </div>
+
+      <!-- Post Image -->
+
+      <!-- <img *ngIf="post.type==='post'" [src]="post.media[0]" class="feed-image"> -->
+
+      <div class="media-box" *ngIf="post.type==='post'">
+
+        <swiper-container slides-per-view="1" pagination="true" speed="300" [attr.initial-slide]="post.initialSlide"
+          (swiperslidechange)="slideChanged($event, post)">
+
+          <swiper-slide *ngFor="let image of post.media">
+
+            <img [src]="image" class="feed-image">
+
+          </swiper-slide>
+
+        </swiper-container>
+
+      </div>
+
+      <!-- Reel -->
+
+      <video *ngIf="post.type==='reel'" class="feed-image" controls playsinline>
+
+        <source [src]="post.videoUrl" type="video/mp4">
+
+      </video>
+
+      <!-- Actions -->
+
+      <div class="feed-actions">
+
+        <div class="left-actions">
+
+          <button (click)="likeContent(post)" class="icon-btn">
+
+            <ion-icon [name]="post.hasLiked ? 'heart' : 'heart-outline'" [class.active]="post.hasLiked">
+
+            </ion-icon>
+
+          </button>
+
+          <button (click)="openComments(post)" class="icon-btn">
+
+            <ion-icon name="chatbubble-outline">
+
+            </ion-icon>
+
+          </button>
+
+          <button (click)="sharePost(post)" class="icon-btn">
+
+            <ion-icon name="paper-plane-outline">
+
+            </ion-icon>
+
+          </button>
+
+        </div>
+
+        <button class="icon-btn" (click)="savePost(post)">
+
+          <ion-icon [name]="post.hasSaved ? 'bookmark' : 'bookmark-outline'">
+
+          </ion-icon>
+
+        </button>
+
+      </div>
+
+      <!-- Stats -->
+
+      <div class="feed-stats">
+
+        <span>
+
+          <strong>
+
+            {{post.likeCount}}
+
+          </strong>
+
+          Likes
+
+        </span>
+
+        <span>
+
+          <strong>
+
+            {{post.commentCount}}
+
+          </strong>
+
+          Comments
+
+        </span>
+
+      </div>
+
+      <!-- Caption -->
+
+      <div class="feed-caption">
+
+        <b>
+
+          {{post.author.username}}
+
+        </b>
+
+        {{post.caption}}
+
+      </div>
+
+      <!-- Hashtags -->
+
+      <div class="feed-tags" *ngIf="post.hashtags?.length">
+
+        <span *ngFor="let tag of post.hashtags">
+
+          #{{tag}}
+
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Infinite Scroll -->
+
+  <ion-infinite-scroll threshold="120px" *ngIf="hasMore" (ionInfinite)="loadMore($event)">
+
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more posts...">
+
+    </ion-infinite-scroll-content>
+
+  </ion-infinite-scroll>
+
+  <!-- Floating Create Button -->
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="create-fab">
+
+    <ion-fab-button (click)="goToCreate()">
+
+      <ion-icon name="add">
+
+      </ion-icon>
+
+    </ion-fab-button>
+
+  </ion-fab>
+
+  <!-- Story Picker Modal -->
+
+  <ion-modal [isOpen]="storyPopup" (didDismiss)="closeStoryPopup()">
+
+    <ng-template>
+
+      <ion-content class="story-modal">
+
+        <div class="story-sheet">
+
+          <div class="drag-bar"></div>
+
+          <h2>
+
+            Add Story
+
+          </h2>
+
+          <p>
+
+            Choose how you want to create your story.
+
+          </p>
+
+          <ion-button expand="block" class="gallery-btn" (click)="pickGallery()">
+
+            <ion-icon slot="start" name="images-outline">
+
+            </ion-icon>
+
+            Choose from Gallery
+
+          </ion-button>
+
+          <ion-button expand="block" fill="outline" class="camera-btn" (click)="takePhoto()">
+
+            <ion-icon slot="start" name="camera-outline">
+
+            </ion-icon>
+
+            Open Camera
+
+          </ion-button>
+
+          <ion-button expand="block" fill="clear" color="medium" (click)="closeStoryPopup()">
+
+            Cancel
+
+          </ion-button>
+
+        </div>
+
+      </ion-content>
+
+    </ng-template>
+
+  </ion-modal>
+
+</ion-content>
+
+<app-footer [profileImage]="myProfileImage">
+
+</app-footer>

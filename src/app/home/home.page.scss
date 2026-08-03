@@ -1,0 +1,737 @@
+:host {
+  --primary: #6C3DFF;
+  --primary-dark: #5A2FE6;
+  --secondary: #FF4DB8;
+
+  --text: #1F1F39;
+  --sub-text: #7C7C92;
+
+  --card: #ffffff;
+  --border: #ECE8FF;
+
+  --shadow: 0 12px 30px rgba(108, 61, 255, .12);
+}
+
+/* ==========================
+   BACKGROUND
+========================== */
+
+.home-content {
+
+  --background: linear-gradient(180deg,
+      #ffffff 0%,
+      #faf8ff 45%,
+      #f3efff 100%);
+
+  position: relative;
+
+}
+
+.bg-circle {
+
+  position: fixed;
+
+  border-radius: 50%;
+
+  filter: blur(90px);
+
+  opacity: .45;
+
+  pointer-events: none;
+
+}
+
+.bg1 {
+
+  width: 220px;
+  height: 220px;
+
+  background: #cdbdff;
+
+  top: -80px;
+  left: -60px;
+
+}
+
+.bg2 {
+
+  width: 250px;
+  height: 250px;
+
+  background: #ffd0ef;
+
+  right: -100px;
+  bottom: 150px;
+
+}
+
+/* ==========================
+   HEADER
+========================== */
+
+.home-header {
+
+  position: sticky;
+
+  top: 0;
+
+  z-index: 999;
+
+  height: 68px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 0 18px;
+
+  background: rgba(255, 255, 255, .90);
+
+  backdrop-filter: blur(18px);
+
+  border-bottom: 1px solid rgba(0, 0, 0, .05);
+
+}
+
+.header-left,
+.header-right {
+
+  width: 48px;
+
+  display: flex;
+
+  justify-content: center;
+
+}
+
+.header-center {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+}
+
+.logo {
+
+  width: 150px;
+
+  height: 150px;
+
+  object-fit: contain;
+
+}
+
+
+.header-center h1 {
+
+  margin: 0;
+
+  font-size: 28px;
+
+  font-weight: 800;
+
+  background: linear-gradient(90deg,
+      #7C3AED,
+      #EC4899,
+      #4F8CFF);
+
+  -webkit-background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+
+}
+
+
+
+
+/* Happy part */
+
+.happy {
+
+  background: linear-gradient(135deg,
+      #2f2aa8,
+      #4c46ff);
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+}
+
+
+/* Chat part */
+
+.chat {
+
+  background: linear-gradient(135deg,
+      #ff008c,
+      #ff4db8);
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+}
+
+.header-btn {
+
+  width: 42px;
+
+  height: 42px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: white;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
+
+}
+
+.header-btn ion-icon {
+
+  font-size: 23px;
+
+  color: var(--primary);
+
+}
+
+.badge {
+
+  position: absolute;
+
+  top: 15px;
+  right: 25px;
+
+  min-width: 18px;
+
+  height: 18px;
+
+  padding: 0 4px;
+
+  border-radius: 20px;
+
+  background: #ff3040;
+
+  color: white;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  border: 2px solid white;
+
+}
+
+/* ==========================
+   STORIES
+========================== */
+
+.stories-section {
+
+  display: flex;
+
+  overflow-x: auto;
+
+  gap: 16px;
+
+  padding: 18px 14px;
+
+  scrollbar-width: none;
+
+}
+
+.stories-section::-webkit-scrollbar {
+
+  display: none;
+
+}
+
+.story-item {
+
+  min-width: 82px;
+
+  text-align: center;
+
+}
+
+.story-item span {
+
+  display: block;
+
+  margin-top: 8px;
+
+  font-size: 12px;
+
+  color: #555;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+}
+
+.story-ring {
+
+  position: relative;
+
+  width: 78px;
+
+  height: 78px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(135deg,
+      #FFD86F,
+      #FC6262,
+      #D93EFF,
+      #5A54FF);
+
+  padding: 3px;
+
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .10);
+
+}
+
+.story-ring.seen {
+
+  background: #d9d9d9;
+
+}
+
+.story-ring ion-avatar {
+
+  width: 100%;
+
+  height: 100%;
+
+}
+
+.story-ring img {
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  border: 3px solid white;
+
+}
+
+.plus {
+
+  position: absolute;
+
+  right: 2px;
+
+  bottom: 2px;
+
+  width: 24px;
+
+  height: 24px;
+
+  border-radius: 50%;
+
+  background: var(--primary);
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  border: 3px solid white;
+
+}
+
+.plus ion-icon {
+
+  color: white;
+
+  font-size: 16px;
+
+}
+
+/* ==========================
+   FEED
+========================== */
+
+.feed {
+  padding: 0 14px 100px;
+}
+
+.feed-card {
+  background: #fff;
+  border-radius: 24px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, .08);
+  animation: fadeUp .4s ease;
+}
+
+/* ==========================
+   POST HEADER
+========================== */
+
+.feed-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+}
+
+.feed-header ion-avatar {
+  width: 50px;
+  height: 50px;
+}
+
+.feed-header img {
+  border-radius: 50%;
+}
+
+.user {
+  flex: 1;
+  margin-left: 12px;
+}
+
+.user h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.user small {
+  color: var(--sub-text);
+  font-size: 12px;
+}
+
+.more {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+}
+
+.more ion-icon {
+  font-size: 22px;
+  color: #555;
+}
+
+/* ==========================
+   IMAGE
+========================== */
+
+.feed-image {
+  width: 100%;
+  max-height: 520px;
+  object-fit: cover;
+  background: #000;
+  display: block;
+}
+
+/* ==========================
+   ACTIONS
+========================== */
+
+.feed-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+}
+
+.left-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.icon-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: #f7f7fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .25s;
+}
+
+.icon-btn:hover {
+  transform: scale(1.08);
+}
+
+.icon-btn ion-icon {
+  font-size: 23px;
+  color: #444;
+}
+
+.icon-btn ion-icon.active {
+  color: #ff3040;
+}
+
+/* ==========================
+   STATS
+========================== */
+
+.feed-stats {
+  display: flex;
+  gap: 18px;
+  padding: 0 18px;
+  font-size: 14px;
+  color: #666;
+}
+
+.feed-stats strong {
+  color: #000;
+}
+
+/* ==========================
+   CAPTION
+========================== */
+
+.feed-caption {
+  padding: 12px 18px 8px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #444;
+}
+
+.feed-caption b {
+  color: #111;
+  margin-right: 6px;
+}
+
+/* ==========================
+   TAGS
+========================== */
+
+.feed-tags {
+  padding: 0 18px 18px;
+}
+
+.feed-tags span {
+  display: inline-block;
+  margin-right: 10px;
+  margin-top: 6px;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ==========================
+   FAB
+========================== */
+
+.create-fab {
+  bottom: 85px;
+  right: 18px;
+}
+
+.create-fab ion-fab-button {
+  --background: linear-gradient(135deg,
+      var(--primary),
+      var(--secondary));
+
+  --box-shadow: 0 14px 30px rgba(108, 61, 255, .35);
+
+  width: 60px;
+  height: 60px;
+}
+
+.create-fab ion-icon {
+  font-size: 30px;
+}
+
+/* ==========================
+   STORY MODAL
+========================== */
+
+.story-modal {
+  --background: #f8f8fc;
+}
+
+.story-sheet {
+  padding: 28px;
+}
+
+.drag-bar {
+  width: 60px;
+  height: 5px;
+  border-radius: 10px;
+  background: #ddd;
+  margin: 0 auto 24px;
+}
+
+.story-sheet h2 {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.story-sheet p {
+  text-align: center;
+  color: #777;
+  margin-bottom: 28px;
+}
+
+.gallery-btn {
+  --background: var(--primary);
+  --border-radius: 16px;
+  height: 52px;
+  margin-bottom: 14px;
+}
+
+.camera-btn {
+  --border-radius: 16px;
+  height: 52px;
+  margin-bottom: 12px;
+}
+
+/* ==========================
+   ANIMATION
+========================== */
+
+
+.media-box {
+  background: #000;
+}
+
+swiper-container {
+  height: 520px;
+}
+
+swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feed-image {
+  width: 100%;
+  height: 520px;
+  object-fit: cover;
+  display: block;
+}
+
+swiper-container::part(bullet) {
+  width: 7px;
+  height: 7px;
+  background: #ccc;
+}
+
+swiper-container::part(bullet-active) {
+  background: #6C3DFF;
+}
+
+@media(max-width:480px) {
+  swiper-container,
+  .feed-image {
+    height: 380px;
+  }
+}
+
+
+@keyframes fadeUp {
+
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media (min-width:768px) {
+
+  .feed {
+
+    max-width: 650px;
+
+    margin: auto;
+
+  }
+
+  .stories-section {
+
+    justify-content: center;
+
+  }
+
+}
+
+
+.empty-feed {
+  padding: 10px 24px 30px;
+  text-align: center;
+}
+
+.empty-feed img {
+  width: 220px;
+  max-width: 100%;
+  margin: auto;
+  display: block;
+}
+
+.empty-feed h2 {
+  margin-top: 24px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #222;
+}
+
+.empty-feed p {
+  margin-top: 12px;
+  color: #777;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.tips {
+  margin: 28px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tip {
+  background: #fff;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .06);
+  font-weight: 600;
+}
+
+.empty-feed ion-button {
+  --background: #6C3DFF;
+  --border-radius: 16px;
+  height: 52px;
+}

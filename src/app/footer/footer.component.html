@@ -1,0 +1,73 @@
+<ion-footer class="bottom-tab-bar">
+
+  <div 
+    class="tab-item"
+    [class.active-tab]="isActive('/home')"
+    (click)="goToHome()">
+
+    <ion-icon name="home"></ion-icon>
+    <span>Home</span>
+
+  </div>
+
+
+  <div 
+    class="tab-item"
+    [class.active-tab]="isActive('/search')"
+    (click)="goToSearch()">
+
+    <ion-icon name="search"></ion-icon>
+    <span>Search</span>
+
+  </div>
+
+
+
+  <div 
+    class="tab-item"
+    [class.active-tab]="isActive('/chat')"
+    (click)="goToChat()">
+
+    <ion-icon name="paper-plane-outline"></ion-icon>
+    <span>Chat</span>
+
+  </div>
+
+
+
+  <div 
+    class="tab-item"
+    [class.active-tab]="isActive('/reels')"
+    (click)="goToReels()">
+
+    <ion-icon name="videocam-outline"></ion-icon>
+    <span>Reels</span>
+
+  </div>
+
+
+
+  <div 
+    class="tab-item"
+    [class.active-tab]="isActive('/profile')"
+    (click)="goToProfile()">
+
+
+
+    <ion-avatar class="profile-tab-avatar">
+
+      <img 
+      [src]="myProfileImage || 'assets/happy-chat-logo.png'">
+
+    </ion-avatar>
+
+
+    <span>
+      Profile
+    </span>
+
+
+  </div>
+
+
+</ion-footer>

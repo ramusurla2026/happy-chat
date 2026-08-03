@@ -1,0 +1,167 @@
+<ion-header class="followers-header">
+
+  <ion-toolbar>
+
+    <div class="header-wrapper">
+
+
+      <button class="back-btn" (click)="goBack()">
+
+        <ion-icon name="arrow-back-outline"></ion-icon>
+
+      </button>
+
+
+      <h2>
+        Followers
+      </h2>
+
+
+      <div class="space"></div>
+
+
+    </div>
+
+  </ion-toolbar>
+
+</ion-header>
+
+
+
+<ion-content class="followers-page">
+
+
+  <!-- Search -->
+
+
+  <div class="search-wrapper">
+
+
+    <ion-icon name="search-outline"></ion-icon>
+
+
+    <input type="text" placeholder="Search followers" [(ngModel)]="searchText" (input)="onSearch($event)">
+
+
+
+  </div>
+
+
+
+  <!-- Users -->
+
+
+  <div class="users-list" *ngIf="filteredFollowers.length > 0">
+
+
+
+    <div class="user-card" *ngFor="let user of filteredFollowers">
+
+
+
+      <div class="avatar-wrapper">
+
+
+        <img class="avatar" [src]="user.profileImage || 'assets/happy-chat-logo.png'" (click)="openProfile(user)">
+
+
+
+        <span class="online-dot">
+        </span>
+
+
+      </div>
+
+
+
+
+      <div class="user-info" (click)="openProfile(user)">
+
+
+
+        <h3>
+
+          {{user.username}}
+
+        </h3>
+
+
+
+        <p>
+
+          {{user.fullName}}
+
+        </p>
+
+
+      </div>
+
+
+
+
+      <button class="follow-btn" *ngIf="user.followStatus !== 'following'" (click)="follow(user)">
+
+
+
+        {{user.followStatus === 'follow_back'
+        ?'Follow Back'
+        :'Follow'}}
+
+
+
+      </button>
+
+
+
+
+      <button class="message-btn" *ngIf="user.followStatus === 'following'" (click)="openChat(user)">
+
+
+
+        Message
+
+
+      </button>
+
+
+
+      <ion-icon class="remove-btn" name="close-outline" (click)="removeFollower(user)">
+
+      </ion-icon>
+
+
+
+    </div>
+
+
+  </div>
+
+
+
+
+  <!-- Empty -->
+
+
+  <div class="empty-state" *ngIf="filteredFollowers.length===0">
+
+
+    <ion-icon name="people-outline">
+
+    </ion-icon>
+
+
+    <h3>
+      No Followers Found
+    </h3>
+
+
+    <p>
+      People who follow you appear here
+    </p>
+
+
+  </div>
+
+
+
+</ion-content>

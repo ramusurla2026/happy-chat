@@ -1,0 +1,191 @@
+<ion-header class="create-header">
+
+  <ion-toolbar>
+
+
+    <div class="top-bar">
+
+
+      <button class="back-btn" (click)="goBack()">
+
+        <ion-icon name="arrow-back-outline"></ion-icon>
+
+      </button>
+
+
+
+      <h2>
+        Create
+      </h2>
+
+
+      <div class="space"></div>
+
+
+    </div>
+
+
+  </ion-toolbar>
+
+</ion-header>
+
+
+
+
+
+<ion-content class="create-page">
+
+
+
+  <div class="create-container">
+
+
+
+
+
+    <div class="option-card" (click)="postInput.click()">
+
+
+
+      <div class="icon-box post">
+
+        <ion-icon name="image-outline"></ion-icon>
+
+      </div>
+
+
+
+
+      <div class="option-text">
+
+
+        <h3>
+          Create Post
+        </h3>
+
+
+        <p>
+          Share photos & videos with followers
+        </p>
+
+
+
+        <input #postInput hidden type="file" accept="image/*,video/*" multiple (change)="uploadFiles($event)">
+
+
+
+      </div>
+
+
+
+
+      <ion-icon class="arrow" name="chevron-forward-outline">
+
+      </ion-icon>
+
+
+
+    </div>
+
+
+
+
+
+
+    <div class="option-card" (click)="postInput.click()">
+
+
+
+      <div class="icon-box reel">
+
+        <ion-icon name="videocam-outline"></ion-icon>
+
+      </div>
+
+
+
+      <div class="option-text">
+
+
+        <h3>
+          Create Reel
+        </h3>
+
+
+        <p>
+          Share short entertaining videos
+        </p>
+
+
+        <input #reelInput hidden type="file" accept="video/*" (change)="uploadFiles($event)">
+
+
+
+      </div>
+
+
+
+
+      <ion-icon class="arrow" name="chevron-forward-outline">
+
+      </ion-icon>
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="option-card" (click)="postInput.click()">
+
+
+
+      <div class="icon-box story">
+
+        <ion-icon name="add-circle-outline"></ion-icon>
+
+      </div>
+
+
+
+
+      <div class="option-text">
+
+
+        <h3>
+          Add Story
+        </h3>
+
+
+        <p>
+          Visible for 24 hours
+        </p>
+
+
+        <input #storyInput hidden type="file" accept="image/*,video/*" (change)="uploadFiles($event)">
+
+
+
+      </div>
+
+
+
+
+      <ion-icon class="arrow" name="chevron-forward-outline">
+
+      </ion-icon>
+
+
+    </div>
+
+
+
+
+  </div>
+
+
+
+</ion-content>

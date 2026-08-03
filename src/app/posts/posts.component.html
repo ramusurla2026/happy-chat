@@ -1,0 +1,207 @@
+<ion-header class="posts-header">
+
+  <ion-toolbar>
+
+
+    <div class="top-bar">
+
+
+      <button class="back-btn" (click)="goBack()">
+
+        <ion-icon name="arrow-back-outline"></ion-icon>
+
+      </button>
+
+
+      <h2>
+        Posts
+      </h2>
+
+
+      <div class="space"></div>
+
+
+    </div>
+
+
+  </ion-toolbar>
+
+</ion-header>
+
+
+
+
+<ion-content class="posts-page">
+   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+
+  <div class="feed" *ngFor="let post of displayPosts; trackBy:trackByPost">
+
+
+
+    <!-- User -->
+
+
+    <div class="post-user">
+
+
+      <img class="avatar" [src]="post.author.profileImage || 'assets/happy-chat-logo.png'">
+
+
+
+      <div>
+
+        <h3>
+          {{post.author.username}}
+        </h3>
+
+
+        <p>
+          {{post.author.fullName}}
+        </p>
+
+
+      </div>
+
+
+
+    </div>
+
+
+
+
+
+
+    <!-- Media -->
+
+
+    <div class="media-box">
+
+
+      <swiper-container slides-per-view="1" pagination="true" speed="300" [attr.initial-slide]="post.initialSlide"
+        (swiperslidechange)="slideChanged($event,post)">
+
+
+
+        <swiper-slide *ngFor="let image of post.media">
+
+
+          <img class="post-image" [src]="image">
+
+
+        </swiper-slide>
+
+
+      </swiper-container>
+
+
+    </div>
+
+
+
+
+
+
+    <!-- Actions -->
+
+
+    <div class="action-row">
+
+
+      <div class="left">
+
+
+        <ion-icon [name]="post.hasLiked?'heart':'heart-outline'" [class.active-like]="post.hasLiked"
+          (click)="likeContent(post)">
+
+        </ion-icon>
+
+
+
+        <ion-icon name="chatbubble-outline" (click)="openComments(post)">
+
+        </ion-icon>
+
+
+
+        <ion-icon name="paper-plane-outline" (click)="sharePost(post)">
+
+        </ion-icon>
+
+
+      </div>
+
+
+
+
+      <ion-icon [name]="post.hasSaved?'bookmark':'bookmark-outline'" [class.saved]="post.hasSaved"
+        (click)="savePost(post)">
+
+      </ion-icon>
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <!-- Details -->
+
+    <div class="feed-stats">
+
+      <span>
+
+        <strong>
+
+          {{post.likeCount}}
+
+        </strong>
+
+        Likes
+
+      </span>
+
+      <span>
+
+        <strong>
+
+          {{post.commentCount}}
+
+        </strong>
+
+        Comments
+
+      </span>
+
+    </div>
+
+
+    <div class="feed-caption">
+
+      <b>
+        {{post.author.username}}
+      </b>
+
+      {{post.caption}}
+
+      <span class="time">
+
+        {{post.createdAt | date:'dd MMM yyyy, hh:mm a'}}
+
+      </span>
+
+
+    </div>
+
+
+
+  </div>
+
+
+</ion-content>

@@ -1,0 +1,189 @@
+:host {
+    --cu-primary: #4B3FE0;
+    --cu-primary-dark: #3B2FCB;
+    --cu-bg-top: #FFFFFF;
+    --cu-bg-bottom: #ECE9FB;
+    --cu-text-heading: #1D1B2E;
+    --cu-text-body: #8A87A3;
+    --cu-border: #E7E4F6;
+  }
+  
+  // ---- Header -----------------------------------------------------
+  .interests-header {
+    ion-toolbar {
+      --background: #FFFFFF;
+      --border-color: #EDEBFA;
+      --min-height: 56px;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+    }
+  }
+  
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    margin-right: 4px;
+  }
+  
+  .header-title {
+    flex: 1;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--cu-primary);
+  }
+  
+  .step-badge {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cu-text-body);
+    background: #F1EFFB;
+    border-radius: 999px;
+    padding: 5px 12px;
+    white-space: nowrap;
+  }
+  
+  // ---- Content -------------------------------------------------------
+  .interests-content {
+    --background: linear-gradient(180deg, var(--cu-bg-top) 0%, var(--cu-bg-bottom) 100%);
+  }
+  
+  .interests-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: clamp(14px, 2.4vh, 24px) 20px clamp(12px, 2vh, 20px);
+    box-sizing: border-box;
+  }
+  
+  .interests-title {
+    flex-shrink: 0;
+    text-align: center;
+    font-size: clamp(19px, 3.8vh, 23px);
+    font-weight: 700;
+    color: var(--cu-text-heading);
+    margin: 0 0 clamp(4px, 1vh, 8px);
+  }
+  
+  .interests-subtitle {
+    flex-shrink: 0;
+    text-align: center;
+    font-size: clamp(12.5px, 2.4vh, 14px);
+    line-height: 1.4;
+    color: var(--cu-text-body);
+    margin: 0 auto clamp(14px, 2.8vh, 22px);
+    max-width: 240px;
+  }
+  
+  // ---- Chip grid -----------------------------------------------------
+  .chip-grid {
+    flex-shrink: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(8px, 1.6vh, 10px);
+    margin-bottom: clamp(14px, 2.6vh, 22px);
+  }
+  
+  .chip {
+    padding: clamp(8px, 1.4vh, 10px) clamp(14px, 3vw, 18px);
+    border-radius: 999px;
+    border: 1.5px solid var(--cu-border);
+    background: #FFFFFF;
+    color: var(--cu-text-heading);
+    font-size: clamp(13px, 2.4vh, 14.5px);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  
+    &:active {
+      transform: scale(0.97);
+    }
+  
+    &--selected {
+      background: var(--cu-primary);
+      border-color: var(--cu-primary);
+      color: #FFFFFF;
+      font-weight: 600;
+    }
+  }
+  
+  // ---- Preview card -----------------------------------------------
+  .preview-card {
+    flex: 1 1 auto;
+    min-height: 90px;
+    width: 100%;
+    border-radius: 18px;
+    border: 1px solid var(--cu-border);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: #FFFFFF;
+    margin-bottom: clamp(10px, 2vh, 16px);
+  
+    &__image {
+      flex: 1 1 auto;
+      min-height: 0;
+      width: 100%;
+  
+      svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  
+    &__caption {
+      flex-shrink: 0;
+      margin: 0;
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--cu-text-heading);
+      background: #FFFFFF;
+    }
+  }
+  
+  .spacer {
+    flex: 0 0 auto;
+    min-height: 4px;
+  }
+  
+  // ---- Footer -----------------------------------------------------
+  .selected-count {
+    flex-shrink: 0;
+    text-align: center;
+    font-size: clamp(12.5px, 2.2vh, 14px);
+    color: var(--cu-text-body);
+    margin: 0 0 clamp(10px, 2vh, 14px);
+  }
+  
+  .btn-primary {
+    flex-shrink: 0;
+    width: 100%;
+    height: clamp(46px, 7.5vh, 52px);
+    margin: 0;
+    --background: var(--cu-primary);
+    --background-activated: var(--cu-primary-dark);
+    --background-hover: var(--cu-primary-dark);
+    --color: #FFFFFF;
+    --border-radius: 999px;
+    --box-shadow: none;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: none;
+  
+    &[disabled] {
+      --background: #DAD6F5;
+      --color: #A8A2D8;
+      opacity: 1;
+    }
+  }

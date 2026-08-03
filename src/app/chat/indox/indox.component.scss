@@ -1,0 +1,440 @@
+:host {
+  --primary: #6c63ff;
+  --primary-light: #8b84ff;
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --text: #1f2937;
+  --sub-text: #7b8190;
+}
+
+ion-content.dm-content {
+  --background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #faf9ff 55%,
+    #f3f1ff 100%
+  );
+}
+
+/* ===========================
+   Header
+=========================== */
+
+.dm-header ion-toolbar {
+  --background: #ffffff;
+  --border-width: 0;
+  --min-height: 72px;
+}
+
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+}
+
+.back-btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #f3f4fb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.back-btn ion-icon {
+  font-size: 22px;
+  color: var(--primary);
+}
+
+.title-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.title-section h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.title-section span {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--sub-text);
+}
+
+.right-section {
+  display: flex;
+  gap: 10px;
+}
+
+.icon-btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #f3f4fb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-btn ion-icon {
+  font-size: 22px;
+  color: var(--primary);
+}
+
+/* ===========================
+   Search
+=========================== */
+
+.search-wrapper {
+  margin: 16px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  background: rgba(255,255,255,.95);
+  border-radius: 30px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+}
+
+.search-wrapper ion-icon {
+  font-size: 22px;
+  color: #999;
+}
+
+.search-wrapper input {
+  flex: 1;
+  margin-left: 12px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  color: var(--text);
+}
+
+.search-wrapper input::placeholder {
+  color: #9ca3af;
+}
+
+/* ===========================
+   Chat Cards
+=========================== */
+
+.chat-card {
+  display: flex;
+  align-items: center;
+  margin: 0 14px 12px;
+  padding: 14px;
+  background: var(--card);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.05);
+  transition: .25s ease;
+}
+
+.chat-card:active {
+  transform: scale(.98);
+}
+
+.avatar-wrapper {
+  position: relative;
+}
+
+.avatar-wrapper img {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.online-dot {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 2px solid #fff;
+}
+
+
+
+
+.chat-info{
+  flex: 1;
+  min-width: 0;
+  margin-left: 14px;
+}
+
+.top-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.top-row h4{
+  flex:1;
+  margin:0;
+  font-size:16px;
+  font-weight:700;
+
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.chat-time{
+  flex-shrink:0;
+  font-size:12px;
+  color:#9ca3af;
+}
+
+.bottom-row{
+  display:flex;
+  align-items:center;
+  margin-top:5px;
+  gap:8px;
+}
+
+.last-message{
+  flex:1;
+  min-width:0;
+
+  margin:0;
+
+  font-size:14px;
+  color:#7b8190;
+
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+/* ==========================================
+   Unread Badge
+========================================== */
+
+.unread-badge{
+  min-width:22px;
+  height:22px;
+  padding:0 6px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background:linear-gradient(
+    135deg,
+    var(--primary),
+    var(--primary-light)
+  );
+
+  color:#fff;
+
+  font-size:11px;
+  font-weight:700;
+
+  border-radius:20px;
+
+  margin-left:10px;
+
+  box-shadow:0 6px 15px rgba(108,99,255,.28);
+}
+
+/* ==========================================
+   Empty State
+========================================== */
+
+.empty-state{
+
+  height:70%;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+
+  padding:30px;
+
+  text-align:center;
+}
+
+.empty-icon{
+
+  width:90px;
+  height:90px;
+
+  border-radius:50%;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background:linear-gradient(
+    135deg,
+    var(--primary),
+    var(--primary-light)
+  );
+
+  box-shadow:0 15px 35px rgba(108,99,255,.25);
+
+  margin-bottom:20px;
+}
+
+.empty-icon ion-icon{
+
+  font-size:42px;
+
+  color:#fff;
+}
+
+.empty-state h3{
+
+  margin:0;
+
+  font-size:22px;
+
+  font-weight:700;
+
+  color:var(--text);
+}
+
+.empty-state p{
+
+  margin-top:8px;
+
+  color:var(--sub-text);
+
+  font-size:15px;
+}
+
+/* ==========================================
+   Hover / Press Effect
+========================================== */
+
+.chat-card:hover{
+
+  transform:translateY(-2px);
+
+  box-shadow:0 15px 30px rgba(0,0,0,.08);
+}
+
+.chat-card:active{
+
+  transform:scale(.98);
+}
+
+/* ==========================================
+   Animation
+========================================== */
+
+.chat-card{
+
+  animation:fadeUp .35s ease;
+}
+
+@keyframes fadeUp{
+
+  from{
+
+    opacity:0;
+
+    transform:translateY(15px);
+  }
+
+  to{
+
+    opacity:1;
+
+    transform:translateY(0);
+  }
+}
+
+/* ==========================================
+   Scrollbar
+========================================== */
+
+ion-content::-webkit-scrollbar{
+
+  width:4px;
+}
+
+ion-content::-webkit-scrollbar-thumb{
+
+  background:#d8d8e8;
+
+  border-radius:20px;
+}
+
+/* ==========================================
+   Responsive
+========================================== */
+
+@media (max-width:480px){
+
+  .header-wrapper{
+
+    padding:8px 10px;
+  }
+
+  .title-section h2{
+
+    font-size:20px;
+  }
+
+  .chat-card{
+
+    margin:0 10px 10px;
+
+    padding:12px;
+  }
+
+  .avatar-wrapper img{
+
+    width:56px;
+    height:56px;
+  }
+
+  .top-row h4{
+
+    font-size:15px;
+  }
+
+  .bottom-row p{
+
+    font-size:13px;
+  }
+
+  .search-wrapper{
+
+    margin:12px;
+
+    height:48px;
+  }
+}
+
+/* ==========================================
+   Smooth Transition
+========================================== */
+
+*{
+
+  transition:
+  background .25s ease,
+  color .25s ease,
+  box-shadow .25s ease,
+  transform .25s ease;
+}

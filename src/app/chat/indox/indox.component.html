@@ -1,0 +1,148 @@
+<ion-header class="dm-header">
+
+  <ion-toolbar>
+
+    <div class="header-wrapper">
+
+      <div class="left-section">
+
+        <button class="back-btn" (click)="goBack()">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </button>
+
+        <div class="title-section">
+          <h2>{{ userName }}</h2>
+          <span>Messages</span>
+        </div>
+
+      </div>
+
+      <div class="right-section">
+
+        <button class="icon-btn">
+          <ion-icon name="camera-outline"></ion-icon>
+        </button>
+
+        <button class="icon-btn">
+          <ion-icon name="create-outline"></ion-icon>
+        </button>
+
+      </div>
+
+    </div>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content fullscreen class="dm-content">
+
+    <ion-refresher
+    slot="fixed"
+    (ionRefresh)="refresh($event)">
+
+    <ion-refresher-content>
+
+    </ion-refresher-content>
+
+  </ion-refresher>
+
+  <!-- Search -->
+
+  <div class="search-wrapper">
+
+    <ion-icon name="search-outline"></ion-icon>
+
+    <input
+      type="text"
+      placeholder="Search messages..."
+      [(ngModel)]="searchText"
+      (input)="searchUsers()">
+
+  </div>
+
+  <!-- Chat List -->
+
+  <div
+    class="chat-card"
+    *ngFor="let chat of chats"
+    (click)="openChat(chat)">
+
+    <!-- Avatar -->
+
+    <div class="avatar-wrapper">
+
+      <img
+        [src]="chat.otherUser.profileImage || 'assets/happy-chat-logo.png'">
+
+      <span class="online-dot"></span>
+
+    </div>
+
+    <!-- Chat Details -->
+
+    <div class="chat-info">
+
+      <div class="top-row">
+
+        <h4>
+
+          {{ chat.otherUser.username }}
+
+        </h4>
+
+        <span class="chat-time">
+
+          {{ chat.lastMessage?.createdAt | date:'shortTime' }}
+
+        </span>
+
+      </div>
+
+      <div class="bottom-row">
+
+        <p class="last-message">
+
+          {{ chat.lastMessage?.content || 'Start chatting...' }}
+
+        </p>
+
+        <!-- Optional unread badge -->
+
+        <!--
+        <span class="unread-badge">
+          2
+        </span>
+        -->
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Empty -->
+
+  <div
+    class="empty-state"
+    *ngIf="chats.length===0">
+
+    <div class="empty-icon">
+
+      <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+
+    </div>
+
+    <h3>No Messages</h3>
+
+    <p>
+
+      Start your first conversation.
+
+    </p>
+
+  </div>
+
+</ion-content>
+
+<app-footer></app-footer>

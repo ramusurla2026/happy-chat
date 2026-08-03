@@ -1,0 +1,233 @@
+
+<ion-header class="edit-header">
+
+  <ion-toolbar>
+
+
+    <div class="header-wrapper">
+
+
+      <button class="back-btn" (click)="goBack()">
+
+        <ion-icon name="arrow-back-outline"></ion-icon>
+
+      </button>
+
+
+
+      <h2>
+        Edit Profile
+      </h2>
+
+
+
+      <button class="update-btn" (click)="saveProfile()">
+
+        Save
+
+      </button>
+
+
+    </div>
+
+
+  </ion-toolbar>
+
+</ion-header>
+
+
+
+
+<ion-content class="edit-page">
+
+
+  <form [formGroup]="profileForm">
+
+
+
+    <div class="edit-container">
+
+
+
+      <!-- Profile Photo -->
+
+
+      <div class="photo-section">
+
+
+        <div class="image-wrapper">
+
+
+          <img class="profile-image" [src]="selectedImage || profileImage || 'assets/happy-chat-logo.png'">
+
+
+
+          <div class="camera">
+
+            <ion-icon name="camera-outline"></ion-icon>
+
+          </div>
+
+
+        </div>
+
+
+
+
+        <button type="button" class="change-photo" (click)="fileInput.click()">
+
+
+          Change profile photo
+
+
+        </button>
+
+
+
+        <input #fileInput hidden type="file" accept="image/*" (change)="onImageSelected($event)">
+
+
+
+      </div>
+
+
+
+
+
+
+      <!-- Fields -->
+
+
+      <div class="form-card">
+
+
+        <div class="form-row">
+
+          <label>
+            Name
+          </label>
+
+
+          <input formControlName="fullName">
+
+        </div>
+
+
+
+        <div class="form-row">
+
+          <label>
+            Username
+          </label>
+
+
+          <input formControlName="username">
+
+        </div>
+
+
+
+
+        <div class="form-row textarea-row">
+
+
+          <label>
+            Bio
+          </label>
+
+
+          <textarea maxlength="150" formControlName="bio">
+</textarea>
+
+
+        </div>
+
+
+
+        <div class="form-row">
+
+          <label>
+            Profession
+          </label>
+
+
+          <input formControlName="profession">
+
+        </div>
+
+
+        <div class="form-row disabled">
+
+
+          <label>
+            Email
+          </label>
+
+
+          <input readonly formControlName="email">
+
+        </div>
+
+
+
+        <div class="form-row disabled">
+
+
+          <label>
+            Phone
+          </label>
+
+
+          <input readonly formControlName="phone">
+
+        </div>
+
+
+      </div>
+
+
+
+
+
+
+      <!-- Privacy -->
+
+
+      <div class="privacy-card">
+
+
+        <div>
+
+
+          <h3>
+            Private account
+          </h3>
+
+
+          <p>
+            Only approved followers can see your posts.
+          </p>
+
+
+        </div>
+
+
+
+        <ion-toggle formControlName="isPrivate">
+
+        </ion-toggle>
+
+
+
+      </div>
+
+
+
+    </div>
+
+
+
+  </form>
+
+
+</ion-content>

@@ -1,0 +1,176 @@
+<ion-header class="notification-header">
+
+
+  <ion-toolbar>
+
+
+    <div class="top-bar">
+
+
+      <button class="back-btn" (click)="goBack()">
+
+
+        <ion-icon name="arrow-back-outline"></ion-icon>
+
+
+      </button>
+
+
+
+      <h2>
+        Notifications
+      </h2>
+
+
+
+      <div class="space"></div>
+
+
+    </div>
+
+
+  </ion-toolbar>
+
+
+</ion-header>
+
+
+
+
+
+<ion-content class="notification-page">
+
+
+  <div class="notification-container">
+
+
+
+    <h3 class="section-title" *ngIf="requests.length > 0">
+
+      Follow Requests
+
+    </h3>
+
+
+
+
+
+    <div class="request-card" *ngFor="let request of requests">
+
+
+
+
+
+      <div class="avatar-wrapper">
+
+
+        <img class="avatar" [src]="request.profileImage || 'assets/happy-chat-logo.png'">
+
+
+
+        <span class="dot"></span>
+
+
+      </div>
+
+
+
+
+
+      <div class="request-info">
+
+
+        <div class="text">
+
+
+          <h3>
+            {{request.username}}
+          </h3>
+
+
+          <p>
+
+            wants to follow you
+
+          </p>
+
+
+          <span>
+
+            {{request.fullName}}
+
+          </span>
+
+
+        </div>
+
+
+
+
+
+        <div class="buttons">
+
+
+          <button class="confirm" (click)="acceptRequest(request)">
+
+
+            Confirm
+
+
+          </button>
+
+
+
+          <button class="delete" (click)="rejectRequest(request)">
+
+
+            Delete
+
+
+          </button>
+
+
+
+        </div>
+
+
+
+      </div>
+
+
+
+
+    </div>
+
+
+
+
+
+    <div class="empty" *ngIf="requests.length===0">
+
+
+      <ion-icon name="notifications-outline">
+
+      </ion-icon>
+
+
+      <h3>
+        No Notifications
+      </h3>
+
+
+      <p>
+        You are all caught up
+      </p>
+
+
+    </div>
+
+
+
+
+
+  </div>
+
+
+</ion-content>

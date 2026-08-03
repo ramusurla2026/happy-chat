@@ -1,0 +1,38 @@
+
+.loader-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+
+}
+
+.instagram-loader {
+
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,.12);
+}
+
+.ring {
+
+  width: 34px;
+  height: 34px;
+  border: 3px solid #e8e8e8;
+  border-top-color: #5B4FE9;
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+
+}

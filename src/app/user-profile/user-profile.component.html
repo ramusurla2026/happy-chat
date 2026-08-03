@@ -1,0 +1,350 @@
+<ion-header class="user-header">
+
+  <ion-toolbar>
+
+    <div class="top-bar">
+
+
+      <button class="back-btn" (click)="goBack()">
+
+        <ion-icon name="arrow-back-outline"></ion-icon>
+
+      </button>
+
+
+      <h2>
+        {{user?.username}}
+      </h2>
+
+
+      <div class="space"></div>
+
+
+    </div>
+
+  </ion-toolbar>
+
+</ion-header>
+
+
+
+
+
+<ion-content class="user-page">
+
+    <ion-refresher
+    slot="fixed"
+    (ionRefresh)="handleRefresh($event)">
+
+    <ion-refresher-content>
+
+    </ion-refresher-content>
+
+  </ion-refresher>
+
+
+
+  <!-- Profile -->
+
+
+  <div class="profile-card">
+
+
+    <div class="avatar-box">
+
+
+      <img [src]="user?.profileImage || 'assets/happy-chat-logo.png'">
+
+
+    </div>
+
+
+
+    <h2>
+
+      {{user?.fullName}}
+
+    </h2>
+
+
+
+    <p class="username">
+
+      @{{user?.username}}
+
+    </p>
+
+
+
+    <p class="bio" *ngIf="user?.bio">
+
+      {{user?.bio}}
+
+    </p>
+
+
+
+    <p class="profession" *ngIf="user?.profession">
+
+      {{user?.profession}}
+
+    </p>
+
+
+
+    <div class="private" *ngIf="user?.isPrivate">
+
+      🔒 Private Account
+
+    </div>
+
+
+
+  </div>
+
+
+
+
+
+
+  <!-- Stats -->
+
+
+  <div class="stats-card">
+
+
+    <div>
+
+      <h3>
+        {{user?.postCount || 0}}
+      </h3>
+
+      <span>
+        Posts
+      </span>
+
+    </div>
+
+
+
+    <div (click)="openFollowers(user)">
+
+      <h3>
+        {{user?.followerCount || 0}}
+      </h3>
+
+      <span>
+        Followers
+      </span>
+
+    </div>
+
+
+
+    <div (click)="openFollowing(user)">
+
+      <h3>
+        {{user?.followingCount || 0}}
+      </h3>
+
+      <span>
+        Following
+      </span>
+
+    </div>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <!-- Buttons -->
+
+
+  <div class="actions">
+
+
+    <button class="follow" (click)="toggleFollow()">
+
+
+      {{followButtonText}}
+
+
+    </button>
+
+
+
+    <button class="message" (click)="openChat(user)">
+
+
+
+      Message
+
+
+    </button>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <!-- Tabs -->
+
+
+  <div class="tabs">
+
+
+    <div [class.active]="selectedTab==='posts'" (click)="getPosts()">
+
+
+
+      <ion-icon name="grid-outline">
+
+      </ion-icon>
+
+
+    </div>
+
+
+
+
+    <div [class.active]="selectedTab==='reels'" (click)="getReels()">
+
+
+
+      <ion-icon name="videocam-outline">
+
+      </ion-icon>
+
+
+    </div>
+
+
+  </div>
+
+
+
+
+
+
+
+
+  <!-- Posts -->
+
+
+  <div class="gallery" *ngIf="selectedTab==='posts' && canView">
+
+
+
+    <ng-container *ngFor="let post of posts;let i=index">
+
+
+      <div class="item" *ngFor="let image of post.media" (click)="openPost(post,i)">
+
+
+
+        <img [src]="image">
+
+
+      </div>
+
+
+    </ng-container>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <!-- Reels -->
+
+
+  <div class="gallery" *ngIf="selectedTab==='reels' && canView">
+
+
+    <div class="item" *ngFor="let reel of reels" (click)="openReel(reel)">
+
+
+
+      <video [src]="reel.videoUrl" muted playsinline>
+
+      </video>
+
+
+
+      <div class="play">
+
+        ▶
+
+      </div>
+
+
+
+    </div>
+
+
+  </div>
+
+
+
+
+
+
+
+
+  <!-- Empty -->
+
+
+  <div class="empty" *ngIf="selectedTab==='posts' && posts.length===0">
+
+
+    <ion-icon name="grid-outline">
+
+    </ion-icon>
+
+
+    <h3>
+      No Posts Yet
+    </h3>
+
+
+  </div>
+
+
+
+
+
+  <div class="empty" *ngIf="selectedTab==='reels' && reels.length===0">
+
+
+    <ion-icon name="videocam-outline">
+
+    </ion-icon>
+
+
+    <h3>
+      No Reels Yet
+    </h3>
+
+
+  </div>
+
+
+
+
+</ion-content>

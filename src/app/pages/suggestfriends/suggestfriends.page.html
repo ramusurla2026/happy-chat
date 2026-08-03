@@ -1,0 +1,74 @@
+<ion-content class="suggested-content" [fullscreen]="true">
+
+  <!-- Header -->
+  <div class="header-row">
+    <ion-icon name="arrow-back" class="back-icon" (click)="goBack()"></ion-icon>
+    <span class="brand-title">CircleUp</span>
+    <span class="skip-text" (click)="skip()">Skip</span>
+  </div>
+
+  <!-- Title & Subtitle -->
+  <div class="intro-section">
+    <h1 class="main-title">Suggested for You</h1>
+    <p class="subtitle">
+      Follow creators to personalize your feed and discover inspiring content.
+    </p>
+  </div>
+
+  <!-- Suggested Users List -->
+  <div class="user-list">
+    <div class="user-card" *ngFor="let user of suggestedUsers">
+      <ion-avatar class="user-avatar">
+        <img [src]="user.avatar" [alt]="user.name" />
+      </ion-avatar>
+
+      <div class="user-info">
+        <h3 class="user-name">{{ user.name }}</h3>
+        <p class="user-handle">{{ user.handle }}</p>
+        <p class="user-bio">{{ user.bio }}</p>
+      </div>
+
+      <ion-button
+        class="follow-btn"
+        [class.following]="user.isFollowing"
+        shape="round"
+        (click)="toggleFollow(user)">
+        {{ user.isFollowing ? 'Following' : 'Follow' }}
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Continue Button -->
+  <div class="continue-wrapper">
+    <ion-button expand="block" class="continue-btn" (click)="continueToFeed()">
+      Continue to Feed
+    </ion-button>
+  </div>
+
+</ion-content>
+
+<!-- Bottom Tab Bar -->
+<ion-footer class="bottom-tab-bar">
+  <div class="tab-item active-tab">
+    <ion-icon name="home"></ion-icon>
+    <span>Home</span>
+  </div>
+  <div class="tab-item">
+    <ion-icon name="search"></ion-icon>
+    <span>Search</span>
+  </div>
+  <div class="tab-item create-tab">
+    <ion-icon name="add-circle"></ion-icon>
+    <span>Create</span>
+  </div>
+  <div class="tab-item">
+    <ion-icon name="notifications-outline"></ion-icon>
+    <span>Alerts</span>
+  </div>
+  <div class="tab-item">
+    <ion-avatar class="profile-tab-avatar">
+      <img src="https://i.pravatar.cc/150?img=20" alt="Profile" />
+    </ion-avatar>
+    <span>Profile</span>
+  </div>
+</ion-footer>

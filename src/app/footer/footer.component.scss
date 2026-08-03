@@ -1,0 +1,102 @@
+.bottom-tab-bar {
+
+  // position: fixed;
+  // bottom:0;
+  // left:0;
+  // right:0;
+
+  // height:65px;
+
+  // display:flex;
+  // align-items:center;
+  // justify-content:space-around;
+
+  // background:#fff;
+
+  // border-top:1px solid #eee;
+
+  // z-index:999;
+
+  height: 65px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  background: #fff;
+
+  border-top: 1px solid #eee;
+
+  width: 100%;
+
+
+}
+
+
+.tab-item {
+
+  flex:1;
+
+  display:flex;
+  flex-direction:column;
+
+  align-items:center;
+  justify-content:center;
+
+  gap:3px;
+
+  color:#8e8e8e;
+
+  font-size:11px;
+
+  transition:.2s;
+
+
+}
+
+
+
+.tab-item ion-icon {
+
+  font-size:25px;
+
+}
+
+
+
+.tab-item span {
+
+  font-size:11px;
+
+}
+
+
+
+
+:host {
+  --primary: #5b4fe9;
+  --secondary: #8b7cff;
+}
+
+.active-tab {
+  color: var(--primary);
+}
+
+/* Profile active border */
+.active-tab .profile-tab-avatar {
+  border: 2px solid var(--primary);
+}
+
+/* Normal profile avatar */
+.profile-tab-avatar {
+  border: 2px solid transparent;
+}
+
+.profile-tab-avatar {
+
+ width:26px;
+ height:26px;
+
+ border:2px solid #000;
+
+}

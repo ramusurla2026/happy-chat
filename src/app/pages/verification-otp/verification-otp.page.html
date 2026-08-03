@@ -1,0 +1,161 @@
+<ion-header class="otp-header">
+  <ion-toolbar>
+
+    <div class="toolbar-content">
+
+      <button class="back-btn" (click)="goBack()">
+
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+
+          <path d="M15 19L8 12L15 5" stroke="#6C3DFF" stroke-width="2.4" stroke-linecap="round"
+            stroke-linejoin="round" />
+
+        </svg>
+
+      </button>
+
+      
+
+    </div>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="otp-content">
+
+  <div class="otp-wrapper">
+
+
+
+
+    <!-- Logo -->
+
+    <!-- <img class="logo" src="assets/logo.png" alt="CircleUp"> -->
+
+
+
+    <!-- Lock Icon -->
+
+    <div class="icon-circle">
+
+      <svg width="46" height="46" viewBox="0 0 24 24" fill="none">
+
+        <path d="M7 10V7a5 5 0 0110 0v3" stroke="#fff" stroke-width="2" />
+
+        <rect x="5" y="10" width="14" height="10" rx="3" fill="#fff" />
+
+        <circle cx="12" cy="15" r="1.6" fill="#6C3DFF" />
+
+      </svg>
+
+    </div>
+
+
+
+
+
+    <h1 class="otp-title">
+
+      Verify Your Account
+
+    </h1>
+
+
+    <p class="otp-subtitle">
+
+      Enter the verification code sent to
+
+      <br>
+
+      <strong>{{email}}</strong>
+
+    </p>
+
+
+
+
+
+    <div class="otp-boxes" (click)="focusHiddenInput()">
+
+
+      <input #hiddenInput class="otp-hidden" type="tel" maxlength="6" inputmode="numeric" autocomplete="one-time-code"
+        [value]="code" (input)="onCodeInput($event)" (focus)="focused=true" (blur)="focused=false">
+
+
+
+      <div class="otp-box" *ngFor="let digit of digits;let i=index" [class.active]="focused && i===code.length"
+        [class.filled]="digit" [class.error]="isOtpInvalid">
+
+        {{digit}}
+
+      </div>
+
+
+    </div>
+
+
+
+
+
+    <p class="timer">
+
+      <ng-container *ngIf="secondsLeft>0">
+
+        Resend code in
+
+        <span>
+
+          {{formattedTime}}
+
+        </span>
+
+      </ng-container>
+
+
+      <ng-container *ngIf="secondsLeft==0">
+
+        <a (click)="onResend()">
+
+          Resend Code
+
+        </a>
+
+      </ng-container>
+
+    </p>
+
+
+
+
+
+    <ion-button expand="block" shape="round" class="verify-btn" [disabled]="!isComplete" (click)="onVerify()">
+
+      Verify
+
+    </ion-button>
+
+
+
+
+
+    <div class="bottom-card">
+
+      Didn't receive the code?
+
+      <br>
+
+      <span (click)="onResend()">
+
+        Send Again
+
+      </span>
+
+    </div>
+
+
+
+
+  </div>
+
+</ion-content>

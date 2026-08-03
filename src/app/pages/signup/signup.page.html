@@ -1,0 +1,272 @@
+<ion-header class="signup-header" translucent="true">
+
+  <ion-toolbar>
+
+    <button
+      class="back-btn"
+      (click)="goBack()"
+      aria-label="Go Back">
+
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M15 19L8 12L15 5"
+          stroke="#6C3DFF"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+
+    </button>
+
+    
+
+  </ion-toolbar>
+
+</ion-header>
+
+
+
+
+
+<ion-content
+  [fullscreen]="true"
+  class="signup-content">
+
+  <div class="signup-wrapper">
+
+    <!-- Logo -->
+
+    <form
+      [formGroup]="form"
+      class="signup-form"
+      (ngSubmit)="onContinue()">
+
+      <!-- Full Name -->
+
+      <div class="field">
+
+        <label>
+
+          Full Name
+
+        </label>
+
+        <ion-input
+
+          class="input"
+
+          type="text"
+
+          placeholder="Enter your full name"
+
+          formControlName="fullName">
+
+        </ion-input>
+
+        <div
+          class="error"
+          *ngIf="form.get('fullName')?.touched && form.get('fullName')?.invalid">
+
+          <small>
+
+            Full name is required
+
+          </small>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- Username -->
+
+      <div class="field">
+
+        <label>
+
+          Username
+
+        </label>
+
+        <ion-input
+
+          class="input"
+
+          type="text"
+
+          placeholder="@username"
+
+          formControlName="username">
+
+        </ion-input>
+
+        <div
+          class="error"
+          *ngIf="form.get('username')?.touched && form.get('username')?.invalid">
+
+          <small>
+
+            Username is required
+
+          </small>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- Email -->
+
+      <div class="field">
+
+        <label>
+
+          Email Address
+
+        </label>
+
+        <ion-input
+
+          class="input"
+
+          type="email"
+
+          placeholder="name@example.com"
+
+          formControlName="email">
+
+        </ion-input>
+
+        <div
+          class="error"
+          *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+
+          <small *ngIf="form.get('email')?.errors?.['required']">
+
+            Email is required
+
+          </small>
+
+          <small *ngIf="form.get('email')?.errors?.['email']">
+
+            Invalid email address
+
+          </small>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- Phone -->
+
+      <div class="field">
+
+        <label>
+
+          Phone Number
+
+        </label>
+
+        <div class="phone-input">
+
+          <span class="country">
+
+            +91
+
+          </span>
+
+          <div class="divider"></div>
+
+          <ion-input
+
+            class="phone"
+
+            type="tel"
+
+            placeholder="9876543210"
+
+            formControlName="phone">
+
+          </ion-input>
+
+        </div>
+
+        <div
+          class="error"
+          *ngIf="form.get('phone')?.touched && form.get('phone')?.invalid">
+
+          <small>
+
+            Phone number is required
+
+          </small>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- Terms -->
+
+      <div class="terms">
+
+        By continuing you agree to our
+
+        <span (click)="onOpenTerms()">
+
+          Terms of Service
+
+        </span>
+
+        and
+
+        <span (click)="onOpenPrivacy()">
+
+          Privacy Policy
+
+        </span>
+
+      </div>
+
+
+
+      <!-- Button -->
+
+      <ion-button
+
+        expand="block"
+
+        type="submit"
+
+        class="signup-btn">
+
+        Create Account
+
+      </ion-button>
+
+
+
+      <!-- Login -->
+
+      <div class="login-text">
+
+        Already have an account?
+
+        <span (click)="onLogIn()">
+
+          Login
+
+        </span>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</ion-content>

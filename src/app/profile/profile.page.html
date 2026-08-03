@@ -1,0 +1,248 @@
+<ion-header class="profile-header-bar">
+
+  <ion-toolbar>
+
+    <div class="top-toolbar">
+
+      <button class="circle-btn" (click)="goBack()">
+
+        <ion-icon name="arrow-back-outline"></ion-icon>
+
+      </button>
+
+
+      <h2>
+        {{profile?.username || 'Profile'}}
+      </h2>
+
+
+      <button class="circle-btn" (click)="showSettings()">
+
+        <ion-icon name="settings-outline"></ion-icon>
+
+      </button>
+
+    </div>
+
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content class="profile-page">
+    <ion-refresher
+    slot="fixed"
+    (ionRefresh)="refresh($event)">
+
+    <ion-refresher-content>
+
+    </ion-refresher-content>
+
+  </ion-refresher>
+
+
+  <div class="profile-card">
+
+
+    <div class="avatar-box">
+
+      <img [src]="profile?.profileImage || 'assets/happy-chat-logo.png'">
+
+    </div>
+
+
+    <h2>
+      {{profile?.fullName}}
+    </h2>
+
+
+    <p class="username">
+      @{{profile?.username}}
+    </p>
+
+
+    <p class="bio">
+
+      {{profile?.bio || 'No bio available'}}
+
+    </p>
+
+
+    <p class="profession" *ngIf="profile?.profession">
+
+      {{profile.profession}}
+
+    </p>
+
+
+
+  </div>
+
+
+
+  <!-- Stats -->
+
+
+  <div class="stats-card">
+
+
+    <div>
+
+      <h3>
+        {{profile?.postCount || 0}}
+      </h3>
+
+      <span>
+        Posts
+      </span>
+
+    </div>
+
+
+    <div (click)="openFollowers(profile)">
+
+      <h3>
+        {{profile?.followerCount || 0}}
+      </h3>
+
+      <span>
+        Followers
+      </span>
+
+    </div>
+
+
+    <div (click)="openFollowing(profile)">
+
+      <h3>
+        {{profile?.followingCount || 0}}
+      </h3>
+
+      <span>
+        Following
+      </span>
+
+    </div>
+
+
+  </div>
+
+
+
+  <div class="edit-box" *ngIf="profile?.isOwnProfile">
+
+
+    <button (click)="editProfile(profile.id)">
+
+      Edit Profile
+
+    </button>
+
+
+  </div>
+
+
+
+
+  <!-- Tabs -->
+
+
+  <div class="tabs">
+
+
+    <div [class.active]="selectedTab==='posts'" (click)="selectedTab='posts'">
+
+      <ion-icon name="grid-outline"></ion-icon>
+
+    </div>
+
+
+    <div [class.active]="selectedTab==='reels'" (click)="selectedTab='reels'">
+
+      <ion-icon name="videocam-outline"></ion-icon>
+
+    </div>
+
+
+    <div>
+
+      <ion-icon name="person-outline"></ion-icon>
+
+    </div>
+
+
+  </div>
+
+
+
+  <!-- Posts -->
+
+
+  <div class="gallery" *ngIf="selectedTab==='posts'">
+
+
+    <div class="item" *ngFor="let post of profile?.posts?.items" (click)="openPost(post,0)">
+
+
+      <img [src]="post.media[0]">
+
+
+    </div>
+
+
+  </div>
+
+
+
+  <!-- Reels -->
+
+
+  <div class="gallery" *ngIf="selectedTab==='reels'">
+
+
+    <div class="item" *ngFor="let reel of profile?.reels?.items" (click)="openReel(reel)">
+
+
+
+      <video [src]="reel.videoUrl" muted playsinline>
+
+      </video>
+
+
+      <div class="play">
+
+        ▶
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+
+
+  <div class="empty" *ngIf="profile?.posts?.items?.length===0">
+
+
+    <ion-icon name="images-outline">
+    </ion-icon>
+
+
+    <h3>
+      No Posts Yet
+    </h3>
+
+
+    <p>
+      Share your first post
+    </p>
+
+
+  </div>
+
+
+
+</ion-content>

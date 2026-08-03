@@ -1,0 +1,65 @@
+<ion-content [fullscreen]="true" class="welcome-content">
+
+  <div class="welcome-wrapper">
+
+    <!-- Logo -->
+
+    <img
+      src="../../../assets/happy-chat-logo.png"
+      class="logo">
+
+    <h1>HappyChat</h1>
+
+    <p>
+      Connect. Share. Be Happy.
+    </p>
+
+    <div class="card">
+
+      <h2>
+        Welcome Back 👋
+      </h2>
+
+      <span>
+        Share moments, chat instantly and stay connected with your friends.
+      </span>
+
+      <ion-button
+        expand="block"
+        class="signup-btn"
+        (click)="onSignUp()">
+
+        Create Account
+
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        fill="outline"
+        class="login-btn"
+        (click)="onLogIn()">
+
+        Login
+
+      </ion-button>
+
+    </div>
+
+    <div class="bottom-text">
+
+      By continuing you agree to our
+
+      <b (click)="onOpenTerms()">
+        Terms
+      </b>
+
+      &
+      <b (click)="onOpenPrivacy()">
+        Privacy Policy
+      </b>
+
+    </div>
+
+  </div>
+
+</ion-content>

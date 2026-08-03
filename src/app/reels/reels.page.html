@@ -1,0 +1,90 @@
+<ion-content fullscreen="true" class="reels-content" [scrollY]="false">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+
+    <ion-refresher-content>
+
+    </ion-refresher-content>
+
+  </ion-refresher>
+  <div class="reels-container">
+    <div class="reel-item" *ngFor="let reel of reels">
+
+      <!-- <video #videoPlayer class="reel-video" [src]="reel.videoUrl" muted loop playsinline preload="metadata"
+        (click)="togglePlay(videoPlayer)">
+
+      </video> -->
+      <video #videoPlayer class="reel-video" [src]="reel.videoUrl" muted loop playsinline preload="metadata"
+        (click)="togglePlay(videoPlayer)">
+      </video>
+      <div class="pause-icon" *ngIf="pausedVideo === videoPlayer">
+
+        ❚❚
+
+      </div>
+
+      <div class="left-overlay">
+
+        <div class="user-row" (click)="openUserProfile(reel.author)">
+
+          <img class="avatar" [src]="reel.author.profileImage || 'assets/happy-chat-logo.png'">
+
+          <span>
+
+            {{reel.author.username}}
+
+          </span>
+
+        </div>
+
+        <div class="caption">
+
+          {{reel.caption}}
+
+        </div>
+
+      </div>
+
+      <div class="right-overlay">
+
+        <div class="action">
+
+          <ion-icon [name]="reel.hasLiked ? 'heart' : 'heart-outline'" class="liked" (click)="likeContent(reel)">
+
+          </ion-icon>
+
+          <span>{{reel.likeCount}}</span>
+
+        </div>
+
+        <div class="action">
+
+          <ion-icon name="chatbubble-outline" (click)="openComments(reel)">
+
+          </ion-icon>
+          <span>{{reel.commentCount}}</span>
+        </div>
+
+        <div class="action">
+
+          <ion-icon name="paper-plane-outline">
+
+          </ion-icon>
+
+        </div>
+
+        <div class="action">
+
+          <ion-icon [name]="reel.hasSaved ? 'bookmark' : 'bookmark-outline'" (click)="savePost(reel)">
+
+          </ion-icon>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</ion-content>
+
+<app-footer></app-footer>

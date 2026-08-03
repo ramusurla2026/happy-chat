@@ -1,0 +1,675 @@
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Auth } from '../core/services/auth';
+import { IonicModule, ModalController } from '@ionic/angular';
+
+// import {
+//   IonHeader,
+//   IonContent,
+//   IonIcon,
+//   IonAvatar,
+//   IonFab,
+//   IonFabButton,
+//   IonInfiniteScroll,
+//   IonInfiniteScrollContent,
+//   IonModal,
+//   IonButton
+// } from '@ionic/angular/standalone';
+
+import { FooterComponent } from '../footer/footer.component';
+import { Api } from '../core/services/api';
+import { ViewChild, ElementRef } from '@angular/core';
+import { IonContent } from '@ionic/angular';
+import { Feed } from '../core/services/feed';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { register } from 'swiper/element/bundle';
+register();
+
+
+
+import { addIcons } from 'ionicons';
+
+import {
+  notificationsOutline,
+  addCircle,
+  ellipsisHorizontal,
+  heart,
+  heartOutline,
+  chatbubbleOutline,
+  paperPlaneOutline,
+  bookmark,
+  bookmarkOutline,
+  add
+} from 'ionicons/icons';
+import { CommentsComponent } from '../comments/comments.component';
+
+addIcons({
+
+  'notifications-outline': notificationsOutline,
+
+  'add-circle': addCircle,
+
+  'ellipsis-horizontal': ellipsisHorizontal,
+
+  'heart': heart,
+
+  'heart-outline': heartOutline,
+
+  'chatbubble-outline': chatbubbleOutline,
+
+  'paper-plane-outline': paperPlaneOutline,
+
+  'bookmark': bookmark,
+
+  'bookmark-outline': bookmarkOutline,
+
+  'add': add
+
+});
+
+@Component({
+
+  selector: 'app-home',
+
+  standalone: true,
+
+  imports: [
+
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    FooterComponent
+
+  ],
+
+  templateUrl: './home.page.html',
+
+  styleUrls: ['./home.page.scss'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
+})
+
+export class HomePage implements OnInit {
+  @ViewChild('content') content!: IonContent;
+  // content!: IonContent;
+
+  @ViewChild('storyInput')
+  storyInput!: ElementRef<HTMLInputElement>;
+
+  //   @ViewChild('content')
+  // content!: IonContent;
+
+  myProfileImage = '';
+
+  feed: any[] = [];
+
+  page = 1;
+
+  limit = 20;
+
+  hasMore = true;
+
+  isLoading = false;
+
+  storyPopup = false;
+  notificationCount = 0;
+  stories: any[] = [];
+
+
+
+
+
+
+  constructor(
+
+    private api: Api,
+
+    private router: Router,
+    private modalCtrl: ModalController, private feedService: Feed
+
+  ) { }
+
+  ngOnInit() {
+    this.getMyProfile();
+    this.getStories();
+    this.getFeed();
+
+    this.feedService.notificationCount$
+      .subscribe(() => {
+        this.getFollowRequestsCount();
+      });
+    // this.getFollowRequestsCount();
+
+    this.feedService.commentUpdated$
+      .subscribe((data: any) => {
+        const post = this.feed.find(x => x.id === data.id);
+        if (post) {
+          post.commentCount++;
+        }
+
+      });
+
+  }
+
+  slideChanged(event: any, post: any) {
+    post.initialSlide = event.target.swiper.activeIndex;
+  }
+
+  handleRefresh(event: any) {
+
+    this.page = 1;
+    this.feed = [];
+    this.hasMore = true;
+
+    this.getStories();
+    this.getFollowRequestsCount();
+
+    this.getFeed();
+
+    setTimeout(() => {
+      event.target.complete();
+    }, 800);
+
+  }
+
+  close() {
+
+    this.modalCtrl.dismiss();
+
+  }
+
+  getMyProfile() {
+
+    const userId = localStorage.getItem('user');
+
+    if (!userId) {
+      return;
+    }
+
+
+    this.api.get<any>(`/users/${userId}`)
+      .subscribe({
+
+        next: (res) => {
+
+          this.myProfileImage =
+            res.data.profileImage;
+
+        },
+
+
+        error: (err) => {
+
+          console.log(err);
+
+        }
+
+      });
+
+  }
+
+
+  openStoryPicker() {
+    this.storyInput.nativeElement.click();
+  }
+
+  uploadStory(event: any) {
+
+    const file = event.target.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    const formData = new FormData();
+
+    // Backend field names
+    formData.append('file', file);
+
+
+    this.api.post('/stories', formData)
+      .subscribe({
+
+        next: (res: any) => {
+
+          console.log('Story Uploaded', res);
+
+          // Refresh stories
+          this.getStories();
+
+          // Clear selected file
+          event.target.value = '';
+
+        },
+
+        error: (err) => {
+
+          console.log(err);
+
+        }
+
+      });
+
+  }
+
+  getStories() {
+
+    this.api.get<any>('/stories/feed')
+      .subscribe({
+
+        next: (res) => {
+          console.log(res, 'stories feed')
+
+          this.stories = res.data || [];
+
+
+        },
+
+        error: (err) => {
+
+          console.log(err);
+
+        }
+
+      });
+
+  }
+
+  ionViewWillEnter() {
+
+    const state = history.state;
+
+    if (state.refresh) {
+
+      this.page = 1;
+
+      this.feed = [];
+
+      this.hasMore = true;
+
+      this.getFeed();
+
+      setTimeout(() => {
+
+        this.content.scrollToTop(300);
+
+      }, 200);
+
+    }
+
+  }
+
+  getFollowRequestsCount() {
+    this.api.get<any>(`/users/follow-requests`)
+      .subscribe({
+        next: (res) => {
+          this.notificationCount = res.data?.requests.length || 0;
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+  }
+
+  openNotifications() {
+    this.router.navigate(['/follow-requests']);
+  }
+
+  getFeed(event?: any) {
+
+    if (this.isLoading || !this.hasMore) {
+
+      if (event) {
+        event.target.complete();
+      }
+
+      return;
+
+    }
+
+
+    this.isLoading = true;
+
+
+    this.api
+      .get<any>(`/feed/home?page=${this.page}&limit=${this.limit}`)
+      .subscribe({
+
+        next: (res) => {
+
+          const newFeed = res.data.feed || [];
+
+          if (this.page === 1) {
+
+            this.feed = newFeed;
+
+          } else {
+
+            this.feed = [
+              ...this.feed,
+              ...newFeed
+            ];
+
+          }
+
+          this.page++;
+
+          this.hasMore = res.data.hasMore;
+
+          this.isLoading = false;
+
+          if (event) {
+            event.target.complete();
+          }
+
+
+        },
+
+
+        error: (err) => {
+
+
+          console.log(err);
+
+
+          this.isLoading = false;
+
+
+          if (event) {
+
+            event.target.complete();
+
+          }
+
+
+        }
+
+
+      });
+
+  }
+
+  loadMore(event: any) {
+
+    this.getFeed();
+
+    event.target.complete();
+
+    if (!this.hasMore) {
+
+      event.target.disabled = true;
+
+    }
+
+  }
+
+
+
+  likePost(post: any) {
+
+    const oldStatus = post.hasLiked;
+
+
+    // UI immediate update
+    post.hasLiked = !post.hasLiked;
+
+
+    if (post.hasLiked) {
+
+      post.likeCount++;
+
+    } else {
+
+      post.likeCount--;
+
+    }
+
+
+
+    this.api.post<any>(
+      `/posts/${post.id}/like`,
+      {}
+    )
+      .subscribe({
+
+        next: (res) => {
+
+          console.log('like success', res);
+
+        },
+
+
+        error: (err) => {
+
+          console.log(err);
+
+
+          // error vaste rollback
+
+          post.hasLiked = oldStatus;
+
+
+          if (oldStatus) {
+
+            post.likeCount++;
+
+          } else {
+
+            post.likeCount--;
+
+          }
+
+        }
+
+      });
+
+
+  }
+
+  likeContent(item: any) {
+
+
+    const oldStatus = item.hasLiked;
+
+
+    // UI update
+    item.hasLiked = !item.hasLiked;
+
+
+    if (item.hasLiked) {
+      item.likeCount++;
+    } else {
+      item.likeCount--;
+    }
+
+
+
+    let url = '';
+
+    if (item.type === 'reel') {
+
+      url = `/reels/${item.id}/like`;
+
+    } else {
+
+      url = `/posts/${item.id}/like`;
+
+    }
+
+
+
+    this.api.post<any>(
+      url,
+      {}
+    )
+      .subscribe({
+
+        next: (res) => {
+
+          console.log('like success', res);
+
+        },
+
+
+        error: (err) => {
+
+          console.log(err);
+
+
+          // rollback
+
+          item.hasLiked = oldStatus;
+
+
+          if (oldStatus) {
+            item.likeCount++;
+          } else {
+            item.likeCount--;
+          }
+
+        }
+
+      });
+
+
+  }
+
+
+
+  savePost(post: any) {
+
+    post.hasSaved = !post.hasSaved;
+
+    // Backend Save API
+
+  }
+
+  sharePost(post: any) {
+
+    console.log(post);
+
+    // Share API
+
+  }
+
+  async openComments(post: any) {
+
+    const modal = await this.modalCtrl.create({
+      component: CommentsComponent,
+      componentProps: {
+        postId: post.id,
+        type: post.type,
+        profileImage: this.myProfileImage
+      },
+
+
+
+
+    });
+
+    await modal.present();
+
+  }
+
+
+
+
+
+  openProfile(user: any) {
+    const myId = localStorage.getItem('user')
+    if (user.id === myId) {
+      this.router.navigate(['/profile']);
+    } else {
+      this.router.navigate(['/user-profile', user.id]);
+    }
+
+  }
+
+  goTo() {
+    this.router.navigate(
+      ['/create-options']
+    );
+  }
+
+  goToCreate() {
+
+    this.router.navigate(
+
+      ['/create-options']
+
+    );
+
+  }
+
+
+  onStoryClick(story: any) {
+
+    this.router.navigate(
+      ['/story-viewer'],
+      {
+        state: {
+          stories: story.stories,
+          user: story.user
+        }
+      }
+    );
+
+  }
+
+  goToSearchPage() {
+    this.router.navigate(
+      ['/search']
+    );
+  }
+
+  closeStoryPopup() {
+
+    this.storyPopup = false;
+
+  }
+
+  async refreshHome() {
+
+    const scrollElement = await this.content.getScrollElement();
+
+    if (scrollElement.scrollTop > 100) {
+
+      await this.content.scrollToTop(300);
+
+    }
+
+    this.page = 1;
+    this.feed = [];
+    this.hasMore = true;
+
+    this.getFeed();
+    this.getStories();
+    this.getFollowRequestsCount();
+
+  }
+
+  goTocreatePostPage() {
+    this.router.navigate(
+      ['/create-options']
+    );
+  }
+
+  pickGallery() {
+
+    this.storyPopup = false;
+
+    console.log('Gallery');
+
+  }
+
+  takePhoto() {
+
+    this.storyPopup = false;
+
+    console.log('Camera');
+
+  }
+
+}

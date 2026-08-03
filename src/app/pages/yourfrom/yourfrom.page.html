@@ -1,0 +1,64 @@
+<ion-header class="interests-header">
+  <ion-toolbar>
+    <button class="back-btn" (click)="goBack()" aria-label="Go back">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 19l-7-7 7-7" stroke="#4B3FE0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <span class="header-title">CircleUp</span>
+    <span class="step-badge">Step 4 of 4</span>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="interests-content">
+  <div class="interests-wrapper">
+
+    <h1 class="interests-title">What are you into?</h1>
+    <p class="interests-subtitle">
+      Select at least {{ minInterests }} interests to personalize your feed.
+    </p>
+
+    <!-- Chip grid -->
+    <div class="chip-grid">
+      <button
+        *ngFor="let interest of interests"
+        class="chip"
+        [class.chip--selected]="isSelected(interest)"
+        (click)="toggleInterest(interest)">
+        {{ interest }}
+      </button>
+    </div>
+
+    <!-- Preview card -->
+    <div class="preview-card">
+      <div class="preview-card__image">
+        <svg viewBox="0 0 300 140" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="previewGrad" x1="0" y1="0" x2="300" y2="140" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#F1EFFB" />
+              <stop offset="1" stop-color="#DAD5F5" />
+            </linearGradient>
+          </defs>
+          <rect width="300" height="140" fill="url(#previewGrad)" />
+          <rect x="95" y="35" width="110" height="80" rx="4" fill="#FFFFFF" opacity="0.85" />
+          <circle cx="255" cy="105" r="10" fill="#FFFFFF" opacity="0.6" />
+        </svg>
+      </div>
+      <p class="preview-card__caption">Personalizing your digital environment...</p>
+    </div>
+
+    <div class="spacer"></div>
+
+    <p class="selected-count">{{ selectedCount }} of {{ minInterests }} selected</p>
+
+    <ion-button
+      expand="block"
+      shape="round"
+      class="btn-primary"
+      [disabled]="!isValid"
+      (click)="onExplore()">
+      Explore CircleUp
+    </ion-button>
+
+  </div>
+</ion-content>

@@ -1,0 +1,241 @@
+<ion-header class="chat-header">
+
+  <ion-toolbar>
+
+    <div class="header-wrapper">
+
+      <div class="left-section">
+
+        <button class="back-btn" (click)="goBack()">
+
+          <ion-icon name="arrow-back-outline"></ion-icon>
+
+        </button>
+
+        <div class="profile-section">
+
+          <div class="avatar-wrapper">
+
+            <img [src]="myProfileImage || 'assets/happy-chat-logo.png'">
+
+            <span class="online-dot"></span>
+
+          </div>
+
+          <div class="user-details">
+
+            <h3>
+
+              {{user?.username}}
+
+            </h3>
+
+            <p>
+
+              Active now
+
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="right-section">
+
+        <!-- <button class="icon-btn">
+
+          <ion-icon name="call-outline">
+
+          </ion-icon>
+
+        </button>
+
+        <button class="icon-btn">
+
+          <ion-icon name="videocam-outline">
+
+          </ion-icon>
+
+        </button> -->
+
+        <button class="icon-btn">
+
+          <ion-icon name="ellipsis-horizontal">
+
+          </ion-icon>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="chat-content" [fullscreen]="false" forceOverscroll="false" #content>
+
+  <div class="chat-wrapper">
+
+    <div *ngFor="let msg of messages;let i=index">
+
+      <div class="date-divider" *ngIf="isNewDate(msg,messages[i-1])">
+
+        {{getChatDate(msg.createdAt)}}
+
+      </div>
+
+      <div class="message-row" [class.me]="msg.sender?.id===myId">
+
+        <img *ngIf="msg.sender?.id!==myId" class="avatar"
+          [src]="msg.sender?.profileImage || 'assets/happy-chat-logo.png'">
+
+        <div class="message-column">
+
+          <div class="message-bubble" [class.my-bubble]="msg.sender?.id === myId"
+            [class.media-bubble]="msg.media?.length" (press)="openMessageOptions(msg)"
+            (contextmenu)="openMessageOptions(msg); $event.preventDefault()">
+
+            <p *ngIf="msg.content">
+
+              {{msg.content}}
+
+            </p>
+
+            <!-- <ng-container *ngIf="msg.media?.length">
+
+              <img *ngIf="msg.media[0]?.mediaType==='image'"
+                [src]="msg.media[0]?.mediaUrl || 'assets/happy-chat-logo.png'" class="chat-media">
+
+              <video *ngIf="msg.media[0]?.mediaType==='video'" controls class="chat-media">
+
+                <source [src]="msg.media[0]?.mediaUrl">
+
+              </video>
+
+            </ng-container> -->
+
+            <ng-container *ngIf="msg.media?.length">
+
+              <!-- Image -->
+              <div class="media-wrapper" *ngIf="msg.media[0]?.mediaType === 'image'">
+
+                <img [src]="msg.media[0]?.mediaUrl" class="chat-media">
+
+                <div class="upload-overlay" *ngIf="msg.sending">
+
+                  <ion-spinner name="crescent">
+                  </ion-spinner>
+
+                </div>
+
+              </div>
+
+              <!-- Video -->
+              <div class="media-wrapper" *ngIf="msg.media[0]?.mediaType === 'video'">
+
+                <video controls class="chat-media">
+
+                  <source [src]="msg.media[0]?.mediaUrl">
+
+                </video>
+
+                <div class="upload-overlay" *ngIf="msg.sending">
+
+                  <ion-spinner name="crescent">
+                  </ion-spinner>
+
+                </div>
+
+              </div>
+
+            </ng-container>
+
+          </div>
+
+          <!-- <div class="time">
+
+            {{msg.createdAt|date:'shortTime'}}
+
+          </div> -->
+          <span class="time">
+
+            {{msg.createdAt | date:'shortTime'}}
+
+            <span *ngIf="msg.sending">
+              🕓
+            </span>
+
+            <span *ngIf="msg.failed">
+              ❌
+            </span>
+
+          </span>
+
+        </div>
+
+        <img *ngIf="msg.sender?.id===myId" class="avatar" [src]="myProfileImage || 'assets/happy-chat-logo.png'">
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+</ion-content>
+
+
+<ion-footer class="chat-footer">
+
+  <!-- Selected Media Preview -->
+
+  <div class="media-preview" *ngIf="previewUrl">
+
+    <button class="remove-btn" (click)="removeSelectedMedia()">
+
+      <ion-icon name="close">
+
+      </ion-icon>
+
+    </button>
+
+    <img *ngIf="selectedMedia?.type?.startsWith('image/')" [src]="previewUrl">
+
+    <video *ngIf="selectedMedia?.type?.startsWith('video/')" [src]="previewUrl" controls>
+
+    </video>
+
+  </div>
+
+  <!-- Message Box -->
+
+  <div class="input-wrapper">
+
+    <input #file type="file" hidden accept="image/*,video/*" (change)="selectMedia($event)">
+
+    <button class="attach-btn" (click)="file.click()">
+
+      <ion-icon name="image-outline">
+
+      </ion-icon>
+
+    </button>
+
+    <input class="message-input" [(ngModel)]="message" placeholder="Type a message..." (keydown)="onKeyDown($event)">
+
+    <button class="send-btn" (click)="sendMessage()" [disabled]="!message.trim() && !selectedMedia">
+
+      <ion-icon name="paper-plane-outline">
+
+      </ion-icon>
+
+    </button>
+
+  </div>
+
+</ion-footer>

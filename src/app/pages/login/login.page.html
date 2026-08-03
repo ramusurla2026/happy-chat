@@ -1,0 +1,82 @@
+<ion-header class="login-header" translucent="true">
+  <ion-toolbar>
+
+    <button class="back-btn" (click)="goBack()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M15 19L8 12L15 5"
+          stroke="#6C3DFF"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="login-content">
+
+<div class="login-wrapper">
+
+    <img
+      src="../../../assets/happy-chat-logo.png"
+      class="logo">
+
+    <h1>Welcome Back</h1>
+
+    <p>
+      Login to continue your HappyChat journey.
+    </p>
+
+    <form [formGroup]="form"
+          (ngSubmit)="onContinue()">
+
+        <div class="field">
+
+            <label>Email Address</label>
+
+            <ion-input
+            type="email"
+            formControlName="email"
+            placeholder="Enter your email">
+            </ion-input>
+
+            <div class="error"
+            *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+
+              <small *ngIf="form.get('email')?.errors?.['required']">
+                Email is required
+              </small>
+
+              <small *ngIf="form.get('email')?.errors?.['email']">
+                Invalid email
+              </small>
+
+            </div>
+
+        </div>
+
+        <ion-button
+        expand="block"
+        class="login-btn"
+        type="submit">
+
+        Continue
+
+        </ion-button>
+
+    </form>
+
+    <div class="bottom">
+
+      Don't have an account?
+
+      <span (click)="onSignUp()">
+        Sign Up
+      </span>
+
+    </div>
+
+</div>
+
+</ion-content>

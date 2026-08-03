@@ -1,0 +1,131 @@
+<ion-content fullscreen class="story-page">
+
+
+<div class="story-container"
+(click)="nextStory()">
+
+
+<!-- Story Media -->
+
+<img
+*ngIf="currentStory?.mediaType=='image'"
+class="story-image"
+[src]="currentStory?.mediaUrl">
+
+
+
+<video
+*ngIf="currentStory?.mediaType=='video'"
+class="story-image"
+autoplay
+playsinline>
+
+<source
+[src]="currentStory?.mediaUrl"
+type="video/mp4">
+
+</video>
+
+
+
+<div class="overlay"></div>
+
+
+
+<!-- TOP -->
+
+<div class="top-bar">
+
+
+<div class="progress">
+
+
+<div
+class="progress-fill"
+[style.width]="((currentIndex+1)/stories.length)*100+'%'">
+
+</div>
+
+
+</div>
+
+
+
+<div class="header">
+
+
+<div class="user">
+
+
+<img
+[src]="user?.profileImage || 'assets/profile.png'">
+
+
+<div>
+
+<b>
+{{user?.username}}
+</b>
+
+
+<small>
+
+{{currentStory?.createdAt | date:'short'}}
+
+</small>
+
+
+</div>
+
+
+</div>
+
+
+
+<ion-icon
+name="close"
+(click)="goBack();$event.stopPropagation()">
+
+</ion-icon>
+
+
+</div>
+
+
+</div>
+
+
+
+
+<!-- Bottom -->
+
+<div class="bottom-bar"
+(click)="$event.stopPropagation()">
+
+
+
+<input
+placeholder="Send message">
+
+
+
+<ion-icon name="heart-outline"></ion-icon>
+
+
+<ion-icon name="happy-outline"></ion-icon>
+
+
+<ion-icon name="flame-outline"></ion-icon>
+
+
+<ion-icon name="share-social-outline"></ion-icon>
+
+
+</div>
+
+
+
+</div>
+
+
+</ion-content>

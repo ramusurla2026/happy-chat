@@ -1,0 +1,155 @@
+<ion-header class="following-header">
+
+  <ion-toolbar>
+
+    <div class="header-wrapper">
+
+      <button class="back-btn" (click)="goBack()">
+
+        <ion-icon name="arrow-back-outline"></ion-icon>
+
+      </button>
+
+
+      <h2>
+        Following
+      </h2>
+
+
+      <div class="space"></div>
+
+
+    </div>
+
+  </ion-toolbar>
+
+</ion-header>
+
+
+
+<ion-content class="following-page">
+
+
+  <!-- Search -->
+
+  <div class="search-wrapper">
+
+
+    <ion-icon name="search-outline"></ion-icon>
+
+
+    <input type="text" placeholder="Search following" [(ngModel)]="searchText" (input)="onSearch($event)">
+
+
+
+  </div>
+
+
+
+  <!-- Users -->
+
+
+  <div class="users-list" *ngIf="filteredFollowing.length > 0">
+
+
+    <div class="user-card" *ngFor="let user of filteredFollowing">
+
+
+
+      <div class="avatar-wrapper">
+
+
+        <img class="avatar" [src]="user.profileImage || 'assets/happy-chat-logo.png'" (click)="openProfile(user)">
+
+
+
+        <span class="online-dot"></span>
+
+
+      </div>
+
+
+
+      <div class="user-info" (click)="openProfile(user)">
+
+
+
+        <h3>
+
+          {{user.username}}
+
+        </h3>
+
+
+        <p>
+
+          {{user.fullName}}
+
+        </p>
+
+
+      </div>
+
+
+
+
+      <button class="message-btn" *ngIf="user.followStatus==='following'" (click)="openChat(user)">
+
+
+        Message
+
+
+      </button>
+
+
+
+
+      <button class="follow-btn" *ngIf="user.followStatus!=='following'" (click)="follow(user)">
+
+
+        Follow
+
+
+      </button>
+
+
+
+    </div>
+
+
+  </div>
+
+
+
+
+
+  <!-- Empty -->
+
+
+  <div class="empty-state" *ngIf="filteredFollowing.length===0">
+
+
+    <ion-icon name="people-outline">
+
+    </ion-icon>
+
+
+    <h3>
+
+      No Following
+
+    </h3>
+
+
+    <p>
+
+      Accounts you follow appear here
+
+    </p>
+
+
+  </div>
+
+
+
+</ion-content>
