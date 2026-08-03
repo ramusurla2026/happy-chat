@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -101,6 +101,9 @@ export class HomePage implements OnInit {
   //   @ViewChild('content')
   // content!: IonContent;
 
+  @ViewChildren('videoPlayer')
+  videoPlayers!: QueryList<ElementRef<HTMLVideoElement>>;
+
   myProfileImage = '';
 
   feed: any[] = [];
@@ -119,7 +122,49 @@ export class HomePage implements OnInit {
 
 
 
+  ngAfterViewInit() {
 
+    this.videoPlayers.changes.subscribe(() => {
+
+      this.playVisibleVideos();
+
+    });
+
+    this.playVisibleVideos();
+
+  }
+
+  playVisibleVideos() {
+
+    const observer = new IntersectionObserver((entries) => {
+
+      entries.forEach(entry => {
+
+        const video = entry.target as HTMLVideoElement;
+
+        if (entry.isIntersecting) {
+
+          video.play().catch(() => { });
+
+        } else {
+
+          video.pause();
+
+        }
+
+      });
+
+    }, {
+      threshold: 0.7
+    });
+
+    this.videoPlayers.forEach(v => {
+
+      observer.observe(v.nativeElement);
+
+    });
+
+  }
 
 
   constructor(
@@ -150,6 +195,19 @@ export class HomePage implements OnInit {
         }
 
       });
+
+  }
+
+  openReel(post: any) {
+
+    this.router.navigate(
+      ['/reels'],
+      {
+        queryParams: {
+          reelId: post.id
+        }
+      }
+    );
 
   }
 
@@ -540,11 +598,57 @@ export class HomePage implements OnInit {
 
   savePost(post: any) {
 
-    post.hasSaved = !post.hasSaved;
+  const oldStatus = post.hasSaved;
 
-    // Backend Save API
+  // UI update
+  post.hasSaved = !post.hasSaved;
 
+  if (post.hasSaved) {
+    post.saveCount = (post.saveCount || 0) + 1;
+  } else {
+    post.saveCount = Math.max((post.saveCount || 1) - 1, 0);
   }
+
+  const url =
+    post.type === 'post'
+      ? `/posts/${post.id}/save`
+      : `/reels/${post.id}/save`;
+
+  this.api.post<any>(url, {}).subscribe({
+
+    next: (res) => {
+
+      console.log(res);
+
+      // Backend nundi latest value vaste use cheyyi
+      if (res.data) {
+        post.hasSaved = res.data.saved;
+
+        if (res.data.saveCount !== undefined) {
+          post.saveCount = res.data.saveCount;
+        }
+      }
+
+    },
+
+    error: (err) => {
+
+      console.log(err);
+
+      // Rollback
+      post.hasSaved = oldStatus;
+
+      if (oldStatus) {
+        post.saveCount++;
+      } else {
+        post.saveCount = Math.max(post.saveCount - 1, 0);
+      }
+
+    }
+
+  });
+
+}
 
   sharePost(post: any) {
 

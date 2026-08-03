@@ -63,7 +63,7 @@ addIcons({
     IonContent,
     IonIcon,
     FooterComponent, IonRefresher,
-  IonRefresherContent,
+    IonRefresherContent,
   ],
   templateUrl: './reels.page.html',
   styleUrls: ['./reels.page.scss']
@@ -111,72 +111,114 @@ export class ReelsPage implements OnInit, AfterViewInit, OnDestroy {
 
   refresh(event: any) {
 
-  this.page = 1;
-  this.hasMore = true;
-  this.loading = false;
-  this.reels = [];
+    this.page = 1;
+    this.hasMore = true;
+    this.loading = false;
+    this.reels = [];
 
-  if (this.userId) {
+    if (this.userId) {
 
-    this.getUserReels();
+      this.getUserReels();
 
-    setTimeout(() => {
-      event.target.complete();
-    }, 700);
+      setTimeout(() => {
+        event.target.complete();
+      }, 700);
 
-  } else {
+    } else {
 
-    this.getReels();
+      this.getReels();
 
-    setTimeout(() => {
-      event.target.complete();
-    }, 700);
+      setTimeout(() => {
+        event.target.complete();
+      }, 700);
+
+    }
 
   }
 
-}
 
+  // observeVideos() {
+
+  //   if (!this.videos || this.videos.length === 0) return;
+
+  //   if (this.observer) {
+  //     this.observer.disconnect();
+  //   }
+
+  //   this.observer = new IntersectionObserver(
+  //     (entries) => {
+
+  //       entries.forEach((entry) => {
+
+  //         const video = entry.target as HTMLVideoElement;
+
+  //         if (entry.isIntersecting && entry.intersectionRatio >= 0.8) {
+
+  //           this.pauseAll();
+
+  //           video.play().catch(() => { });
+
+  //         } else {
+
+  //           video.pause();
+
+  //         }
+
+  //       });
+
+  //     },
+  //     {
+  //       threshold: 0.8
+  //     }
+  //   );
+
+  //   this.videos.forEach((video) => {
+  //     this.observer.observe(video.nativeElement);
+  //   });
+
+  // }
 
   observeVideos() {
 
-    if (!this.videos || this.videos.length === 0) return;
+  if (this.observer) {
+    this.observer.disconnect();
+  }
 
-    if (this.observer) {
-      this.observer.disconnect();
-    }
+  this.observer = new IntersectionObserver((entries) => {
 
-    this.observer = new IntersectionObserver(
-      (entries) => {
+    entries.forEach(entry => {
 
-        entries.forEach((entry) => {
+      const video = entry.target as HTMLVideoElement;
 
-          const video = entry.target as HTMLVideoElement;
+      if (entry.isIntersecting) {
 
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.8) {
+        this.pauseAll();
 
-            this.pauseAll();
+        video.currentTime = video.currentTime;
 
-            video.play().catch(() => { });
+        video.play().catch(() => {});
 
-          } else {
+      } else {
 
-            video.pause();
+        video.pause();
 
-          }
-
-        });
-
-      },
-      {
-        threshold: 0.8
       }
-    );
 
-    this.videos.forEach((video) => {
-      this.observer.observe(video.nativeElement);
     });
 
-  }
+  }, {
+
+    threshold: 0.6
+
+  });
+
+  this.videos.forEach(v => {
+
+    this.observer.observe(v.nativeElement);
+
+  });
+
+}
 
   pauseAll() {
 
@@ -194,10 +236,21 @@ export class ReelsPage implements OnInit, AfterViewInit, OnDestroy {
       this.userId = params['userId'];
       this.reelId = params['reelId'];
 
+      // if (this.userId) {
+      //   this.getUserReels();
+      // } else {
+      //   this.getReels();
+      // }
+
       if (this.userId) {
         this.getUserReels();
+
+      } else if (this.reelId) {
+        this.getSingleReel(this.reelId);
+
       } else {
         this.getReels();
+
       }
 
     });
@@ -252,19 +305,48 @@ export class ReelsPage implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
+  // getSingleReel(id: string) {
+
+  //   this.api.get<any>(`/reels/${id}`)
+  //     .subscribe({
+
+  //       next: (res) => {
+
+  //         this.reels = [res.data];
+  //         this.loadRemainingReels(id);
+
+  //       }
+
+  //     });
+
+  // }
+
   getSingleReel(id: string) {
 
-    this.api.get<any>(`/reels/${id}`)
-      .subscribe({
+    this.api.get<any>(`/reels/${id}`).subscribe({
 
-        next: (res) => {
+      next: (res) => {
 
-          this.reels = [res.data];
-          this.loadRemainingReels(id);
+        this.reels = [res.data];
 
-        }
+        this.page = 1;
 
-      });
+        this.hasMore = true;
+
+        this.loading = false;
+
+        // migatha reels load cheyyi
+        this.getReels();
+
+        setTimeout(() => {
+
+          this.observeVideos();
+
+        }, 200);
+
+      }
+
+    });
 
   }
 
@@ -350,11 +432,18 @@ export class ReelsPage implements OnInit, AfterViewInit, OnDestroy {
             (item: any) => item.type === 'reel'
           );
 
+          const filtered = videos.filter(
+            (x: any) => !this.reels.some(r => r.id === x.id)
+          );
 
+          // this.reels = [
+          //   ...this.reels,
+          //   ...videos
+          // ];
 
           this.reels = [
             ...this.reels,
-            ...videos
+            ...filtered
           ];
 
           setTimeout(() => {
@@ -466,14 +555,62 @@ export class ReelsPage implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-  savePost(reel: any) {
+   savePost(post: any) {
 
-    reel.hasSaved = !reel.hasSaved;
+  const oldStatus = post.hasSaved;
 
+  // UI update
+  post.hasSaved = !post.hasSaved;
+
+  if (post.hasSaved) {
+    post.saveCount = (post.saveCount || 0) + 1;
+  } else {
+    post.saveCount = Math.max((post.saveCount || 1) - 1, 0);
   }
 
+  const url =
+    post.type === 'post'
+      ? `/posts/${post.id}/save`
+      : `/reels/${post.id}/save`;
+
+  this.api.post<any>(url, {}).subscribe({
+
+    next: (res) => {
+
+      console.log(res);
+
+      // Backend nundi latest value vaste use cheyyi
+      if (res.data) {
+        post.hasSaved = res.data.saved;
+
+        if (res.data.saveCount !== undefined) {
+          post.saveCount = res.data.saveCount;
+        }
+      }
+
+    },
+
+    error: (err) => {
+
+      console.log(err);
+
+      // Rollback
+      post.hasSaved = oldStatus;
+
+      if (oldStatus) {
+        post.saveCount++;
+      } else {
+        post.saveCount = Math.max(post.saveCount - 1, 0);
+      }
+
+    }
+
+  });
+
+}
+
   async openComments(post: any) {
-    console.log(post.type, 'type')
+    console.log(post, 'type')
 
     const modal = await this.modalCtrl.create({
       component: CommentsComponent,

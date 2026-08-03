@@ -442,12 +442,30 @@
    IMAGE
 ========================== */
 
-.feed-image {
-  width: 100%;
-  max-height: 520px;
-  object-fit: cover;
-  background: #000;
-  display: block;
+// .feed-image {
+//   width: 100%;
+//   max-height: 520px;
+//   object-fit: cover;
+//   background: #000;
+//   display: block;
+// }
+
+.feed-image{
+  width:100%;
+  height:520px;
+  object-fit:cover;
+  display:block;
+  background:#000;
+}
+
+@media(max-width:480px){
+
+.feed-image{
+
+height:420px;
+
+}
+
 }
 
 /* ==========================
@@ -734,4 +752,168 @@ swiper-container::part(bullet-active) {
   --background: #6C3DFF;
   --border-radius: 16px;
   height: 52px;
+}
+
+
+
+
+
+
+
+
+///// updated css code //////
+.feed-image{
+
+opacity:0;
+
+animation:imageFade .4s forwards;
+
+}
+
+@keyframes imageFade{
+
+to{
+
+opacity:1;
+
+}
+
+}
+
+.home-content{
+
+scroll-behavior:smooth;
+
+-webkit-overflow-scrolling:touch;
+
+}
+.feed-card,
+.feed-image,
+.reel-preview{
+
+will-change:transform;
+
+transform:translateZ(0);
+
+backface-visibility:hidden;
+
+}
+
+.feed-card{
+
+transition:.3s;
+
+}
+
+.feed-card:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 18px 45px rgba(0,0,0,.12);
+
+}
+
+.feed-image{
+
+transition:transform .35s ease;
+
+}
+
+.feed-image:hover{
+
+transform:scale(1.02);
+
+}
+
+video::-webkit-media-controls{
+
+display:none !important;
+
+}
+
+video::-webkit-media-controls-panel{
+
+display:none !important;
+
+}
+
+.play-overlay{
+
+position:absolute;
+
+top:50%;
+
+left:50%;
+
+transform:translate(-50%,-50%);
+
+width:70px;
+
+height:70px;
+
+border-radius:50%;
+
+background:rgba(0,0,0,.45);
+
+display:none;
+
+justify-content:center;
+
+align-items:center;
+
+backdrop-filter:blur(5px);
+
+transition:.25s;
+
+}
+
+.play-overlay ion-icon{
+
+font-size:36px;
+
+color:#fff;
+
+}
+
+.reel-preview:hover .play-overlay{
+
+transform:translate(-50%,-50%) scale(1.08);
+
+}
+
+
+.reel-preview{
+
+position:relative;
+
+overflow:hidden;
+
+background:#000;
+
+cursor:pointer;
+
+}
+
+.reel-preview video{
+
+width:100%;
+
+height:520px;
+
+object-fit:cover;
+
+display:block;
+
+pointer-events:none;
+
+}
+
+@media(max-width:480px){
+
+.reel-preview video{
+
+height:420px;
+
+}
+
 }

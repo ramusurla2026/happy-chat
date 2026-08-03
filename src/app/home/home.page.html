@@ -210,11 +210,28 @@
 
       <!-- Reel -->
 
-      <video *ngIf="post.type==='reel'" class="feed-image" controls playsinline>
+      <!-- <video *ngIf="post.type==='reel'" class="feed-image" controls playsinline>
 
         <source [src]="post.videoUrl" type="video/mp4">
 
-      </video>
+      </video> -->
+
+      <div class="reel-preview" *ngIf="post.type==='reel'" (click)="openReel(post)">
+
+        <video *ngIf="post.type==='reel'" #videoPlayer class="feed-image" muted autoplay loop playsinline
+          preload="metadata">
+
+          <source [src]="post.videoUrl" type="video/mp4">
+
+        </video>
+
+        <div class="play-overlay">
+
+          <ion-icon name="play"></ion-icon>
+
+        </div>
+
+      </div>
 
       <!-- Actions -->
 
@@ -285,7 +302,18 @@
           Comments
 
         </span>
+       
+        <!-- <span>
 
+          <strong>
+
+            {{post.saveCount}}
+
+          </strong>
+
+          Save
+
+        </span> -->
       </div>
 
       <!-- Caption -->

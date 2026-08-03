@@ -46,86 +46,60 @@ export class CommentsComponent implements OnInit {
   @Input() profileImage: string = '';
 
 
-  comments:any[] = [];
+  comments: any[] = [];
 
-  text='';
+  text = '';
 
-  contentId='';
-  contentType='post';
+  contentId = '';
+  contentType = 'post';
 
-  myProfileImage='';
+  myProfileImage = '';
 
 
   constructor(
-    private api:Api,
-    private modalCtrl:ModalController,private feedService: Feed
-  ){}
+    private api: Api,
+    private modalCtrl: ModalController, private feedService: Feed
+  ) { }
 
 
 
-  ngOnInit(){
+  ngOnInit() {
 
-
-   
-
-
-    this.contentId=this.postId;
-    this.contentType=this.type;
-    this.myProfileImage=this.profileImage;
-
-
+    this.contentId = this.postId;
+    this.contentType = this.type;
+    this.myProfileImage = this.profileImage;
     this.getComments();
-
   }
 
 
-
-
-
-  close(){
-
+  close() {
     this.modalCtrl.dismiss();
-
   }
 
 
 
 
 
-  getComments(){
-
-
+  getComments() {
     let url =
-    this.contentType==='reel'
-    ?
-    `/reels/${this.contentId}/comments`
-    :
-    `/posts/${this.contentId}/comments`;
+      this.contentType === 'reel'
+        ?
+        `/reels/${this.contentId}/comments`
+        :
+        `/posts/${this.contentId}/comments`;
 
 
 
     this.api.get<any>(url)
-    .subscribe({
-
-      next:(res)=>{
-
-
-        this.comments =
-        res.data.comments || [];
-
-
-      },
-
-      error:(err)=>{
-
-        console.log(err);
-
-      }
-
-
-    });
-
-
+      .subscribe({
+        next: (res) => {
+          this.comments =
+            res.data.comments || [];
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
   }
 
 
@@ -133,20 +107,16 @@ export class CommentsComponent implements OnInit {
 
 
 
-  addComment(){
+  addComment() {
 
-
-    if(!this.text.trim())
-    return;
-
-
-
+    if (!this.text.trim())
+      return;
     let url =
-    this.contentType==='reel'
-    ?
-    `/reels/${this.contentId}/comments`
-    :
-    `/posts/${this.contentId}/comments`;
+      this.contentType === 'reel'
+        ?
+        `/reels/${this.contentId}/comments`
+        :
+        `/posts/${this.contentId}/comments`;
 
 
 
@@ -154,37 +124,64 @@ export class CommentsComponent implements OnInit {
     this.api.post<any>(
       url,
       {
-        text:this.text
+        text: this.text
       }
     )
-    .subscribe({
+      .subscribe({
 
-      next:(res)=>{
-
-
-        this.comments.unshift(
-          res.data
-        );
+        next: (res) => {
 
 
-        this.text='';
-
-        this.feedService.updateCommentCount(
-    this.contentId,
-    this.comments.length
-  );
+          this.comments.push(res.data);
 
 
-      },
+          this.text = '';
 
-      error:(err)=>{
+          this.feedService.updateCommentCount(
+            this.contentId,
+            this.comments.length
+          );
 
-        console.log(err);
 
-      }
+        },
 
-    })
+        error: (err) => {
 
+          console.log(err);
+
+        }
+
+      })
+
+
+  }
+
+
+  likeComment(comment: any) {
+
+    const url =
+      this.contentType === 'reel'
+        ? `/reels/${this.contentId}/comments/${comment.id}/like`
+        : `/posts/${this.contentId}/comments/${comment.id}/like`;
+
+    this.api.post<any>(url, {})
+      .subscribe({
+
+        next: (res) => {
+
+          comment.hasLiked = res.data.liked;
+
+          comment.likeCount = res.data.likeCount;
+
+        },
+
+        error: (err) => {
+
+          console.log(err);
+
+        }
+
+      });
 
   }
 
@@ -193,68 +190,7 @@ export class CommentsComponent implements OnInit {
 
 
 
-  // likeComment(comment:any){
-  //   console.log(comment,'commet')
-
-
-  //   this.api.post(
-  //     `/comments/${comment.id}/like`,
-  //     {}
-  //   )
-  //   .subscribe(()=>{
-
-
-  //     comment.hasLiked =
-  //     !comment.hasLiked;
-
-
-  //     comment.likeCount =
-  //     comment.hasLiked
-  //     ?
-  //     comment.likeCount+1
-  //     :
-  //     comment.likeCount-1;
-
-
-  //   })
-
-
-  // }
-
-  likeComment(comment: any) {
-
-  const url =
-    this.contentType === 'reel'
-      ? `/reels/${this.contentId}/comments/${comment.id}/like`
-      : `/posts/${this.contentId}/comments/${comment.id}/like`;
-
-  this.api.post<any>(url, {})
-    .subscribe({
-
-      next: (res) => {
-
-        comment.hasLiked = res.data.liked;
-
-        comment.likeCount = res.data.likeCount;
-
-      },
-
-      error: (err) => {
-
-        console.log(err);
-
-      }
-
-    });
-
-}
-
-
-
-
-
-
-  replyTo(comment:any){
+  replyTo(comment: any) {
 
     console.log(
       "reply",

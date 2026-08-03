@@ -223,9 +223,57 @@ export class PostsComponent implements OnInit {
 
   savePost(post: any) {
 
-    post.hasSaved = !post.hasSaved;
+  const oldStatus = post.hasSaved;
 
+  // UI update
+  post.hasSaved = !post.hasSaved;
+
+  if (post.hasSaved) {
+    post.saveCount = (post.saveCount || 0) + 1;
+  } else {
+    post.saveCount = Math.max((post.saveCount || 1) - 1, 0);
   }
+
+  const url =
+    post.type === 'post'
+      ? `/posts/${post.id}/save`
+      : `/reels/${post.id}/save`;
+
+  this.api.post<any>(url, {}).subscribe({
+
+    next: (res) => {
+
+      console.log(res);
+
+      // Backend nundi latest value vaste use cheyyi
+      if (res.data) {
+        post.hasSaved = res.data.saved;
+
+        if (res.data.saveCount !== undefined) {
+          post.saveCount = res.data.saveCount;
+        }
+      }
+
+    },
+
+    error: (err) => {
+
+      console.log(err);
+
+      // Rollback
+      post.hasSaved = oldStatus;
+
+      if (oldStatus) {
+        post.saveCount++;
+      } else {
+        post.saveCount = Math.max(post.saveCount - 1, 0);
+      }
+
+    }
+
+  });
+
+}
 
   async openComments(post: any) {
 
