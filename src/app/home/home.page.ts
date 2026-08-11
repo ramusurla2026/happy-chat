@@ -745,15 +745,15 @@ export class HomePage implements OnInit {
 
   }
 
-  async refreshHome() {
+  refreshHome() {
 
-    const scrollElement = await this.content.getScrollElement();
+    // const scrollElement = await this.content.getScrollElement();
 
-    if (scrollElement.scrollTop > 100) {
+    // if (scrollElement.scrollTop > 100) {
 
-      await this.content.scrollToTop(300);
+    //   await this.content.scrollToTop(300);
 
-    }
+    // }
 
     this.page = 1;
     this.feed = [];
