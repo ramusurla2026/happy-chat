@@ -676,25 +676,27 @@ export class HomePage implements OnInit {
   //   await modal.present();
 
   // }
-
 openComments(post: any) {
   console.log('1. openComments called');
 
-  this.modalCtrl.create({
+  const modalPromise = this.modalCtrl.create({
     component: CommentsComponent
-  })
-  .then((modal) => {
-    console.log('2. Modal created');
-    return modal.present();
-  })
-  .then(() => {
-    console.log('3. Modal presented');
-  })
-  .catch((error) => {
-    console.error('MODAL ERROR:', error);
   });
-}
 
+  console.log('2. create() called');
+
+  modalPromise
+    .then((modal) => {
+      console.log('3. Modal created');
+      return modal.present();
+    })
+    .then(() => {
+      console.log('4. Modal presented');
+    })
+    .catch((error) => {
+      console.error('🔥 MODAL ERROR:', error);
+    });
+}
 
 
 
