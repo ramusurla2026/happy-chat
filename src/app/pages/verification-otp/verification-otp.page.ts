@@ -116,7 +116,7 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
       this.apiservice.post('/auth/verify-otp', payload).subscribe({
         next: (res: any) => {
           this.isOtpInvalid = false;
-          this.toast.show(res.message, 'success');
+          // this.toast.show(res.message, 'success');
           this.auth.saveLogin(res.data);
           this.router.navigate(['/profile-setup'], {
             state: {
@@ -136,10 +136,10 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
 
           this.focusHiddenInput();
 
-          this.toast.show(
-            err.error?.message || 'Invalid OTP',
-            'danger'
-          );
+          // this.toast.show(
+          //   err.error?.message || 'Invalid OTP',
+          //   'danger'
+          // );
 
         }
 
@@ -148,7 +148,7 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
       this.apiservice.post('/auth/login/verify', payload).subscribe({
         next: (res: any) => {
           this.isOtpInvalid = false;
-          this.toast.show(res.message, 'success');
+          // this.toast.show(res.message, 'success');
           this.auth.saveLogin(res.data);
           this.router.navigate(['/home']);
 
@@ -164,10 +164,10 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
 
           this.focusHiddenInput();
 
-          this.toast.show(
-            err.error?.message || 'Invalid OTP',
-            'danger'
-          );
+          // this.toast.show(
+          //   err.error?.message || 'Invalid OTP',
+          //   'danger'
+          // );
 
         }
 
@@ -192,10 +192,10 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
 
     this.apiservice.post('/auth/resend-otp', payload).subscribe({
       next: (res: any) => {
-        this.toast.show(
-          res.message,
-          'success'
-        );
+        // this.toast.show(
+        //   res.message,
+        //   'success'
+        // );
         this.code = '';
         this.hiddenInput.nativeElement.value = '';
         this.focusHiddenInput();
@@ -204,10 +204,10 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
       },
 
       error: (err) => {
-        this.toast.show(
-          err.error?.message || 'Unable to resend OTP',
-          'danger'
-        );
+        // this.toast.show(
+        //   err.error?.message || 'Unable to resend OTP',
+        //   'danger'
+        // );
       }
 
     });

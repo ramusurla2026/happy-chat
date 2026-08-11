@@ -80,7 +80,7 @@ export class LoginPage {
 
         if (res.success) {
 
-          this.toast.show(res.message, 'success');
+          // this.toast.show(res.message, 'success');
 
           this.router.navigate(['/verification-otp'], {
             state: {
@@ -95,10 +95,10 @@ export class LoginPage {
 
       error:(err) => {
 
-        this.toast.show(
-          err.error?.message || 'Something went wrong',
-          'danger'
-        );
+        // this.toast.show(
+        //   err.error?.message || 'Something went wrong',
+        //   'danger'
+        // );
 
       }
 
