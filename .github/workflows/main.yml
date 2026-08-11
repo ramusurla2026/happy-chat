@@ -3,12 +3,12 @@ name: Angular Build and Deploy (Staging)
 on:
   push:
     branches:
-      - staging
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: staging   # no reviewers, runs automatically
+    environment: main   # no reviewers, runs automatically
 
     steps:
       - name: Checkout repository
