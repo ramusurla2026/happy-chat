@@ -658,24 +658,35 @@ export class HomePage implements OnInit {
 
   }
 
-  async openComments(post: any) {
+  // async openComments(post: any) {
 
-    const modal = await this.modalCtrl.create({
-      component: CommentsComponent,
-      componentProps: {
-        postId: post.id,
-        type: post.type,
-        profileImage: this.myProfileImage
-      },
-
-
+  //   const modal = await this.modalCtrl.create({
+  //     component: CommentsComponent,
+  //     componentProps: {
+  //       postId: post.id,
+  //       type: post.type,
+  //       profileImage: this.myProfileImage
+  //     },
 
 
-    });
 
-    await modal.present();
 
-  }
+  //   });
+
+  //   await modal.present();
+
+  // }
+
+  openComments(post: any) {
+  this.modalCtrl.create({
+    component: CommentsComponent,
+    componentProps: {
+      postId: post.id,
+      type: post.type,
+      profileImage: this.myProfileImage
+    }
+  }).then(modal => modal.present());
+}
 
 
 
