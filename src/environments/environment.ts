@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   // apiUrl: 'https://circle-up-fk10.onrender.com/api',
   apiUrl: 'http://api.happychats.in',
   socketUrl: 'https://circle-up-fk10.onrender.com'
