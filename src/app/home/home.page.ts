@@ -677,7 +677,9 @@ export class HomePage implements OnInit {
 
   // }
 
-  openComments(post: any) {
+openComments(post: any) {
+  console.log('1. openComments called', post);
+
   this.modalCtrl.create({
     component: CommentsComponent,
     componentProps: {
@@ -685,7 +687,18 @@ export class HomePage implements OnInit {
       type: post.type,
       profileImage: this.myProfileImage
     }
-  }).then(modal => modal.present());
+  })
+  .then(modal => {
+    console.log('2. Modal created', modal);
+
+    return modal.present();
+  })
+  .then(() => {
+    console.log('3. Modal presented');
+  })
+  .catch(error => {
+    console.error('❌ MODAL ERROR:', error);
+  });
 }
 
 
