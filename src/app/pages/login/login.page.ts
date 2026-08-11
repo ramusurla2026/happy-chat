@@ -76,11 +76,11 @@ export class LoginPage {
 
     this.api.login(this.form.value).subscribe({
 
-      next: async (res: any) => {
+      next:  (res: any) => {
 
         if (res.success) {
 
-          await this.toast.show(res.message, 'success');
+          //  this.toast.show(res.message, 'success');
 
           this.router.navigate(['/verification-otp'], {
             state: {
@@ -93,12 +93,12 @@ export class LoginPage {
 
       },
 
-      error: async (err) => {
+      error: (err) => {
 
-        await this.toast.show(
-          err.error?.message || 'Something went wrong',
-          'danger'
-        );
+        // await this.toast.show(
+        //   err.error?.message || 'Something went wrong',
+        //   'danger'
+        // );
 
       }
 
