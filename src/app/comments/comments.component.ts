@@ -72,6 +72,7 @@ export class CommentsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+     console.log('CommentsComponent initialized');
     this.contentId = this.postId;
     this.contentType = this.type;
     this.myProfileImage = this.profileImage;
