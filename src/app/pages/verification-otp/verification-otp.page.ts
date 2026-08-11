@@ -114,9 +114,9 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
 
     if (this.type === 'register') {
       this.apiservice.post('/auth/verify-otp', payload).subscribe({
-        next: async (res: any) => {
+        next: (res: any) => {
           this.isOtpInvalid = false;
-          await this.toast.show(res.message, 'success');
+          this.toast.show(res.message, 'success');
           this.auth.saveLogin(res.data);
           this.router.navigate(['/profile-setup'], {
             state: {
@@ -126,7 +126,7 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
 
         },
 
-        error: async (err) => {
+        error: (err) => {
 
           this.isOtpInvalid = true;
 
@@ -136,7 +136,7 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
 
           this.focusHiddenInput();
 
-          await this.toast.show(
+          this.toast.show(
             err.error?.message || 'Invalid OTP',
             'danger'
           );
@@ -146,15 +146,15 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
       });
     } else {
       this.apiservice.post('/auth/login/verify', payload).subscribe({
-        next: async (res: any) => {
+        next: (res: any) => {
           this.isOtpInvalid = false;
-          await this.toast.show(res.message, 'success');
+          this.toast.show(res.message, 'success');
           this.auth.saveLogin(res.data);
           this.router.navigate(['/home']);
 
         },
 
-        error: async (err) => {
+        error: (err) => {
 
           this.isOtpInvalid = true;
 
@@ -164,7 +164,7 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
 
           this.focusHiddenInput();
 
-          await this.toast.show(
+          this.toast.show(
             err.error?.message || 'Invalid OTP',
             'danger'
           );
@@ -191,8 +191,8 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
     };
 
     this.apiservice.post('/auth/resend-otp', payload).subscribe({
-      next: async (res: any) => {
-        await this.toast.show(
+      next: (res: any) => {
+        this.toast.show(
           res.message,
           'success'
         );
@@ -203,8 +203,8 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
         this.startTimer();
       },
 
-      error: async (err) => {
-        await this.toast.show(
+      error: (err) => {
+        this.toast.show(
           err.error?.message || 'Unable to resend OTP',
           'danger'
         );
