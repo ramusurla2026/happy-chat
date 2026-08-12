@@ -608,35 +608,37 @@ height:420px;
 .create-fab {
   bottom: 50px;
   right: 18px;
-  z-index: 1000;
+  z-index: 9999;
 }
 
 .create-fab ion-fab-button {
-  --background: linear-gradient(
-    135deg,
-    var(--primary),
-    var(--secondary)
-  );
-
-  --background-activated: var(--primary);
-  --background-hover: var(--secondary);
-
-  --color: #fff;
+  --background:linear-gradient(135deg,
+      var(--primary),
+      var(--secondary)) !important;
+  --color: #ffffff !important;
 
   --box-shadow: 0 14px 30px rgba(108, 61, 255, 0.35);
 
-  width: 60px;
-  height: 60px;
+  width: 60px !important;
+  height: 60px !important;
 
-  min-width: 60px;
-  min-height: 60px;
+  min-width: 60px !important;
+  min-height: 60px !important;
 
   margin: 0;
 }
 
+.create-fab ion-fab-button::part(native) {
+  background: linear-gradient(135deg,
+      var(--primary),
+      var(--secondary)) !important;
+
+  border-radius: 50% !important;
+}
+
 .create-fab ion-icon {
   font-size: 30px;
-  color: #fff;
+  color: #ffffff;
 }
 
 /* ==========================
