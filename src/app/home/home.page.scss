@@ -604,44 +604,74 @@ height:420px;
 //   font-size: 30px;
 // }
 
-.create-fab {
+// .create-fab {
+//   bottom: 50px;
+//   right: 18px;
+//   z-index: 9999;
+// }
+
+
+.happy-fab {
   bottom: 50px;
   right: 18px;
-  z-index: 9999;
+  z-index: 99999;
 }
 
-// .create-fab ion-fab-button {
-//   width: 60px;
-//   height: 60px;
+/* Ionic FAB button */
+.happy-fab-button {
+  width: 60px;
+  height: 60px;
 
-//   --background: #5b4fe9 !important;
-//   --background-activated: #5b4fe9 !important;
-//   --background-focused: #5b4fe9 !important;
-//   --background-hover: #8b7cff !important;
+  --background: transparent !important;
+  --background-hover: transparent !important;
+  --background-activated: transparent !important;
+  --background-focused: transparent !important;
 
-//   --color: #ffffff !important;
+  --color: #ffffff !important;
 
-//   --box-shadow: 0 14px 30px rgba(108, 61, 255, 0.35) !important;
-// }
+  --box-shadow: none !important;
+}
 
-// .create-fab ion-fab-button::part(native) {
-//   background: linear-gradient(
-//     135deg,
-//     #5b4fe9,
-//     #8b7cff
-//   ) !important;
+/* IMPORTANT:
+   Ionic ion-fab-button uses Shadow DOM.
+   So style its native part directly.
+*/
+.happy-fab-button::part(native) {
+  width: 60px;
+  height: 60px;
 
-//   border-radius: 50% !important;
-// }
+  background: linear-gradient(
+    135deg,
+    #6C3DFF 0%,
+    #8B5CF6 50%,
+    #FF4DB8 100%
+  ) !important;
 
-// .create-fab ion-icon {
-//   font-size: 30px;
-//   color: #ffffff !important;
-// }
+  color: #ffffff !important;
 
-/* ==========================
-   STORY MODAL
-========================== */
+  border-radius: 50% !important;
+
+  box-shadow:
+    0 10px 25px rgba(108, 61, 255, 0.35),
+    0 4px 10px rgba(0, 0, 0, 0.12) !important;
+
+  border: none !important;
+
+  overflow: hidden;
+}
+
+/* Icon */
+.happy-fab-icon {
+  font-size: 30px !important;
+  color: #ffffff !important;
+}
+
+/* Active / pressed */
+.happy-fab-button:active::part(native) {
+  transform: scale(0.94);
+}
+
+
 
 .story-modal {
   --background: #f8f8fc;
