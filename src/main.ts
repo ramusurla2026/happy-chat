@@ -8,6 +8,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './app/core/intercepture/auth-interceptor';
 import { loaderInterceptor } from './app/core/intercepture/loader-interceptor';
 import { register } from 'swiper/element/bundle';   // 👈 Add this
+import { errorInterceptor } from './app/core/intercepture/error-interceptor';
 
 register();   // 👈 Add this
 
@@ -19,7 +20,8 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(
        withInterceptors([
         loaderInterceptor,
-        authInterceptor
+        authInterceptor,
+        errorInterceptor
       ])
     ),
   ],
