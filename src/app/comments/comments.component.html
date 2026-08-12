@@ -1,169 +1,111 @@
 <ion-header class="comment-header">
-
   <ion-toolbar>
-
     <div class="top-bar">
+      <h2>Comments</h2>
 
-      <h2>
-        Comments
-      </h2>
-
-      <button class="close-btn" (click)="close()">
-
+      <button class="close-btn" type="button" (click)="close()">
         <ion-icon name="close"></ion-icon>
-
       </button>
-
     </div>
-
   </ion-toolbar>
-
 </ion-header>
 
+<ion-content #commentContent class="comment-page">
 
-<ion-content class="comment-page">
+  <div
+    class="comments-container"
+    *ngIf="comments.length > 0; else noComments">
 
+    <div
+      class="comment-card"
+      *ngFor="let comment of comments">
 
-  <!-- Comments Available -->
-
-  <div 
-  class="comments-container"
-  *ngIf="comments.length > 0; else noComments">
-
-
-    <div 
-    class="comment-card" 
-    *ngFor="let comment of comments">
-
-
-      <img 
-      class="avatar" 
-      [src]="comment.author.profileImage || 'assets/happy-chat-logo.png'">
-
+      <img
+        class="avatar"
+        [src]="comment.author?.profileImage || 'assets/happy-chat-logo.png'"
+        alt="profile">
 
       <div class="comment-content">
 
-
         <div class="username">
-
-          {{comment.author.username}}
-
+          {{ comment.author?.username }}
         </div>
 
-
         <p>
-
-          {{comment.text}}
-
+          {{ comment.text }}
         </p>
-
 
         <div class="comment-actions">
 
-
           <span>
-
-            {{comment.createdAt | date:'short'}}
-
+            {{ comment.createdAt | date:'short' }}
           </span>
 
+          <button
+            type="button"
+            (click)="likeComment(comment)"
+            [class.liked]="comment.hasLiked">
 
-          <button 
-          (click)="likeComment(comment)"
-          [class.liked]="comment.hasLiked">
-
-
-            <ion-icon 
-            [name]="comment.hasLiked ? 'heart':'heart-outline'">
+            <ion-icon
+              [name]="comment.hasLiked ? 'heart' : 'heart-outline'">
             </ion-icon>
 
-
-            {{comment.likeCount}}
-
+            {{ comment.likeCount || 0 }}
 
           </button>
 
-
-
-          <button (click)="replyTo(comment)">
-
+          <button
+            type="button"
+            (click)="replyTo(comment)">
             Reply
-
           </button>
-
 
         </div>
 
-
       </div>
-
 
     </div>
 
-
   </div>
-
-
-
-  <!-- No Comments -->
 
   <ng-template #noComments>
 
     <div class="empty-comments">
 
+      <ion-icon name="chatbubble-outline"></ion-icon>
 
-      <ion-icon name="chatbubble-outline">
-      </ion-icon>
+      <h3>No comments yet</h3>
 
-
-      <h3>
-        No comments yet
-      </h3>
-
-
-      <p>
-        Be the first to comment
-      </p>
-
+      <p>Be the first to comment</p>
 
     </div>
 
-
   </ng-template>
-
-
 
 </ion-content>
 
-
-
 <ion-footer class="comment-footer">
-
 
   <div class="input-area">
 
+    <img
+      [src]="myProfileImage || 'assets/happy-chat-logo.png'"
+      alt="profile">
 
-    <img 
-    [src]="myProfileImage || 'assets/happy-chat-logo.png'">
+    <input
+      [(ngModel)]="text"
+      type="text"
+      placeholder="Add a comment..."
+      (keyup.enter)="addComment()">
 
+    <button
+      type="button"
+      (click)="addComment()">
 
-    <input 
-    [(ngModel)]="text" 
-    placeholder="Add a comment...">
-
-
-
-    <button (click)="addComment()">
-
-
-      <ion-icon name="paper-plane-outline">
-      </ion-icon>
-
+      <ion-icon name="paper-plane-outline"></ion-icon>
 
     </button>
 
-
   </div>
-
 
 </ion-footer>
