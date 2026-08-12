@@ -383,16 +383,31 @@ line-height:18px;
 
 
 
-ion-toggle{
+// ion-toggle{
 
---width:45px;
+// --width:45px;
 
---height:25px;
+// --height:25px;
 
---background:#ddd;
+// --background:#ddd;
 
---background-checked:#5B4FE9;
+// --background-checked:#5B4FE9;
 
+// }
+
+.privacy-card ion-toggle {
+  display: block;
+  flex-shrink: 0;
+
+  width: 45px;
+  height: 25px;
+
+  --width: 45px;
+  --height: 25px;
+  --background: #ddd;
+  --background-checked: #5B4FE9;
+  --handle-width: 21px;
+  --handle-height: 21px;
 }
 
 
