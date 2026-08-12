@@ -390,24 +390,7 @@
   animation: fadeUp .4s ease;
 }
 
-/* ==========================
-   POST HEADER
-========================== */
 
-// .feed-header {
-//   display: flex;
-//   align-items: center;
-//   padding: 16px;
-// }
-
-// .feed-header ion-avatar {
-//   width: 50px;
-//   height: 50px;
-// }
-
-// .feed-header img {
-//   border-radius: 50%;
-// }
 
 .feed-header {
   display: flex;
@@ -460,17 +443,7 @@
   color: #555;
 }
 
-/* ==========================
-   IMAGE
-========================== */
 
-// .feed-image {
-//   width: 100%;
-//   max-height: 520px;
-//   object-fit: cover;
-//   background: #000;
-//   display: block;
-// }
 
 .feed-image{
   width:100%;
@@ -603,38 +576,6 @@ height:420px;
 .create-fab ion-icon {
   font-size: 30px;
 }
-
-
-
-
-/* =========================
-   HAPPYCHAT CREATE FAB
-========================= */
-
-
-
-// ion-fab {
-//   margin-bottom: 50px;
-//   margin-right: 10px;
-// }
-
-// ion-fab-button {
-//   --background: #5b4fe9;
-//   --background-hover: #6c5cff;
-//   --background-focused: #5b4fe9;
-//   --background-activated: #4c40d8;
-//   --color: #fff;
-//   --box-shadow: 0 10px 25px rgba(91, 79, 233, 0.4);
-
-//   width: 60px;
-//   height: 60px;
-// }
-
-// ion-fab-button ion-icon {
-//   font-size: 30px;
-//   color: #fff;
-// }
-
 
 
 .story-modal {

@@ -155,7 +155,6 @@ export class UserProfileComponent implements OnInit {
 
 
   openFollowers(user: any) {
-    console.log(user.id, 'user')
     this.router.navigate(['/followers'], {
       state: {
         userId: user.id

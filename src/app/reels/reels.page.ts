@@ -257,13 +257,7 @@ export class ReelsPage implements OnInit, AfterViewInit, OnDestroy {
 
     this.feedService.commentUpdated$
       .subscribe((data: any) => {
-
-        console.log('Received =>', data);
-
         const reel = this.reels.find(x => x.id === data.id);
-
-        console.log('Matched Reel =>', reel);
-
         if (reel) {
           reel.commentCount = data.commentCount;
         }
@@ -525,9 +519,6 @@ export class ReelsPage implements OnInit, AfterViewInit, OnDestroy {
       .subscribe({
 
         next: (res) => {
-
-          console.log('like success', res);
-
         },
 
 
@@ -610,8 +601,6 @@ export class ReelsPage implements OnInit, AfterViewInit, OnDestroy {
 }
 
   async openComments(post: any) {
-    console.log(post, 'type')
-
     const modal = await this.modalCtrl.create({
       component: CommentsComponent,
       componentProps: {
@@ -619,14 +608,8 @@ export class ReelsPage implements OnInit, AfterViewInit, OnDestroy {
         type: post.type,
         profileImage: this.myProfileImage
       },
-
-
-
-
     });
-
     await modal.present();
-
   }
 
   closeComments() {

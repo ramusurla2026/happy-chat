@@ -14,6 +14,7 @@ import {
   IonIcon,
   IonContent,
   IonAvatar,
+  IonToggle,
   ToastController
 } from '@ionic/angular/standalone';
 
@@ -49,9 +50,13 @@ addIcons({
   selector: 'app-edit-profile',
   standalone:true,
   imports: [
-    IonicModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    IonHeader,
+    IonToolbar,
+    IonContent,
+    IonIcon,
+    IonToggle
   ],
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss'],

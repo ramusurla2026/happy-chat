@@ -128,7 +128,6 @@ export class ProfilePage implements OnInit {
   }
 
   openFollowers(user: any) {
-    console.log(user.id, 'user')
     this.router.navigate(['/followers'], {
       state: {
         userId: user.id
@@ -189,7 +188,6 @@ export class ProfilePage implements OnInit {
   isSettingsOpen = false;
 
   showSettings(): void {
-    console.log('Settings clicked');
     this.isSettingsOpen = true;
   }
 

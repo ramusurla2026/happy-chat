@@ -40,11 +40,7 @@ export class FollowRequestPageComponent implements OnInit {
       .subscribe({
 
         next: (res) => {
-
-          console.log(res);
-
           this.requests = res.data.requests || [];
-
         },
 
         error: console.error

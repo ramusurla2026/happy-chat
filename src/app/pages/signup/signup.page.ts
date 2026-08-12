@@ -85,9 +85,9 @@ export class SignUpPage {
     }
 
     this.api.signup(this.form.value).subscribe({
-      next: (res) => {
+      next: async (res) => {
         if (res.success) {
-          this.toastservice.show(res.message, 'success');
+          await this.toastservice.show(res.message, 'success');
           this.router.navigate(['/verification-otp'], {
             state: {
               type: 'register',
@@ -100,8 +100,8 @@ export class SignUpPage {
           res.refreshToken
         );
       },
-      error: (err) => {
-        this.toastservice.show(
+      error: async (err) => {
+        await this.toastservice.show(
           err.error?.message || 'Something went wrong',
           'danger'
         );

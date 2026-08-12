@@ -128,7 +128,7 @@ export class PostsComponent implements OnInit {
 
           }
 
-          console.log(this.displayPosts);
+         
 
         },
 
@@ -192,18 +192,10 @@ export class PostsComponent implements OnInit {
       .subscribe({
 
         next: (res) => {
-
-          console.log('like success', res);
-
         },
 
 
         error: (err) => {
-
-          console.log(err);
-
-
-          // rollback
 
           item.hasLiked = oldStatus;
 
@@ -242,9 +234,6 @@ export class PostsComponent implements OnInit {
   this.api.post<any>(url, {}).subscribe({
 
     next: (res) => {
-
-      console.log(res);
-
       // Backend nundi latest value vaste use cheyyi
       if (res.data) {
         post.hasSaved = res.data.saved;
@@ -257,8 +246,6 @@ export class PostsComponent implements OnInit {
     },
 
     error: (err) => {
-
-      console.log(err);
 
       // Rollback
       post.hasSaved = oldStatus;
@@ -295,10 +282,6 @@ export class PostsComponent implements OnInit {
   }
 
   sharePost(post: any) {
-
-    console.log(post);
-
-    // Share API
 
   }
 

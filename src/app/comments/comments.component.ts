@@ -91,13 +91,6 @@ commentContent!: ElementRef;
 
   ngOnInit(): void {
 
-    console.log('CommentsComponent initialized');
-
-    console.log('postId:', this.postId);
-
-    console.log('type:', this.type);
-
-
     this.contentId = this.postId;
 
     this.contentType = this.type;
@@ -127,15 +120,10 @@ commentContent!: ElementRef;
         : `/posts/${this.contentId}/comments`;
 
 
-    console.log('Getting comments:', url);
-
 
     this.api.get<any>(url).subscribe({
 
       next: (res) => {
-
-        console.log('Comments response:', res);
-
 
         this.comments =
           res.data?.comments || [];
@@ -216,12 +204,7 @@ commentContent!: ElementRef;
 
       next: (res) => {
 
-        console.log(
-          'Comment added:',
-          res
-        );
-
-
+    
         this.comments.push(
           res.data
         );
@@ -298,10 +281,7 @@ commentContent!: ElementRef;
   // Reply
   replyTo(comment: any): void {
 
-    console.log(
-      'Reply to comment:',
-      comment
-    );
+  
 
   }
 

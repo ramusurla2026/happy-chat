@@ -25,11 +25,13 @@ import { addIcons } from 'ionicons';
 import {
   arrowBackOutline,
   paperPlaneOutline,
-  imagesOutline,
+  imageOutline,
   callOutline,
   videocamOutline,
   informationCircleOutline,
-  trashOutline
+  trashOutline,
+  ellipsisHorizontal,
+  close
 } from 'ionicons/icons';
 
 import { Api } from 'src/app/core/services/api';
@@ -40,15 +42,15 @@ import { Subject, takeUntil } from 'rxjs';
 
 
 addIcons({
-
   'arrow-back-outline': arrowBackOutline,
   'paper-plane-outline': paperPlaneOutline,
-  'images-outline': imagesOutline,
+  'image-outline': imageOutline,
   'call-outline': callOutline,
   'videocam-outline': videocamOutline,
   'information-circle-outline': informationCircleOutline,
-  'trash-outline': trashOutline
-
+  'trash-outline': trashOutline,
+  'ellipsis-horizontal': ellipsisHorizontal,
+  'close': close
 });
 
 

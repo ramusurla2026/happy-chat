@@ -1,78 +1,3 @@
-// import { Injectable } from '@angular/core';
-// import { io, Socket } from 'socket.io-client';
-// import { environment } from 'src/environments/environment';
-
-// @Injectable({
-//   providedIn: 'root',
-// })
-// export class Socketservice {
-//    private socket!: Socket;
-
-
-
-//   connect(token:string){
-
-
-//     this.socket = io(
-//       environment.socketUrl,
-//       {
-
-//         auth:{
-//           token:token
-//         }
-
-//       }
-//     );
-
-
-//     this.socket.on('connect',()=>{
-
-//       console.log(
-//         'Socket connected',
-//         this.socket.id
-//       );
-
-//     });
-
-
-//     this.socket.on('disconnect',()=>{
-
-//       console.log('Socket disconnected');
-
-//     });
-
-
-//   }
-
-
-
-
-
-//   onMessage(callback:any){
-
-
-//     this.socket.on(
-//       'chat:message',
-//       callback
-//     );
-
-
-//   }
-
-
-
-
-
-//   disconnect(){
-
-//     if(this.socket){
-
-//       this.socket.disconnect();
-
-//     }
-
-//   }
-// }
 
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
@@ -91,8 +16,6 @@ export class Socketservice {
 
   connect(token: string) {
 
-
-    // already connected
     if (this.socket?.connected) {
 
       console.log('Socket already connected');
@@ -100,7 +23,6 @@ export class Socketservice {
       return;
 
     }
-
 
 
     // old socket cleanup
@@ -190,8 +112,6 @@ export class Socketservice {
     }
 
 
-
-    // remove previous chat listeners
     this.socket.off(
       'chat:message'
     );
@@ -207,13 +127,7 @@ export class Socketservice {
   }
 
 
-
-
-
-
-
   disconnect() {
-
 
     if (!this.socket) {
 
@@ -221,20 +135,13 @@ export class Socketservice {
 
     }
 
-
-
     this.socket.off(
       'chat:message'
     );
 
-
-
     this.socket.disconnect();
 
-
-
     this.socket = undefined;
-
 
   }
 

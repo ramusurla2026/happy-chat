@@ -45,7 +45,6 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
   constructor(private router: Router, private apiservice: Api, private toast: Toast, private auth: Auth, private location: Location) { }
 
   ngOnInit(): void {
-    console.log('OTP PAGE');
     this.startTimer();
     const state = history.state;
 
@@ -114,9 +113,9 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
 
     if (this.type === 'register') {
       this.apiservice.post('/auth/verify-otp', payload).subscribe({
-        next: (res: any) => {
+        next: async (res: any) => {
           this.isOtpInvalid = false;
-          // this.toast.show(res.message, 'success');
+          await this.toast.show(res.message, 'success');
           this.auth.saveLogin(res.data);
           this.router.navigate(['/profile-setup'], {
             state: {
@@ -126,7 +125,7 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
 
         },
 
-        error: (err) => {
+        error: async (err) => {
 
           this.isOtpInvalid = true;
 
@@ -136,25 +135,25 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
 
           this.focusHiddenInput();
 
-          // this.toast.show(
-          //   err.error?.message || 'Invalid OTP',
-          //   'danger'
-          // );
+          await this.toast.show(
+            err.error?.message || 'Invalid OTP',
+            'danger'
+          );
 
         }
 
       });
     } else {
       this.apiservice.post('/auth/login/verify', payload).subscribe({
-        next: (res: any) => {
+        next: async (res: any) => {
           this.isOtpInvalid = false;
-          // this.toast.show(res.message, 'success');
+          await this.toast.show(res.message, 'success');
           this.auth.saveLogin(res.data);
           this.router.navigate(['/home']);
 
         },
 
-        error: (err) => {
+        error: async (err) => {
 
           this.isOtpInvalid = true;
 
@@ -164,10 +163,10 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
 
           this.focusHiddenInput();
 
-          // this.toast.show(
-          //   err.error?.message || 'Invalid OTP',
-          //   'danger'
-          // );
+          await this.toast.show(
+            err.error?.message || 'Invalid OTP',
+            'danger'
+          );
 
         }
 
@@ -191,11 +190,11 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
     };
 
     this.apiservice.post('/auth/resend-otp', payload).subscribe({
-      next: (res: any) => {
-        // this.toast.show(
-        //   res.message,
-        //   'success'
-        // );
+      next: async (res: any) => {
+        await this.toast.show(
+          res.message,
+          'success'
+        );
         this.code = '';
         this.hiddenInput.nativeElement.value = '';
         this.focusHiddenInput();
@@ -203,11 +202,11 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
         this.startTimer();
       },
 
-      error: (err) => {
-        // this.toast.show(
-        //   err.error?.message || 'Unable to resend OTP',
-        //   'danger'
-        // );
+      error: async (err) => {
+        await this.toast.show(
+          err.error?.message || 'Unable to resend OTP',
+          'danger'
+        );
       }
 
     });
