@@ -358,7 +358,7 @@
 
   <!-- Floating Create Button -->
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="create-fab">
+  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="create-fab">
 
     <ion-fab-button (click)="goToCreate()">
 
@@ -368,7 +368,18 @@
 
     </ion-fab-button>
 
-  </ion-fab>
+  </ion-fab> -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="create-fab">
+
+  <ion-fab-button
+    (click)="goToCreate()"
+    style="--background: #5b4fe9; --color: #ffffff; --box-shadow: 0 14px 30px rgba(108, 61, 255, 0.35);">
+
+    <ion-icon name="add"></ion-icon>
+
+  </ion-fab-button>
+
+</ion-fab>
 
   <!-- Story Picker Modal -->
 

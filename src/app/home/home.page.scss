@@ -605,39 +605,39 @@ height:420px;
 // }
 
 .create-fab {
-  bottom: 85px;
+  bottom: 50px;
   right: 18px;
   z-index: 9999;
 }
 
-.create-fab ion-fab-button {
-  width: 60px;
-  height: 60px;
+// .create-fab ion-fab-button {
+//   width: 60px;
+//   height: 60px;
 
-  --background: #5b4fe9 !important;
-  --background-activated: #5b4fe9 !important;
-  --background-focused: #5b4fe9 !important;
-  --background-hover: #8b7cff !important;
+//   --background: #5b4fe9 !important;
+//   --background-activated: #5b4fe9 !important;
+//   --background-focused: #5b4fe9 !important;
+//   --background-hover: #8b7cff !important;
 
-  --color: #ffffff !important;
+//   --color: #ffffff !important;
 
-  --box-shadow: 0 14px 30px rgba(108, 61, 255, 0.35) !important;
-}
+//   --box-shadow: 0 14px 30px rgba(108, 61, 255, 0.35) !important;
+// }
 
-.create-fab ion-fab-button::part(native) {
-  background: linear-gradient(
-    135deg,
-    #5b4fe9,
-    #8b7cff
-  ) !important;
+// .create-fab ion-fab-button::part(native) {
+//   background: linear-gradient(
+//     135deg,
+//     #5b4fe9,
+//     #8b7cff
+//   ) !important;
 
-  border-radius: 50% !important;
-}
+//   border-radius: 50% !important;
+// }
 
-.create-fab ion-icon {
-  font-size: 30px;
-  color: #ffffff !important;
-}
+// .create-fab ion-icon {
+//   font-size: 30px;
+//   color: #ffffff !important;
+// }
 
 /* ==========================
    STORY MODAL
