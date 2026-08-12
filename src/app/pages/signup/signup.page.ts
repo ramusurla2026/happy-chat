@@ -101,10 +101,7 @@ export class SignUpPage {
         );
       },
       error: async (err) => {
-        await this.toastservice.show(
-          err.error?.message || 'Something went wrong',
-          'danger'
-        );
+       
 
       }
     });

@@ -180,10 +180,7 @@ export class ProfileSetupPage {
       },
 
       error: async (err) => {
-        await this.toast.show(
-          err.error?.message || 'Something went wrong',
-          'danger'
-        );
+       
       }
 
     });

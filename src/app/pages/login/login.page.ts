@@ -95,10 +95,7 @@ export class LoginPage {
 
       error: async (err) => {
 
-        await this.toast.show(
-          err.error?.message || 'Something went wrong',
-          'danger'
-        );
+       
 
       }
 

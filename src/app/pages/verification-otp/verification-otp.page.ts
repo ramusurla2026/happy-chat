@@ -135,10 +135,7 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
 
           this.focusHiddenInput();
 
-          await this.toast.show(
-            err.error?.message || 'Invalid OTP',
-            'danger'
-          );
+         
 
         }
 
@@ -163,10 +160,7 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
 
           this.focusHiddenInput();
 
-          await this.toast.show(
-            err.error?.message || 'Invalid OTP',
-            'danger'
-          );
+         
 
         }
 
@@ -203,10 +197,7 @@ export class VerificationOtpPage implements OnInit, OnDestroy {
       },
 
       error: async (err) => {
-        await this.toast.show(
-          err.error?.message || 'Unable to resend OTP',
-          'danger'
-        );
+        
       }
 
     });
