@@ -2,28 +2,23 @@ import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Auth } from '../core/services/auth';
-import { IonicModule, ModalController } from '@ionic/angular';
+import {
+  ModalController,
+  IonContent
+} from '@ionic/angular/standalone';
 
-// import {
-//   IonHeader,
-//   IonContent,
-//   IonIcon,
-//   IonAvatar,
-//   IonFab,
-//   IonFabButton,
-//   IonInfiniteScroll,
-//   IonInfiniteScrollContent,
-//   IonModal,
-//   IonButton
-// } from '@ionic/angular/standalone';
+// import { IonicModule, ModalController } from '@ionic/angular';
+
+
 
 import { FooterComponent } from '../footer/footer.component';
 import { Api } from '../core/services/api';
-import { ViewChild, ElementRef } from '@angular/core';
-import { IonContent } from '@ionic/angular';
+
+// import { IonContent } from '@ionic/angular';
 import { Feed } from '../core/services/feed';
+import { ViewChild, ElementRef } from '@angular/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommentsComponent } from '../comments/comments.component';
 import { register } from 'swiper/element/bundle';
 register();
 
@@ -43,7 +38,7 @@ import {
   bookmarkOutline,
   add
 } from 'ionicons/icons';
-import { CommentsComponent } from '../comments/comments.component';
+
 
 addIcons({
 
@@ -79,8 +74,8 @@ addIcons({
 
     CommonModule,
     FormsModule,
-    IonicModule,
-    FooterComponent
+    FooterComponent,
+    IonContent
 
   ],
 
