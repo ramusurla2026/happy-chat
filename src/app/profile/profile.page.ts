@@ -12,10 +12,11 @@ import {
   IonIcon,
   IonContent,
   IonAvatar, IonRefresher,
-  IonRefresherContent
+  IonRefresherContent,
+  IonActionSheet
 } from '@ionic/angular/standalone';
 
-import { ActionSheetController } from '@ionic/angular';
+// import { ActionSheetController } from '@ionic/angular';
 
 import { addIcons } from 'ionicons';
 
@@ -53,6 +54,7 @@ addIcons({
 
     IonIcon,
     IonContent,
+    IonActionSheet
 
   ],
   templateUrl: './profile.page.html',
@@ -67,7 +69,7 @@ export class ProfilePage implements OnInit {
   constructor(
     private router: Router,
     private api: Api,
-    private actionSheetCtrl: ActionSheetController, private route: ActivatedRoute
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -134,54 +136,71 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  openFollowing(user:any) {
+  openFollowing(user: any) {
     this.router.navigate(['/following'],
       {
-      state: {
-        userId: user.id
+        state: {
+          userId: user.id
+        }
       }
-    }
     );
   }
 
-  async showSettings() {
+  // async showSettings() {
 
-    const actionSheet = await this.actionSheetCtrl.create({
+  //   const actionSheet = await this.actionSheetCtrl.create({
 
-      header: 'Settings',
+  //     header: 'Settings',
 
-      buttons: [
+  //     buttons: [
 
-        {
+  //       {
 
-          text: 'Logout',
+  //         text: 'Logout',
 
-          icon: 'log-out-outline',
+  //         icon: 'log-out-outline',
 
-          role: 'destructive',
+  //         role: 'destructive',
 
-          handler: () => {
+  //         handler: () => {
 
-            this.logout();
+  //           this.logout();
 
-          }
+  //         }
 
-        },
+  //       },
 
-        {
+  //       {
 
-          text: 'Cancel',
+  //         text: 'Cancel',
 
-          role: 'cancel'
+  //         role: 'cancel'
 
-        }
+  //       }
 
-      ]
+  //     ]
 
-    });
+  //   });
 
-    await actionSheet.present();
+  //   await actionSheet.present();
 
+  // }
+
+  isSettingsOpen = false;
+
+  showSettings(): void {
+    console.log('Settings clicked');
+    this.isSettingsOpen = true;
+  }
+
+  handleSettingsAction(event: any): void {
+    const role = event.detail.role;
+
+    if (role === 'destructive') {
+      this.logout();
+    }
+
+    this.isSettingsOpen = false;
   }
 
   openReel(reel: any) {

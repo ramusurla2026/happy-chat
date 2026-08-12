@@ -30,9 +30,7 @@
 
 
 <ion-content class="profile-page">
-    <ion-refresher
-    slot="fixed"
-    (ionRefresh)="refresh($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
 
     <ion-refresher-content>
 
@@ -246,3 +244,16 @@
 
 
 </ion-content>
+
+<ion-action-sheet [isOpen]="isSettingsOpen" header="Settings" [buttons]="[
+    {
+      text: 'Logout',
+      icon: 'log-out-outline',
+      role: 'destructive'
+    },
+    {
+      text: 'Cancel',
+      role: 'cancel'
+    }
+  ]" (didDismiss)="isSettingsOpen = false" (willDismiss)="handleSettingsAction($event)">
+</ion-action-sheet>
