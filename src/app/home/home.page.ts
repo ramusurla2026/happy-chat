@@ -4,7 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   ModalController,
-  IonContent
+  IonContent, IonFab,
+  IonFabButton,
+  IonIcon
 } from '@ionic/angular/standalone';
 
 // import { IonicModule, ModalController } from '@ionic/angular';
@@ -75,7 +77,9 @@ addIcons({
     CommonModule,
     FormsModule,
     FooterComponent,
-    IonContent
+    IonContent, IonFab,
+    IonFabButton,
+    IonIcon
 
   ],
 
@@ -593,57 +597,57 @@ export class HomePage implements OnInit {
 
   savePost(post: any) {
 
-  const oldStatus = post.hasSaved;
+    const oldStatus = post.hasSaved;
 
-  // UI update
-  post.hasSaved = !post.hasSaved;
+    // UI update
+    post.hasSaved = !post.hasSaved;
 
-  if (post.hasSaved) {
-    post.saveCount = (post.saveCount || 0) + 1;
-  } else {
-    post.saveCount = Math.max((post.saveCount || 1) - 1, 0);
-  }
-
-  const url =
-    post.type === 'post'
-      ? `/posts/${post.id}/save`
-      : `/reels/${post.id}/save`;
-
-  this.api.post<any>(url, {}).subscribe({
-
-    next: (res) => {
-
-      console.log(res);
-
-      // Backend nundi latest value vaste use cheyyi
-      if (res.data) {
-        post.hasSaved = res.data.saved;
-
-        if (res.data.saveCount !== undefined) {
-          post.saveCount = res.data.saveCount;
-        }
-      }
-
-    },
-
-    error: (err) => {
-
-      console.log(err);
-
-      // Rollback
-      post.hasSaved = oldStatus;
-
-      if (oldStatus) {
-        post.saveCount++;
-      } else {
-        post.saveCount = Math.max(post.saveCount - 1, 0);
-      }
-
+    if (post.hasSaved) {
+      post.saveCount = (post.saveCount || 0) + 1;
+    } else {
+      post.saveCount = Math.max((post.saveCount || 1) - 1, 0);
     }
 
-  });
+    const url =
+      post.type === 'post'
+        ? `/posts/${post.id}/save`
+        : `/reels/${post.id}/save`;
 
-}
+    this.api.post<any>(url, {}).subscribe({
+
+      next: (res) => {
+
+        console.log(res);
+
+        // Backend nundi latest value vaste use cheyyi
+        if (res.data) {
+          post.hasSaved = res.data.saved;
+
+          if (res.data.saveCount !== undefined) {
+            post.saveCount = res.data.saveCount;
+          }
+        }
+
+      },
+
+      error: (err) => {
+
+        console.log(err);
+
+        // Rollback
+        post.hasSaved = oldStatus;
+
+        if (oldStatus) {
+          post.saveCount++;
+        } else {
+          post.saveCount = Math.max(post.saveCount - 1, 0);
+        }
+
+      }
+
+    });
+
+  }
 
   sharePost(post: any) {
 
@@ -671,25 +675,25 @@ export class HomePage implements OnInit {
   //   await modal.present();
 
   // }
-openComments(post: any) {
-  console.log('1. openComments called', post);
+  openComments(post: any) {
+    console.log('1. openComments called', post);
 
-  this.modalCtrl.create({
-    component: CommentsComponent,
-    componentProps: {
-      postId: post.id,
-      type: post.type,
-      profileImage: this.myProfileImage
-    }
-  }).then((modal) => {
-    console.log('2. Modal created');
-    return modal.present();
-  }).then(() => {
-    console.log('3. Modal presented');
-  }).catch((err) => {
-    console.error('MODAL ERROR:', err);
-  });
-}
+    this.modalCtrl.create({
+      component: CommentsComponent,
+      componentProps: {
+        postId: post.id,
+        type: post.type,
+        profileImage: this.myProfileImage
+      }
+    }).then((modal) => {
+      console.log('2. Modal created');
+      return modal.present();
+    }).then(() => {
+      console.log('3. Modal presented');
+    }).catch((err) => {
+      console.error('MODAL ERROR:', err);
+    });
+  }
 
 
 

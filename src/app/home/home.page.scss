@@ -617,23 +617,26 @@ height:420px;
 
 
 
+ion-fab {
+  margin-bottom: 50px;
+  margin-right: 10px;
+}
+
 ion-fab-button {
-  --background: #5b4fe9 !important;
-  --background-hover: #6c5cff !important;
-  --background-focused: #5b4fe9 !important;
-  --background-activated: #4c40d8 !important;
-
-  --color: #ffffff !important;
-
-  --box-shadow: 0 10px 25px rgba(91, 79, 233, 0.4) !important;
+  --background: #5b4fe9;
+  --background-hover: #6c5cff;
+  --background-focused: #5b4fe9;
+  --background-activated: #4c40d8;
+  --color: #fff;
+  --box-shadow: 0 10px 25px rgba(91, 79, 233, 0.4);
 
   width: 60px;
   height: 60px;
 }
 
 ion-fab-button ion-icon {
-  color: #ffffff !important;
   font-size: 30px;
+  color: #fff;
 }
 
 
