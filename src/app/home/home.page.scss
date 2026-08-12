@@ -611,64 +611,42 @@ height:420px;
 // }
 
 
-.happy-fab {
-  bottom: 50px;
+/* =========================
+   HAPPYCHAT CREATE FAB
+========================= */
+
+ion-fab.happy-fab {
+  position: absolute;
   right: 18px;
-  z-index: 99999;
+  bottom: 70px;
+  z-index: 9999;
 }
 
-/* Ionic FAB button */
-.happy-fab-button {
+ion-fab.happy-fab ion-fab-button.happy-fab-button {
   width: 60px;
   height: 60px;
 
-  --background: transparent !important;
-  --background-hover: transparent !important;
-  --background-activated: transparent !important;
-  --background-focused: transparent !important;
+  --background: #5b4fe9 !important;
+  --background-hover: #6c5cff !important;
+  --background-focused: #5b4fe9 !important;
+  --background-activated: #4c40d8 !important;
 
   --color: #ffffff !important;
 
-  --box-shadow: none !important;
+  --box-shadow: 0 10px 25px rgba(91, 79, 233, 0.40) !important;
 }
 
-/* IMPORTANT:
-   Ionic ion-fab-button uses Shadow DOM.
-   So style its native part directly.
-*/
-.happy-fab-button::part(native) {
-  width: 60px;
-  height: 60px;
-
-  background: linear-gradient(
-    135deg,
-    #6C3DFF 0%,
-    #8B5CF6 50%,
-    #FF4DB8 100%
-  ) !important;
-
+/* Ionic Shadow DOM native button */
+ion-fab.happy-fab ion-fab-button.happy-fab-button::part(native) {
+  background: #5b4fe9 !important;
   color: #ffffff !important;
-
   border-radius: 50% !important;
-
-  box-shadow:
-    0 10px 25px rgba(108, 61, 255, 0.35),
-    0 4px 10px rgba(0, 0, 0, 0.12) !important;
-
-  border: none !important;
-
-  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(91, 79, 233, 0.40) !important;
 }
 
-/* Icon */
-.happy-fab-icon {
+ion-fab.happy-fab ion-fab-button.happy-fab-button ion-icon {
   font-size: 30px !important;
   color: #ffffff !important;
-}
-
-/* Active / pressed */
-.happy-fab-button:active::part(native) {
-  transform: scale(0.94);
 }
 
 
