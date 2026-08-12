@@ -604,41 +604,40 @@ height:420px;
 //   font-size: 30px;
 // }
 
-
 .create-fab {
-  bottom: 50px;
-  right: 18px;
-  z-index: 9999;
+  position: fixed !important;
+
+  right: 18px !important;
+  bottom: 85px !important;
+
+  z-index: 99999 !important;
+
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .create-fab ion-fab-button {
-  --background:linear-gradient(135deg,
-      var(--primary),
-      var(--secondary)) !important;
-  --color: #ffffff !important;
-
-  --box-shadow: 0 14px 30px rgba(108, 61, 255, 0.35);
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 
   width: 60px !important;
   height: 60px !important;
 
-  min-width: 60px !important;
-  min-height: 60px !important;
+  --background: #5b4fe9 !important;
+  --background-activated: #5b4fe9 !important;
+  --background-focused: #5b4fe9 !important;
+  --background-hover: #8b7cff !important;
 
-  margin: 0;
-}
+  --color: #ffffff !important;
 
-.create-fab ion-fab-button::part(native) {
-  background: linear-gradient(135deg,
-      var(--primary),
-      var(--secondary)) !important;
-
-  border-radius: 50% !important;
+  --box-shadow: 0 14px 30px rgba(108, 61, 255, 0.35) !important;
 }
 
 .create-fab ion-icon {
-  font-size: 30px;
-  color: #ffffff;
+  font-size: 30px !important;
+  color: #ffffff !important;
 }
 
 /* ==========================
