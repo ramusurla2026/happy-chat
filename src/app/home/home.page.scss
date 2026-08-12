@@ -615,17 +615,9 @@ height:420px;
    HAPPYCHAT CREATE FAB
 ========================= */
 
-ion-fab.happy-fab {
-  position: absolute;
-  right: 18px;
-  bottom: 70px;
-  z-index: 9999;
-}
 
-ion-fab.happy-fab ion-fab-button.happy-fab-button {
-  width: 60px;
-  height: 60px;
 
+ion-fab-button {
   --background: #5b4fe9 !important;
   --background-hover: #6c5cff !important;
   --background-focused: #5b4fe9 !important;
@@ -633,20 +625,15 @@ ion-fab.happy-fab ion-fab-button.happy-fab-button {
 
   --color: #ffffff !important;
 
-  --box-shadow: 0 10px 25px rgba(91, 79, 233, 0.40) !important;
+  --box-shadow: 0 10px 25px rgba(91, 79, 233, 0.4) !important;
+
+  width: 60px;
+  height: 60px;
 }
 
-/* Ionic Shadow DOM native button */
-ion-fab.happy-fab ion-fab-button.happy-fab-button::part(native) {
-  background: #5b4fe9 !important;
+ion-fab-button ion-icon {
   color: #ffffff !important;
-  border-radius: 50% !important;
-  box-shadow: 0 10px 25px rgba(91, 79, 233, 0.40) !important;
-}
-
-ion-fab.happy-fab ion-fab-button.happy-fab-button ion-icon {
-  font-size: 30px !important;
-  color: #ffffff !important;
+  font-size: 30px;
 }
 
 
