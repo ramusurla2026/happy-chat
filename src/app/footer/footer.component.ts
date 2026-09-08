@@ -47,11 +47,14 @@ addIcons({
 import { Auth } from '../core/services/auth';
 import { Api } from '../core/services/api';
 import { filter } from 'rxjs/operators';
+import { Messagenotification } from '../core/services/messagenotification';
+import { CommonModule } from '@angular/common';
+import { Socketservice } from '../core/services/socket';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [IonicModule],
+  imports: [IonicModule, CommonModule],
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
 })
@@ -59,8 +62,9 @@ export class FooterComponent implements OnInit {
   @Input() profileImage = '';
   myProfileImage = '';
   currentUrl = '';
+  unreadCount = 0;
 
-  constructor(private router: Router, private api: Api) {
+  constructor(private router: Router, private api: Api, private notificationService: Messagenotification, private auth: Auth, private socketservice: Socketservice) {
     this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd)
@@ -79,7 +83,22 @@ export class FooterComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.notificationService.unreadCount$
+      .subscribe(count => {
+
+        this.unreadCount = count;
+
+      });
     this.getMyProfile();
+
+    // Global socket connection
+    const token = this.auth.getAccessToken();
+
+    if (token) {
+
+      this.socketservice.connect(token);
+
+    }
   }
 
   getMyProfile() {

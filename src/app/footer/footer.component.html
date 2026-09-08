@@ -23,15 +23,43 @@
 
 
 
-  <div 
+  <!-- <div 
     class="tab-item"
     [class.active-tab]="isActive('/chat')"
     (click)="goToChat()">
 
     <ion-icon name="paper-plane-outline"></ion-icon>
     <span>Chat</span>
+     <span
+        class="notification-badge"
+        *ngIf="unreadCount > 0">
 
-  </div>
+        {{ unreadCount > 99 ? '99+' : unreadCount }}
+
+      </span>
+
+  </div> -->
+
+ <div 
+  class="tab-item"
+  [class.active-tab]="isActive('/chat')"
+  (click)="goToChat()">
+
+  <ion-icon name="paper-plane-outline"></ion-icon>
+
+  <span>Chat</span>
+
+  <span
+    class="notification-badge"
+    *ngIf="unreadCount > 0">
+
+    {{ unreadCount > 99 ? '99+' : unreadCount }}
+
+  </span>
+
+</div>
+
+
 
 
 

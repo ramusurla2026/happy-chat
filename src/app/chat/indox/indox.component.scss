@@ -438,3 +438,29 @@ ion-content::-webkit-scrollbar-thumb{
   box-shadow .25s ease,
   transform .25s ease;
 }
+
+
+.unread-badge {
+  min-width: 20px;
+  height: 20px;
+
+  padding: 0 6px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #ff3040;
+  color: #fff;
+
+  border-radius: 50%;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  margin-left: 8px;
+
+  flex-shrink: 0;
+
+  box-shadow: 0 3px 8px rgba(255, 48, 64, 0.25);
+}

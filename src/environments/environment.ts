@@ -6,7 +6,7 @@ export const environment = {
   production: true,
   // apiUrl: 'https://circle-up-fk10.onrender.com/api',
   apiUrl: 'https://api.happychats.in/api',
-  socketUrl: 'https://circle-up-fk10.onrender.com'
+  socketUrl: 'https://api.happychats.in'
 };
 
 /*

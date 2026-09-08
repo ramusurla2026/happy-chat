@@ -14,6 +14,7 @@ import {
   catchError,
   takeUntil
 } from 'rxjs/operators';
+import { Messagenotification } from 'src/app/core/services/messagenotification';
 
 import { addIcons } from 'ionicons';
 import {
@@ -89,7 +90,8 @@ export class IndoxComponent
 
   constructor(
     private router: Router,
-    private api: Api
+    private api: Api,
+    private notificationService: Messagenotification
   ) { }
 
   ngOnInit() {
@@ -217,7 +219,7 @@ export class IndoxComponent
 }
 
   ionViewWillEnter() {
-
+   
     this.getMyProfile();
 
     this.getConversations();
@@ -266,6 +268,14 @@ export class IndoxComponent
 
   }
 
+  getUnreadCount(conversationId: string): number {
+
+  return this.notificationService
+    .getCount(conversationId);
+
+}
+
+
   getConversations() {
 
     this.api.get<any>('/chat/conversations')
@@ -275,6 +285,7 @@ export class IndoxComponent
       .subscribe({
 
         next: (res) => {
+          console.log(res,'converstaion')
 
           this.chats = res.data || [];
 
@@ -312,6 +323,7 @@ export class IndoxComponent
   }
 
   openChat(chat: any) {
+   
 
     this.router.navigate(
       ['/conversation'],

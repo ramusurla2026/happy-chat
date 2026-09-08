@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/co
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Messagenotification } from 'src/app/core/services/messagenotification';
 
 import {
   ViewWillEnter,
@@ -129,7 +130,8 @@ export class ConversationComponent implements
 
     private toastCtrl: ToastController,
 
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private notificationService: Messagenotification
 
   ) {
 
@@ -171,6 +173,12 @@ export class ConversationComponent implements
 
     this.selectedMedia = null;
 
+    // Only this conversation unread count clear
+    if (this.conversationId) {
+      this.notificationService
+        .clearConversation(this.conversationId);
+    }
+
 
     this.getMyProfile();
 
@@ -193,7 +201,7 @@ export class ConversationComponent implements
   ionViewWillLeave() {
 
 
-    this.socket.disconnect();
+    // this.socket.disconnect();
 
 
     this.messages = [];
@@ -253,6 +261,7 @@ export class ConversationComponent implements
       .subscribe({
 
         next: (res) => {
+          console.log(res, 'res')
 
           this.myProfileImage =
             res.data.profileImage;
@@ -307,102 +316,112 @@ export class ConversationComponent implements
 
 
 
-connectSocket() {
+  connectSocket() {
 
-  const token = this.auth.getAccessToken();
+    const token = this.auth.getAccessToken();
 
-  if (!token) {
-    return;
+    if (!token) {
+      return;
+    }
+
+
+    this.socket.connect(token);
+
+
+
+    this.socket.onMessage((socketData: any) => {
+
+
+      const newMessage = socketData.message;
+
+
+      if (!newMessage) {
+        return;
+      }
+
+
+
+      // Already added check
+      const exists = this.messages.some(
+        m => m.id === newMessage.id
+      );
+
+
+      if (exists) {
+        return;
+      }
+
+
+
+
+      // Replace temporary message
+      const tempIndex = this.messages.findIndex(
+        m =>
+          m.sending &&
+          m.sender?.id === this.myId &&
+          (
+
+            // text
+            m.content === newMessage.content
+
+            ||
+
+            // image/video
+            (
+              m.media?.length > 0 &&
+              newMessage.media?.length > 0 &&
+              m.media[0]?.mediaType === newMessage.media[0]?.mediaType
+            )
+
+          )
+      );
+
+
+
+
+      if (tempIndex !== -1) {
+
+
+        this.messages[tempIndex] = {
+
+          ...newMessage,
+
+          sending: false,
+
+          failed: false
+
+        };
+
+
+        return;
+
+      }
+
+
+
+
+
+      this.messages.push(newMessage);
+      if (
+        newMessage.sender?.id !== this.myId &&
+        newMessage.conversationId !== this.conversationId
+      ) {
+
+        this.notificationService.increase(
+          newMessage.conversationId
+        );
+
+      }
+
+
+      this.scrollBottom();
+
+
+
+    });
+
+
   }
-
-
-  this.socket.connect(token);
-
-
-
-  this.socket.onMessage((socketData:any)=>{
-
-
-    const newMessage = socketData.message;
-
-
-    if(!newMessage){
-      return;
-    }
-
-
-
-    // Already added check
-    const exists = this.messages.some(
-      m => m.id === newMessage.id
-    );
-
-
-    if(exists){
-      return;
-    }
-
-
-
-
-    // Replace temporary message
-    const tempIndex = this.messages.findIndex(
-      m =>
-      m.sending &&
-      m.sender?.id === this.myId &&
-      (
-
-        // text
-        m.content === newMessage.content
-
-        ||
-
-        // image/video
-        (
-          m.media?.length > 0 &&
-          newMessage.media?.length > 0 &&
-          m.media[0]?.mediaType === newMessage.media[0]?.mediaType
-        )
-
-      )
-    );
-
-
-
-
-    if(tempIndex !== -1){
-
-
-      this.messages[tempIndex] = {
-
-        ...newMessage,
-
-        sending:false,
-
-        failed:false
-
-      };
-
-
-      return;
-
-    }
-
-
-
-
-
-    this.messages.push(newMessage);
-
-
-    this.scrollBottom();
-
-
-
-  });
-
-
-}
 
 
 
@@ -419,43 +438,43 @@ connectSocket() {
 
 
 
-sendMessage() {
+  sendMessage() {
 
-  if (!this.message.trim() && !this.selectedMedia) {
-    return;
-  }
-
-
-  const tempId = 'temp-' + Date.now();
+    if (!this.message.trim() && !this.selectedMedia) {
+      return;
+    }
 
 
-  const text = this.message.trim();
-
-  const media = this.selectedMedia;
-
-  const preview = this.previewUrl;
+    const tempId = 'temp-' + Date.now();
 
 
+    const text = this.message.trim();
 
-  const tempMessage:any = {
+    const media = this.selectedMedia;
 
-    id: tempId,
-
-    clientTempId: tempId,
-
-    content: text,
+    const preview = this.previewUrl;
 
 
-    createdAt: new Date().toISOString(),
+
+    const tempMessage: any = {
+
+      id: tempId,
+
+      clientTempId: tempId,
+
+      content: text,
 
 
-    sender: {
-      id: this.myId
-    },
+      createdAt: new Date().toISOString(),
 
 
-    media: media
-      ? [
+      sender: {
+        id: this.myId
+      },
+
+
+      media: media
+        ? [
           {
             mediaType: media.type.startsWith('image')
               ? 'image'
@@ -464,200 +483,200 @@ sendMessage() {
             mediaUrl: preview
           }
         ]
-      : [],
+        : [],
 
 
-    sending: true,
+      sending: true,
 
-    failed: false
+      failed: false
 
-  };
+    };
 
 
 
-  // show instantly in UI
-  this.messages.push(tempMessage);
+    // show instantly in UI
+    this.messages.push(tempMessage);
 
 
-  this.scrollBottom();
+    this.scrollBottom();
 
 
 
 
-  // clear input
-  this.message = '';
+    // clear input
+    this.message = '';
 
-  this.selectedMedia = null;
+    this.selectedMedia = null;
 
-  this.previewUrl = '';
+    this.previewUrl = '';
 
 
 
-  if (this.fileInput) {
+    if (this.fileInput) {
 
-    this.fileInput.nativeElement.value = '';
-
-  }
-
-
-
-
-
-  const formData = new FormData();
-
-
-  formData.append(
-    'recipientId',
-    this.user.id
-  );
-
-
-
-  if(text){
-
-    formData.append(
-      'content',
-      text
-    );
-
-  }
-
-
-
-  if(media){
-
-    formData.append(
-      'file',
-      media
-    );
-
-  }
-
-
-
-  // send temp id to backend (optional but recommended)
-  formData.append(
-    'clientTempId',
-    tempId
-  );
-
-
-
-
-
-  this.api.postWithoutLoader<any>(
-    '/chat/send',
-    formData
-  )
-  .pipe(
-    takeUntil(this.destroy$)
-  )
-  .subscribe({
-
-
-
-    next:(res)=>{
-
-
-      if(!this.conversationId){
-
-        this.conversationId =
-        res.data.conversationId;
-
-      }
-
-
-
-      // Replace temp with server message
-      if(res.data.message){
-
-
-        Object.assign(
-          tempMessage,
-          res.data.message
-        );
-
-
-      }
-      else{
-
-
-        tempMessage.id =
-        res.data.id;
-
-
-
-        if(res.data.mediaUrl){
-
-
-          tempMessage.media = [
-
-            {
-              mediaType: media?.type.startsWith('image')
-                ? 'image'
-                : 'video',
-
-              mediaUrl: res.data.mediaUrl
-
-            }
-
-          ];
-
-
-        }
-
-
-      }
-
-
-
-
-      tempMessage.sending = false;
-
-      tempMessage.failed = false;
-
-
-
-    },
-
-
-
-
-    error: async(err)=>{
-
-
-      tempMessage.sending = false;
-
-      tempMessage.failed = true;
-
-
-
-      const alert =
-      await this.alertCtrl.create({
-
-        header:'Message not sent',
-
-        message:
-        err?.error?.message ||
-        'Unable to send your message.',
-
-        buttons:['OK']
-
-      });
-
-
-
-      await alert.present();
-
+      this.fileInput.nativeElement.value = '';
 
     }
 
 
 
-  });
 
 
-}
+    const formData = new FormData();
+
+
+    formData.append(
+      'recipientId',
+      this.user.id
+    );
+
+
+
+    if (text) {
+
+      formData.append(
+        'content',
+        text
+      );
+
+    }
+
+
+
+    if (media) {
+
+      formData.append(
+        'file',
+        media
+      );
+
+    }
+
+
+
+    // send temp id to backend (optional but recommended)
+    formData.append(
+      'clientTempId',
+      tempId
+    );
+
+
+
+
+
+    this.api.postWithoutLoader<any>(
+      '/chat/send',
+      formData
+    )
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+
+
+
+        next: (res) => {
+
+
+          if (!this.conversationId) {
+
+            this.conversationId =
+              res.data.conversationId;
+
+          }
+
+
+
+          // Replace temp with server message
+          if (res.data.message) {
+
+
+            Object.assign(
+              tempMessage,
+              res.data.message
+            );
+
+
+          }
+          else {
+
+
+            tempMessage.id =
+              res.data.id;
+
+
+
+            if (res.data.mediaUrl) {
+
+
+              tempMessage.media = [
+
+                {
+                  mediaType: media?.type.startsWith('image')
+                    ? 'image'
+                    : 'video',
+
+                  mediaUrl: res.data.mediaUrl
+
+                }
+
+              ];
+
+
+            }
+
+
+          }
+
+
+
+
+          tempMessage.sending = false;
+
+          tempMessage.failed = false;
+
+
+
+        },
+
+
+
+
+        error: async (err) => {
+
+
+          tempMessage.sending = false;
+
+          tempMessage.failed = true;
+
+
+
+          const alert =
+            await this.alertCtrl.create({
+
+              header: 'Message not sent',
+
+              message:
+                err?.error?.message ||
+                'Unable to send your message.',
+
+              buttons: ['OK']
+
+            });
+
+
+
+          await alert.present();
+
+
+        }
+
+
+
+      });
+
+
+  }
 
 
 
@@ -1146,7 +1165,7 @@ sendMessage() {
 
 
 
-    this.socket.disconnect();
+    // this.socket.disconnect();
 
 
   }
