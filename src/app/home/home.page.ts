@@ -175,27 +175,48 @@ export class HomePage implements OnInit {
 
   ) { }
 
+  // ngOnInit() {
+  //   this.getMyProfile();
+  //   this.getStories();
+  //   this.getFeed();
+
+  //   this.feedService.notificationCount$
+  //     .subscribe(() => {
+  //       this.getFollowRequestsCount();
+  //     });
+  //   // this.getFollowRequestsCount();
+
+  //   this.feedService.commentUpdated$
+  //     .subscribe((data: any) => {
+  //       const post = this.feed.find(x => x.id === data.id);
+  //       if (post) {
+  //         post.commentCount++;
+  //       }
+
+  //     });
+
+  // }
+
   ngOnInit() {
-    this.getMyProfile();
-    this.getStories();
-    this.getFeed();
 
-    this.feedService.notificationCount$
-      .subscribe(() => {
-        this.getFollowRequestsCount();
-      });
-    // this.getFollowRequestsCount();
+  this.getMyProfile();
+  this.getFeed();
 
-    this.feedService.commentUpdated$
-      .subscribe((data: any) => {
-        const post = this.feed.find(x => x.id === data.id);
-        if (post) {
-          post.commentCount++;
-        }
+  this.feedService.notificationCount$
+    .subscribe(() => {
+      this.getFollowRequestsCount();
+    });
 
-      });
+  this.feedService.commentUpdated$
+    .subscribe((data: any) => {
+      const post = this.feed.find(x => x.id === data.id);
 
-  }
+      if (post) {
+        post.commentCount++;
+      }
+    });
+
+}
 
   openReel(post: any) {
 
@@ -237,35 +258,76 @@ export class HomePage implements OnInit {
 
   }
 
-  getMyProfile() {
+  // getMyProfile() {
 
-    const userId = localStorage.getItem('user');
+  //   const userId = localStorage.getItem('user');
 
-    if (!userId) {
-      return;
-    }
-
-
-    this.api.get<any>(`/users/${userId}`)
-      .subscribe({
-
-        next: (res) => {
-
-          this.myProfileImage =
-            res.data.profileImage;
-
-        },
+  //   if (!userId) {
+  //     return;
+  //   }
 
 
-        error: (err) => {
+  //   this.api.get<any>(`/users/${userId}`)
+  //     .subscribe({
 
-          console.log(err);
+  //       next: (res) => {
 
+  //         this.myProfileImage =
+  //           res.data.profileImage;
+
+  //       },
+
+
+  //       error: (err) => {
+
+  //         console.log(err);
+
+  //       }
+
+  //     });
+
+  // }
+  myUserId = '';
+myUsername = '';
+getMyProfile() {
+
+  const userId = localStorage.getItem('user');
+
+  if (!userId) {
+    return;
+  }
+
+  this.myUserId = String(userId);
+
+  this.api.get<any>(`/users/${userId}`)
+    .subscribe({
+
+      next: (res) => {
+
+        console.log('MY PROFILE:', res);
+
+        this.myProfileImage =
+          res.data?.profileImage || '';
+
+        this.myUsername =
+          res.data?.username || '';
+
+        // If backend returns id
+        if (res.data?.id) {
+          this.myUserId = String(res.data.id);
         }
 
-      });
+        this.getStories();
 
-  }
+      },
+
+      error: (err) => {
+        console.error('MY PROFILE ERROR:', err);
+      }
+
+    });
+
+}
 
 
   openStoryPicker() {
@@ -311,28 +373,205 @@ export class HomePage implements OnInit {
 
   }
 
-  getStories() {
+  // getStories() {
 
-    this.api.get<any>('/stories/feed')
-      .subscribe({
+  //   this.api.get<any>('/stories/feed')
+  //     .subscribe({
 
-        next: (res) => {
-          console.log(res, 'stories feed')
+  //       next: (res) => {
+  //         console.log(res, 'stories feed')
 
-          this.stories = res.data || [];
+  //         this.stories = res.data || [];
 
 
-        },
+  //       },
 
-        error: (err) => {
+  //       error: (err) => {
 
-          console.log(err);
+  //         console.log(err);
 
+  //       }
+
+  //     });
+
+  // }
+
+
+myStories: any[] = [];
+myHasUnseenStory = false;
+
+getStories() {
+
+  this.api.get<any>('/stories/feed')
+    .subscribe({
+
+      next: (res) => {
+
+        console.log('========== STORIES DEBUG ==========');
+        console.log('FULL RESPONSE:', res);
+
+        const allStories = res.data || [];
+
+        console.log('ALL STORIES:', allStories);
+
+        console.log('MY USER ID:', this.myUserId);
+        console.log('MY USERNAME:', this.myUsername);
+
+        allStories.forEach((item: any, index: number) => {
+
+          console.log(`STORY GROUP ${index}`);
+
+          console.log(
+            'STORY USER ID:',
+            item?.user?.id
+          );
+
+          console.log(
+            'STORY USERNAME:',
+            item?.user?.username
+          );
+
+          console.log(
+            'STORY COUNT:',
+            item?.stories?.length
+          );
+
+        });
+
+        // Find my story using username
+        const myStoryGroup = allStories.find(
+          (item: any) => {
+
+            const storyUsername =
+              String(item?.user?.username || '')
+                .trim()
+                .toLowerCase();
+
+            const myUsername =
+              String(this.myUsername || '')
+                .trim()
+                .toLowerCase();
+
+            console.log(
+              'COMPARE:',
+              storyUsername,
+              '===',
+              myUsername,
+              storyUsername === myUsername
+            );
+
+            return storyUsername === myUsername;
+          }
+        );
+
+        console.log(
+          'MY STORY GROUP:',
+          myStoryGroup
+        );
+
+        // IMPORTANT
+        this.myStories =
+          myStoryGroup?.stories || [];
+
+        this.myHasUnseenStory =
+          myStoryGroup?.hasUnseen || false;
+
+        console.log(
+          'FINAL MY STORIES:',
+          this.myStories
+        );
+
+        console.log(
+          'MY STORIES LENGTH:',
+          this.myStories.length
+        );
+
+        // Other users
+        this.stories = allStories.filter(
+          (item: any) => {
+
+            const storyUsername =
+              String(item?.user?.username || '')
+                .trim()
+                .toLowerCase();
+
+            const myUsername =
+              String(this.myUsername || '')
+                .trim()
+                .toLowerCase();
+
+            return storyUsername !== myUsername;
+          }
+        );
+
+      },
+
+      error: (err) => {
+
+        console.error(
+          'GET STORIES ERROR:',
+          err
+        );
+
+      }
+
+    });
+
+}
+// onMyStoryClick() {
+
+//   if (!this.myStories || this.myStories.length === 0) {
+//     this.openStoryPicker();
+//     return;
+//   }
+
+
+//   this.router.navigate(
+//     ['/story-viewer'],
+//     {
+//       state: {
+//         stories: this.myStories,
+//         user: {
+//           id: localStorage.getItem('user'),
+//           username: 'You',
+//           profileImage: this.myProfileImage
+//         }
+//       }
+//     }
+//   );
+
+// }
+onMyStoryClick() {
+
+  console.log(
+    'MY STORY CLICKED:',
+    this.myStories
+  );
+
+  // Story exists
+  if (this.myStories.length > 0) {
+
+    this.router.navigate(
+      ['/story-viewer'],
+      {
+        state: {
+          stories: this.myStories,
+          user: {
+            id: this.myUserId,
+            username: this.myUsername,
+            profileImage: this.myProfileImage
+          }
         }
+      }
+    );
 
-      });
-
+    return;
   }
+
+  // No story
+  this.openStoryPicker();
+
+}
 
   ionViewWillEnter() {
 
@@ -726,7 +965,7 @@ export class HomePage implements OnInit {
 
 
   onStoryClick(story: any) {
-
+console.log(story,'story')
     this.router.navigate(
       ['/story-viewer'],
       {

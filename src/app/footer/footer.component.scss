@@ -155,20 +155,20 @@
   position: absolute;
 
   top: 2px;
-  left: 50%;
+  left: 48%;
 
   margin-left: 10px;
 
-  min-width: 18px;
-  height: 18px;
+  min-width: 22px;
+  height: 22px;
 
-  padding: 0 5px;
+
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: #ff3040;
+  background: var(--primary);
   color: white;
 
   border-radius: 20px;

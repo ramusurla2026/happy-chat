@@ -1,12 +1,403 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { FooterComponent } from 'src/app/footer/footer.component';
-import { IonicModule, ViewWillEnter, ViewWillLeave } from '@ionic/angular';
-import { Api } from 'src/app/core/services/api';
-import { FormsModule } from '@angular/forms';
+// import { CommonModule } from '@angular/common';
+// import { Component, OnInit, OnDestroy } from '@angular/core';
+// import { Router } from '@angular/router';
+// import { FooterComponent } from 'src/app/footer/footer.component';
+// import { IonicModule, ViewWillEnter, ViewWillLeave } from '@ionic/angular';
+// import { Api } from 'src/app/core/services/api';
+// import { FormsModule } from '@angular/forms';
 
-import { Subject, of } from 'rxjs';
+// import { Subject, of } from 'rxjs';
+// import {
+//   debounceTime,
+//   distinctUntilChanged,
+//   switchMap,
+//   catchError,
+//   takeUntil
+// } from 'rxjs/operators';
+// import { Messagenotification } from 'src/app/core/services/messagenotification';
+
+// import { addIcons } from 'ionicons';
+// import {
+//   menuOutline,
+//   searchOutline,
+//   notificationsOutline,
+//   addCircle,
+//   ellipsisHorizontal,
+//   heart,
+//   heartOutline,
+//   chatbubbleOutline,
+//   paperPlaneOutline,
+//   bookmark,
+//   bookmarkOutline,
+//   add,
+//   home,
+//   search,
+//   close,
+//   cameraOutline,
+//   imagesOutline,
+//   createOutline,
+//   arrowBackOutline,
+// } from 'ionicons/icons';
+
+// addIcons({
+//   menuOutline,
+//   searchOutline,
+//   notificationsOutline,
+//   addCircle,
+//   ellipsisHorizontal,
+//   heart,
+//   heartOutline,
+//   chatbubbleOutline,
+//   paperPlaneOutline,
+//   bookmark,
+//   bookmarkOutline,
+//   add,
+//   home,
+//   search,
+//   close,
+//   cameraOutline,
+//   imagesOutline,
+//   createOutline,
+//   arrowBackOutline,
+// });
+
+// @Component({
+//   selector: 'app-indox',
+//   standalone: true,
+//   imports: [
+//     IonicModule,
+//     CommonModule,
+//     FooterComponent,
+//     FormsModule
+//   ],
+//   templateUrl: './indox.component.html',
+//   styleUrls: ['./indox.component.scss'],
+// })
+// export class IndoxComponent
+//   implements OnInit, ViewWillEnter, ViewWillLeave, OnDestroy {
+
+//   searchText = '';
+
+//   chats: any[] = [];
+
+//   allChats: any[] = [];
+
+//   userName!: string;
+
+//   private searchSubject = new Subject<string>();
+
+//   private destroy$ = new Subject<void>();
+
+//   constructor(
+//     private router: Router,
+//     private api: Api,
+//     private notificationService: Messagenotification
+//   ) { }
+
+//   ngOnInit() {
+
+//     this.searchSubject.pipe(
+
+//       debounceTime(500),
+
+//       distinctUntilChanged(),
+
+//       switchMap((value: string) => {
+
+//         if (!value.trim()) {
+
+//           return of({
+//             data: {
+//               conversations: [],
+//               friends: []
+//             }
+//           });
+
+//         }
+
+//         return this.api.get<any>(
+//           `/chat/search?q=${encodeURIComponent(value)}`
+//         ).pipe(
+
+//           catchError(() => {
+
+//             return of({
+//               data: {
+//                 conversations: [],
+//                 friends: []
+//               }
+//             });
+
+//           })
+
+//         );
+
+//       }),
+
+//       takeUntil(this.destroy$)
+
+//     ).subscribe({
+
+//       next: (res) => {
+
+//         const conversations = res.data.conversations || [];
+
+//         const friends = (res.data.friends || []).map((user: any) => ({
+
+//           conversationId: user.conversationId,
+
+//           otherUser: user,
+
+//           lastMessage: null,
+
+//           lastReadAt: null
+
+//         }));
+
+//         const merged = [
+
+//           ...conversations,
+
+//           ...friends
+
+//         ];
+
+//         // Remove duplicates
+//         this.chats = merged.filter(
+//           (item, index, self) =>
+//             index === self.findIndex(
+//               x => x.conversationId === item.conversationId
+//             )
+//         );
+
+//       },
+
+//       error: (err) => {
+
+//         console.log(err);
+
+//         this.chats = [];
+
+//       }
+
+//     });
+
+//   }
+
+//   refresh(event: any) {
+
+//   this.searchText = '';
+
+//   this.getMyProfile();
+
+//   this.api.get<any>('/chat/conversations')
+//     .pipe(
+//       takeUntil(this.destroy$)
+//     )
+//     .subscribe({
+
+//       next: (res) => {
+
+//         this.chats = res.data || [];
+
+//         this.allChats = [...this.chats];
+
+//         event.target.complete();
+
+//       },
+
+//       error: (err) => {
+
+//         console.log(err);
+
+//         event.target.complete();
+
+//       }
+
+//     });
+
+// }
+
+//   ionViewWillEnter() {
+   
+//     this.getMyProfile();
+
+//     this.getConversations();
+
+//   }
+
+//   ionViewWillLeave() {
+
+//     this.searchText = '';
+
+//     this.chats = [];
+
+//     this.allChats = [];
+
+//     this.userName = '';
+
+//   }
+
+//   getMyProfile() {
+
+//     const userId = localStorage.getItem('user');
+
+//     if (!userId) {
+//       return;
+//     }
+
+//     this.api.get<any>(`/users/${userId}`)
+//       .pipe(
+//         takeUntil(this.destroy$)
+//       )
+//       .subscribe({
+
+//         next: (res) => {
+
+//           this.userName = res?.data?.username;
+
+//         },
+
+//         error: (err) => {
+
+//           console.log(err);
+
+//         }
+
+//       });
+
+//   }
+
+//   getUnreadCount(conversationId: string): number {
+
+//   return this.notificationService
+//     .getCount(conversationId);
+
+// }
+
+
+//   getConversations() {
+
+//     this.api.get<any>('/chat/conversations')
+//       .pipe(
+//         takeUntil(this.destroy$)
+//       )
+//       .subscribe({
+
+//         next: (res) => {
+//           console.log(res,'converstaion')
+
+//           this.chats = res.data || [];
+
+//           this.allChats = [...this.chats];
+
+//         },
+
+//         error: (err) => {
+
+//           console.log(err);
+
+//         }
+
+//       });
+
+//   }
+
+//   searchUsers() {
+//     if (!this.searchText.trim()) {
+
+//       this.getConversations();
+
+//       return;
+
+//     }
+
+//     this.searchSubject.next(this.searchText);
+
+//   }
+
+//   goSearch() {
+
+//     this.router.navigate(['/chat-search']);
+
+//   }
+
+//   openChat(chat: any) {
+   
+
+//     this.router.navigate(
+//       ['/conversation'],
+//       {
+//         state: {
+//           conversationId: chat.conversationId,
+//           user: chat.otherUser
+//         }
+//       }
+//     );
+
+//   }
+
+//   goBack() {
+
+//     this.router.navigate(['/home']);
+
+//   }
+
+//   ngOnDestroy() {
+
+//     this.destroy$.next();
+
+//     this.destroy$.complete();
+
+//     this.searchSubject.complete();
+
+//   }
+
+// }
+
+
+
+
+
+
+
+import {
+  CommonModule
+} from '@angular/common';
+
+import {
+  Component,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
+
+import {
+  Router
+} from '@angular/router';
+
+import {
+  FooterComponent
+} from 'src/app/footer/footer.component';
+
+import {
+  IonicModule,
+  ViewWillEnter,
+  ViewWillLeave
+} from '@ionic/angular';
+
+import {
+  Api
+} from 'src/app/core/services/api';
+
+import {
+  FormsModule
+} from '@angular/forms';
+
+import {
+  Subject,
+  of
+} from 'rxjs';
+
 import {
   debounceTime,
   distinctUntilChanged,
@@ -14,9 +405,15 @@ import {
   catchError,
   takeUntil
 } from 'rxjs/operators';
-import { Messagenotification } from 'src/app/core/services/messagenotification';
 
-import { addIcons } from 'ionicons';
+import {
+  Messagenotification
+} from 'src/app/core/services/messagenotification';
+
+import {
+  addIcons
+} from 'ionicons';
+
 import {
   menuOutline,
   searchOutline,
@@ -36,195 +433,285 @@ import {
   cameraOutline,
   imagesOutline,
   createOutline,
-  arrowBackOutline,
+  arrowBackOutline
 } from 'ionicons/icons';
 
+
 addIcons({
+
   menuOutline,
+
   searchOutline,
+
   notificationsOutline,
+
   addCircle,
+
   ellipsisHorizontal,
+
   heart,
+
   heartOutline,
+
   chatbubbleOutline,
+
   paperPlaneOutline,
+
   bookmark,
+
   bookmarkOutline,
+
   add,
+
   home,
+
   search,
+
   close,
+
   cameraOutline,
+
   imagesOutline,
+
   createOutline,
-  arrowBackOutline,
+
+  arrowBackOutline
+
 });
 
+
 @Component({
+
   selector: 'app-indox',
+
   standalone: true,
+
   imports: [
+
     IonicModule,
+
     CommonModule,
+
     FooterComponent,
+
     FormsModule
+
   ],
-  templateUrl: './indox.component.html',
-  styleUrls: ['./indox.component.scss'],
+
+  templateUrl:
+    './indox.component.html',
+
+  styleUrls:
+    ['./indox.component.scss']
+
 })
+
+
 export class IndoxComponent
-  implements OnInit, ViewWillEnter, ViewWillLeave, OnDestroy {
+  implements
+    OnInit,
+    ViewWillEnter,
+    ViewWillLeave,
+    OnDestroy {
+
 
   searchText = '';
 
+
   chats: any[] = [];
+
 
   allChats: any[] = [];
 
+
   userName!: string;
 
-  private searchSubject = new Subject<string>();
 
-  private destroy$ = new Subject<void>();
+  private searchSubject =
+    new Subject<string>();
+
+
+  private destroy$ =
+    new Subject<void>();
+
 
   constructor(
+
     private router: Router,
+
     private api: Api,
-    private notificationService: Messagenotification
-  ) { }
+
+    private notificationService:
+      Messagenotification
+
+  ) {}
+
+
+  // =========================================================
+  // INIT
+  // =========================================================
 
   ngOnInit() {
 
-    this.searchSubject.pipe(
+    this.searchSubject
 
-      debounceTime(500),
+      .pipe(
 
-      distinctUntilChanged(),
+        debounceTime(500),
 
-      switchMap((value: string) => {
+        distinctUntilChanged(),
 
-        if (!value.trim()) {
+        switchMap(
+          (value: string) => {
 
-          return of({
-            data: {
-              conversations: [],
-              friends: []
+            if (!value.trim()) {
+
+              return of({
+
+                data: {
+
+                  conversations: [],
+
+                  friends: []
+
+                }
+
+              });
+
             }
-          });
+
+
+            return this.api
+
+              .get<any>(
+                `/chat/search?q=${encodeURIComponent(
+                  value
+                )}`
+              )
+
+              .pipe(
+
+                catchError(() => {
+
+                  return of({
+
+                    data: {
+
+                      conversations: [],
+
+                      friends: []
+
+                    }
+
+                  });
+
+                })
+
+              );
+
+          }
+        ),
+
+        takeUntil(
+          this.destroy$
+        )
+
+      )
+
+      .subscribe({
+
+        next: (res) => {
+
+          const conversations =
+            res?.data?.conversations || [];
+
+
+          const friends =
+            (
+              res?.data?.friends || []
+            ).map(
+              (user: any) => ({
+
+                conversationId:
+                  user.conversationId,
+
+                otherUser:
+                  user,
+
+                lastMessage:
+                  null,
+
+                lastReadAt:
+                  null
+
+              })
+            );
+
+
+          const merged = [
+
+            ...conversations,
+
+            ...friends
+
+          ];
+
+
+          /**
+           * Remove duplicate conversations.
+           */
+          this.chats =
+            merged.filter(
+
+              (
+                item,
+                index,
+                self
+              ) =>
+
+                index ===
+                self.findIndex(
+
+                  x =>
+                    x.conversationId ===
+                    item.conversationId
+
+                )
+
+            );
+
+        },
+
+
+        error: (err) => {
+
+          console.log(err);
+
+          this.chats = [];
 
         }
 
-        return this.api.get<any>(
-          `/chat/search?q=${encodeURIComponent(value)}`
-        ).pipe(
-
-          catchError(() => {
-
-            return of({
-              data: {
-                conversations: [],
-                friends: []
-              }
-            });
-
-          })
-
-        );
-
-      }),
-
-      takeUntil(this.destroy$)
-
-    ).subscribe({
-
-      next: (res) => {
-
-        const conversations = res.data.conversations || [];
-
-        const friends = (res.data.friends || []).map((user: any) => ({
-
-          conversationId: user.conversationId,
-
-          otherUser: user,
-
-          lastMessage: null,
-
-          lastReadAt: null
-
-        }));
-
-        const merged = [
-
-          ...conversations,
-
-          ...friends
-
-        ];
-
-        // Remove duplicates
-        this.chats = merged.filter(
-          (item, index, self) =>
-            index === self.findIndex(
-              x => x.conversationId === item.conversationId
-            )
-        );
-
-      },
-
-      error: (err) => {
-
-        console.log(err);
-
-        this.chats = [];
-
-      }
-
-    });
+      });
 
   }
 
-  refresh(event: any) {
 
-  this.searchText = '';
-
-  this.getMyProfile();
-
-  this.api.get<any>('/chat/conversations')
-    .pipe(
-      takeUntil(this.destroy$)
-    )
-    .subscribe({
-
-      next: (res) => {
-
-        this.chats = res.data || [];
-
-        this.allChats = [...this.chats];
-
-        event.target.complete();
-
-      },
-
-      error: (err) => {
-
-        console.log(err);
-
-        event.target.complete();
-
-      }
-
-    });
-
-}
+  // =========================================================
+  // VIEW ENTER
+  // =========================================================
 
   ionViewWillEnter() {
-   
+
     this.getMyProfile();
 
     this.getConversations();
 
   }
+
+
+  // =========================================================
+  // VIEW LEAVE
+  // =========================================================
 
   ionViewWillLeave() {
 
@@ -238,25 +725,95 @@ export class IndoxComponent
 
   }
 
-  getMyProfile() {
 
-    const userId = localStorage.getItem('user');
+  // =========================================================
+  // REFRESH
+  // =========================================================
 
-    if (!userId) {
-      return;
-    }
+  refresh(event: any) {
 
-    this.api.get<any>(`/users/${userId}`)
+    this.searchText = '';
+
+
+    this.getMyProfile();
+
+
+    this.api
+
+      .get<any>(
+        '/chat/conversations'
+      )
+
       .pipe(
         takeUntil(this.destroy$)
       )
+
       .subscribe({
 
         next: (res) => {
 
-          this.userName = res?.data?.username;
+          this.chats =
+            res?.data || [];
+
+
+          this.allChats =
+            [...this.chats];
+
+
+          event.target.complete();
 
         },
+
+
+        error: (err) => {
+
+          console.log(err);
+
+          event.target.complete();
+
+        }
+
+      });
+
+  }
+
+
+  // =========================================================
+  // PROFILE
+  // =========================================================
+
+  getMyProfile() {
+
+    const userId =
+      localStorage.getItem('user');
+
+
+    if (!userId) {
+
+      return;
+
+    }
+
+
+    this.api
+
+      .get<any>(
+        `/users/${userId}`
+      )
+
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+
+      .subscribe({
+
+        next: (res) => {
+
+          this.userName =
+            res?.data?.username || '';
+
+        },
+
 
         error: (err) => {
 
@@ -268,30 +825,58 @@ export class IndoxComponent
 
   }
 
-  getUnreadCount(conversationId: string): number {
 
-  return this.notificationService
-    .getCount(conversationId);
+  // =========================================================
+  // UNREAD COUNT
+  // =========================================================
 
-}
+  getUnreadCount(
+    conversationId: string
+  ): number {
 
+    return this.notificationService
+      .getCount(
+        conversationId
+      );
+
+  }
+
+
+  // =========================================================
+  // GET CONVERSATIONS
+  // =========================================================
 
   getConversations() {
 
-    this.api.get<any>('/chat/conversations')
+    this.api
+
+      .get<any>(
+        '/chat/conversations'
+      )
+
       .pipe(
         takeUntil(this.destroy$)
       )
+
       .subscribe({
 
         next: (res) => {
-          console.log(res,'converstaion')
 
-          this.chats = res.data || [];
+          console.log(
+            res,
+            'conversations'
+          );
 
-          this.allChats = [...this.chats];
+
+          this.chats =
+            res?.data || [];
+
+
+          this.allChats =
+            [...this.chats];
 
         },
+
 
         error: (err) => {
 
@@ -303,8 +888,16 @@ export class IndoxComponent
 
   }
 
+
+  // =========================================================
+  // SEARCH
+  // =========================================================
+
   searchUsers() {
-    if (!this.searchText.trim()) {
+
+    if (
+      !this.searchText.trim()
+    ) {
 
       this.getConversations();
 
@@ -312,36 +905,98 @@ export class IndoxComponent
 
     }
 
-    this.searchSubject.next(this.searchText);
 
-  }
-
-  goSearch() {
-
-    this.router.navigate(['/chat-search']);
-
-  }
-
-  openChat(chat: any) {
-   
-
-    this.router.navigate(
-      ['/conversation'],
-      {
-        state: {
-          conversationId: chat.conversationId,
-          user: chat.otherUser
-        }
-      }
+    this.searchSubject.next(
+      this.searchText
     );
 
   }
 
-  goBack() {
 
-    this.router.navigate(['/home']);
+  // =========================================================
+  // SEARCH PAGE
+  // =========================================================
+
+  goSearch() {
+
+    this.router.navigate([
+      '/chat-search'
+    ]);
 
   }
+
+
+  // =========================================================
+  // OPEN CHAT
+  // =========================================================
+
+  openChat(
+    chat: any
+  ) {
+
+    /**
+     * IMPORTANT:
+     *
+     * Clear notification BEFORE navigation.
+     *
+     * This makes:
+     *
+     * Inbox badge -> 0
+     * Footer badge -> 0
+     *
+     * immediately when user opens chat.
+     */
+    if (
+      chat?.conversationId
+    ) {
+
+      this.notificationService
+        .clearConversation(
+          chat.conversationId
+        );
+
+    }
+
+
+    this.router.navigate(
+
+      ['/conversation'],
+
+      {
+
+        state: {
+
+          conversationId:
+            chat.conversationId,
+
+          user:
+            chat.otherUser
+
+        }
+
+      }
+
+    );
+
+  }
+
+
+  // =========================================================
+  // BACK
+  // =========================================================
+
+  goBack() {
+
+    this.router.navigate([
+      '/home'
+    ]);
+
+  }
+
+
+  // =========================================================
+  // DESTROY
+  // =========================================================
 
   ngOnDestroy() {
 

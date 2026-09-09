@@ -1,91 +1,108 @@
 <ion-footer class="bottom-tab-bar">
 
-  <div 
+
+  <!-- HOME -->
+  <div
     class="tab-item"
     [class.active-tab]="isActive('/home')"
     (click)="goToHome()">
 
-    <ion-icon name="home"></ion-icon>
-    <span>Home</span>
+    <ion-icon
+      name="home">
+    </ion-icon>
+
+    <span>
+      Home
+    </span>
 
   </div>
 
 
-  <div 
+  <!-- SEARCH -->
+  <div
     class="tab-item"
     [class.active-tab]="isActive('/search')"
     (click)="goToSearch()">
 
-    <ion-icon name="search"></ion-icon>
-    <span>Search</span>
+    <ion-icon
+      name="search">
+    </ion-icon>
+
+    <span>
+      Search
+    </span>
 
   </div>
 
 
-
-  <!-- <div 
-    class="tab-item"
-    [class.active-tab]="isActive('/chat')"
-    (click)="goToChat()">
-
-    <ion-icon name="paper-plane-outline"></ion-icon>
-    <span>Chat</span>
-     <span
-        class="notification-badge"
-        *ngIf="unreadCount > 0">
-
-        {{ unreadCount > 99 ? '99+' : unreadCount }}
-
-      </span>
-
-  </div> -->
-
- <div 
+  <!-- CHAT -->
+ <div
   class="tab-item"
   [class.active-tab]="isActive('/chat')"
   (click)="goToChat()">
 
-  <ion-icon name="paper-plane-outline"></ion-icon>
+  <ion-icon
+    name="paper-plane-outline">
+  </ion-icon>
 
-  <span>Chat</span>
+  <span>
+    Chat
+  </span>
 
+  <!--
+    IMPORTANT:
+    Conversation page lo badge NEVER show avvali.
+  -->
   <span
     class="notification-badge"
-    *ngIf="unreadCount > 0">
+    *ngIf="
+      unreadCount > 0 &&
+      !isConversationPage()
+    ">
 
-    {{ unreadCount > 99 ? '99+' : unreadCount }}
+    {{
+      unreadCount > 99
+        ? '99+'
+        : unreadCount
+    }}
 
   </span>
 
 </div>
 
 
-
-
-
-  <div 
+  <!-- REELS -->
+  <div
     class="tab-item"
     [class.active-tab]="isActive('/reels')"
     (click)="goToReels()">
 
-    <ion-icon name="videocam-outline"></ion-icon>
-    <span>Reels</span>
+    <ion-icon
+      name="videocam-outline">
+    </ion-icon>
+
+    <span>
+      Reels
+    </span>
 
   </div>
 
 
-
-  <div 
+  <!-- PROFILE -->
+  <div
     class="tab-item"
     [class.active-tab]="isActive('/profile')"
     (click)="goToProfile()">
 
 
+    <ion-avatar
+      class="profile-tab-avatar">
 
-    <ion-avatar class="profile-tab-avatar">
-
-      <img 
-      [src]="myProfileImage || 'assets/happy-chat-logo.png'">
+      <img
+        [src]="
+          myProfileImage ||
+          'assets/happy-chat-logo.png'
+        ">
 
     </ion-avatar>
 
@@ -93,7 +110,6 @@
     <span>
       Profile
     </span>
-
 
   </div>
 

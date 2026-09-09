@@ -230,17 +230,17 @@ ion-content.dm-content {
 .unread-badge{
   min-width:22px;
   height:22px;
-  padding:0 6px;
-
+ 
+  background: var(--primary);
   display:flex;
   justify-content:center;
   align-items:center;
 
-  background:linear-gradient(
-    135deg,
-    var(--primary),
-    var(--primary-light)
-  );
+  // background:linear-gradient(
+  //   135deg,
+  //   var(--primary),
+  //   var(--primary-light)
+  // );
 
   color:#fff;
 
@@ -251,7 +251,6 @@ ion-content.dm-content {
 
   margin-left:10px;
 
-  box-shadow:0 6px 15px rgba(108,99,255,.28);
 }
 
 /* ==========================================
@@ -444,13 +443,12 @@ ion-content::-webkit-scrollbar-thumb{
   min-width: 20px;
   height: 20px;
 
-  padding: 0 6px;
 
+  background: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: #ff3040;
   color: #fff;
 
   border-radius: 50%;
@@ -462,5 +460,5 @@ ion-content::-webkit-scrollbar-thumb{
 
   flex-shrink: 0;
 
-  box-shadow: 0 3px 8px rgba(255, 48, 64, 0.25);
+
 }

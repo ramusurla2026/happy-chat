@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -17,123 +17,165 @@ import {
   shareSocialOutline
 } from 'ionicons/icons';
 
-
 addIcons({
-
   close,
-
-  'heart-outline':heartOutline,
-
-  'happy-outline':happyOutline,
-
-  'flame-outline':flameOutline,
-
-  'share-social-outline':shareSocialOutline
-
+  'heart-outline': heartOutline,
+  'happy-outline': happyOutline,
+  'flame-outline': flameOutline,
+  'share-social-outline': shareSocialOutline
 });
 
-
 @Component({
-
- selector:'app-story-viewer',
-
- standalone:true,
-
- imports:[
-  CommonModule,
-  IonContent,
-  IonIcon
- ],
-
- templateUrl:'./story-viewer.page.html',
-
- styleUrls:['./story-viewer.page.scss']
-
+  selector: 'app-story-viewer',
+  standalone: true,
+  imports: [
+    CommonModule,
+    IonContent,
+    IonIcon
+  ],
+  templateUrl: './story-viewer.page.html',
+  styleUrls: ['./story-viewer.page.scss']
 })
+export class StoryViewerPage implements OnInit, OnDestroy {
 
+  stories: any[] = [];
+  user: any;
 
-export class StoryViewerPage {
+  currentIndex = 0;
 
+  readonly STORY_DURATION = 5000;
 
- stories:any[]=[];
+  private storyTimer: any;
 
- user:any;
+  constructor(
+    private router: Router,
+    private location: Location
+  ) {
 
- currentIndex=0;
+    const navigation = this.router.getCurrentNavigation();
 
+    if (navigation?.extras?.state) {
 
- constructor(
-  private router:Router,
-  private location:Location
- ){
+      this.stories =
+        navigation.extras.state['stories'] || [];
 
+      this.user =
+        navigation.extras.state['user'];
+        console.log(this.user,'IMAGDE')
+    }
+  }
 
- const navigation=this.router.getCurrentNavigation();
+  ngOnInit(): void {
 
+    if (this.stories.length > 0) {
+      this.startStoryTimer();
+    }
+  }
 
- if(navigation?.extras?.state){
+  ngOnDestroy(): void {
+    this.clearStoryTimer();
+  }
 
+  get currentStory() {
+    return this.stories[this.currentIndex];
+  }
 
-   this.stories =
-   navigation.extras.state['stories'] || [];
+  /**
+   * Start timer for current story
+   */
+  startStoryTimer(): void {
 
+    this.clearStoryTimer();
 
-   this.user =
-   navigation.extras.state['user'];
+    this.storyTimer = setTimeout(() => {
+      this.nextStory();
+    }, this.STORY_DURATION);
+  }
 
+  /**
+   * Clear existing timer
+   */
+  clearStoryTimer(): void {
 
- }
+    if (this.storyTimer) {
+      clearTimeout(this.storyTimer);
+      this.storyTimer = null;
+    }
+  }
 
+  /**
+   * Next story
+   */
+  nextStory(): void {
 
+    this.clearStoryTimer();
 
+    if (this.currentIndex < this.stories.length - 1) {
 
+      this.currentIndex++;
 
- }
+      this.startStoryTimer();
 
+    } else {
 
+      this.goBack();
+    }
+  }
 
- get currentStory(){
+  /**
+   * Previous story
+   */
+  previousStory(): void {
 
-   return this.stories[this.currentIndex];
+    this.clearStoryTimer();
 
- }
+    if (this.currentIndex > 0) {
 
+      this.currentIndex--;
 
+      this.startStoryTimer();
 
- nextStory(){
+    } else {
 
-   if(this.currentIndex < this.stories.length-1){
+      // Restart first story
+      this.startStoryTimer();
+    }
+  }
 
-     this.currentIndex++;
+  /**
+   * Handle screen tap
+   * Left side = previous
+   * Right side = next
+   */
+  handleStoryTap(event: MouseEvent): void {
 
-   }
-   else{
+    const target = event.target as HTMLElement;
 
-     this.goBack();
+    // Don't trigger when clicking buttons/input
+    if (
+      target.closest('.bottom-bar') ||
+      target.closest('.header')
+    ) {
+      return;
+    }
 
-   }
+    const screenWidth = window.innerWidth;
+    const clickX = event.clientX;
 
- }
+    if (clickX < screenWidth / 2) {
 
+      this.previousStory();
 
+    } else {
 
- previousStory(){
+      this.nextStory();
+    }
+  }
 
-   if(this.currentIndex>0){
+  goBack(): void {
 
-    this.currentIndex--;
+    this.clearStoryTimer();
 
-   }
-
- }
-
-
-
- goBack(){
-
-   this.location.back();
-
- }
-
-
+    this.location.back();
+  }
 }

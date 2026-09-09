@@ -58,7 +58,7 @@
 
     <div class="story-item">
 
-      <div class="story-ring my-story" (click)="openStoryPicker()">
+      <!-- <div class="story-ring my-story" (click)="openStoryPicker()">
 
         <ion-avatar>
 
@@ -80,8 +80,29 @@
 
         Your Story
 
-      </span>
+      </span> -->
+ <div
+    class="story-ring my-story"
+    [class.seen]="myStories.length > 0 && !myHasUnseenStory"
+    (click)="onMyStoryClick()"
+  >
 
+    <ion-avatar>
+      <img
+        [src]="myProfileImage || 'assets/happy-chat-logo.png'"
+      >
+    </ion-avatar>
+
+    <div class="plus" *ngIf="myStories.length === 0">
+      <ion-icon name="add"></ion-icon>
+    </div>
+
+  </div>
+
+
+  <span>
+    {{ myStories.length > 0 ? 'Your Story' : 'Add Story' }}
+  </span>
     </div>
 
     <input hidden #storyInput type="file" accept="image/*,video/*" (change)="uploadStory($event)">

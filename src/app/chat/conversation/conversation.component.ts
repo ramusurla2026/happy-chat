@@ -153,48 +153,97 @@ export class ConversationComponent implements
   }
 
 
-
-  ionViewWillEnter() {
-
-
-    const state = history.state;
+//working//
+  // ionViewWillEnter() {
 
 
-    this.user = state.user;
-
-    this.conversationId = state.conversationId;
+  //   const state = history.state;
 
 
-    this.messages = [];
+  //   this.user = state.user;
 
-    this.message = '';
-
-    this.previewUrl = '';
-
-    this.selectedMedia = null;
-
-    // Only this conversation unread count clear
-    if (this.conversationId) {
-      this.notificationService
-        .clearConversation(this.conversationId);
-    }
+  //   this.conversationId = state.conversationId;
 
 
-    this.getMyProfile();
+  //   this.messages = [];
+
+  //   this.message = '';
+
+  //   this.previewUrl = '';
+
+  //   this.selectedMedia = null;
+
+  //   // Only this conversation unread count clear
+  //   if (this.conversationId) {
+  //     this.notificationService
+  //       .clearConversation(this.conversationId);
+  //   }
 
 
-    if (this.conversationId) {
-
-      this.getMessages();
-
-    }
+  //   this.getMyProfile();
 
 
-    this.connectSocket();
+  //   if (this.conversationId) {
 
+  //     this.getMessages();
+
+  //   }
+
+
+  //   this.connectSocket();
+
+
+  // }
+
+ionViewWillEnter() {
+
+  const state = history.state;
+
+
+  this.user =
+    state.user;
+
+
+  this.conversationId =
+    state.conversationId;
+
+
+  this.messages = [];
+
+  this.message = '';
+
+  this.previewUrl = '';
+
+  this.selectedMedia = null;
+
+
+  // =====================================================
+  // CLEAR THIS CONVERSATION UNREAD COUNT
+  // =====================================================
+
+  if (this.conversationId) {
+
+    this.notificationService
+      .clearConversation(
+        this.conversationId
+      );
 
   }
 
+
+  this.getMyProfile();
+
+
+  if (this.conversationId) {
+
+    this.getMessages();
+
+  }
+
+
+  this.connectSocket();
+
+}
 
 
 
@@ -202,7 +251,14 @@ export class ConversationComponent implements
 
 
     // this.socket.disconnect();
+ if (this.conversationId) {
 
+    this.notificationService
+      .clearConversation(
+        this.conversationId
+      );
+
+  }
 
     this.messages = [];
 
@@ -402,16 +458,14 @@ export class ConversationComponent implements
 
 
       this.messages.push(newMessage);
-      if (
-        newMessage.sender?.id !== this.myId &&
-        newMessage.conversationId !== this.conversationId
-      ) {
-
-        this.notificationService.increase(
-          newMessage.conversationId
-        );
-
-      }
+    if (
+  newMessage.sender?.id !== this.myId &&
+  newMessage.conversationId !== this.conversationId
+) {
+  this.notificationService.increase(
+    newMessage.conversationId
+  );
+}
 
 
       this.scrollBottom();
